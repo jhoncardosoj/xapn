@@ -3,22 +3,22 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>xapn®</title>
+  <title>xapn® | Vestida de Graça</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@100;200;300;400&family=Syne:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@100;200;300;400;500&family=Syne:wght@300;400;500&display=swap" rel="stylesheet" />
 
   <style>
     :root {
-      /* Nova Paleta de Cores (Azul Sereno) */
-      --p:    #7FA3D1;
-      --pl:   #A9C1E3;
-      --pd:   #5E84B8;
+      /* Nova Paleta baseada nas imagens reais da marca */
+      --p:    #678ec2; /* O azul característico da xapn */
+      --pl:   #8db0dd; /* Azul claro para contrastes sutis */
+      --pd:   #406494; /* Azul profundo para elementos de destaque */
 
-      --bg:   #F7F9FC;
-      --bg2:  #EEF3F9;
+      --bg:   #f4f7fc; /* Fundo claro e limpo */
+      --bg2:  #e6eef8; /* Variação suave para seções */
 
-      --ink:  #1A1F2B;
-      --mid:  #6B7485;
+      --ink:  #1e293b; /* Grafite escuro para máxima legibilidade */
+      --mid:  #576574; /* Cinza médio para textos secundários */
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -26,340 +26,220 @@
 
     body {
       font-family: 'Jost', sans-serif;
-      font-weight: 200;
+      font-weight: 300;
       background: var(--bg);
       color: var(--ink);
       cursor: none;
       overflow-x: hidden;
     }
 
-    /* ── Títulos com a nova identidade geométrica/high-end ── */
     .brand-title {
       font-family: 'Syne', sans-serif;
       font-weight: 300;
       text-transform: lowercase;
     }
 
-    /* ── cursor ── */
+    /* ── custom cursor ── */
     #dot {
-      position: fixed; width: 5px; height: 5px;
+      position: fixed; width: 6px; height: 6px;
       background: var(--p); border-radius: 50%;
       pointer-events: none; z-index: 9999;
       transform: translate(-50%,-50%);
-      transition: transform .15s ease;
+      transition: transform .1s ease;
     }
     #ring {
-      position: fixed; width: 28px; height: 28px;
-      border: 1px solid rgba(127,163,209,.35); border-radius: 50%;
+      position: fixed; width: 30px; height: 30px;
+      border: 1px solid rgba(103,142,194,.4); border-radius: 50%;
       pointer-events: none; z-index: 9998;
       transform: translate(-50%,-50%);
-      transition: transform .4s cubic-bezier(.25,.46,.45,.94);
+      transition: transform .3s cubic-bezier(.25,.46,.45,.94);
     }
 
-    /* ── loader ── */
+    /* ── loader customizado ── */
     #loader {
       position: fixed; inset: 0;
-      background: var(--bg); z-index: 9997;
+      background: var(--p); z-index: 9997;
       display: flex; align-items: center; justify-content: center;
       transition: opacity 1s ease, visibility 1s ease;
     }
     #loader.out { opacity: 0; visibility: hidden; }
     .l-logo {
-      font-size: 3rem; letter-spacing: .3em;
-      color: var(--ink); animation: fadeUp 1.4s .2s ease both;
+      font-size: 3.5rem; letter-spacing: .2em;
+      color: #fff; animation: fadeUp 1.2s .2s ease both;
     }
     .l-bar {
       height: 1px; width: 0;
-      background: var(--p); margin: .9rem auto 0;
-      animation: grow 2s .5s ease forwards;
+      background: #fff; margin: .5rem auto 0;
+      animation: grow 1.8s .4s ease forwards;
     }
 
-    /* ── animations ── */
+    /* ── animações e reveals ── */
     @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(14px); }
+      from { opacity: 0; transform: translateY(20px); }
       to   { opacity: 1; transform: none; }
     }
-    @keyframes grow { to { width: 56px; } }
-    @keyframes scaleIn {
-      from { opacity: 0; transform: scale(.97); }
-      to   { opacity: 1; transform: scale(1); }
-    }
+    @keyframes grow { to { width: 70px; } }
 
     .reveal {
-      opacity: 0; transform: translateY(28px);
-      transition: opacity 1s ease, transform 1s ease;
+      opacity: 0; transform: translateY(30px);
+      transition: opacity 1s cubic-bezier(0.215, 0.610, 0.355, 1), transform 1s cubic-bezier(0.215, 0.610, 0.355, 1);
     }
     .reveal.on { opacity: 1; transform: none; }
-    .reveal-fade {
-      opacity: 0;
-      transition: opacity 1.2s ease;
-    }
-    .reveal-fade.on { opacity: 1; }
 
-    /* ── nav ── */
+    /* ── navigation ── */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
       display: flex; align-items: center; justify-content: space-between;
-      padding: 1.6rem clamp(1.5rem, 5vw, 4rem);
-      background: rgba(247,249,252,.75);
-      backdrop-filter: blur(14px);
-      border-bottom: 1px solid rgba(127,163,209,.1);
+      padding: 1.5rem clamp(1.5rem, 6vw, 5rem);
+      background: rgba(103,142,194,0.15);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255,255,255,.1);
     }
-    .nav-logo {
-      font-size: 1.4rem; letter-spacing: .2em;
-      color: var(--ink);
-    }
-    .nav-links { display: flex; gap: 2.5rem; }
+    .nav-logo { font-size: 1.5rem; letter-spacing: .15em; color: #fff; }
+    .nav-links { display: flex; gap: 3rem; }
     .nav-link {
-      font-size: .58rem; letter-spacing: .4em; text-transform: uppercase;
-      color: var(--mid); text-decoration: none;
+      font-size: .65rem; letter-spacing: .35em; text-transform: uppercase;
+      color: rgba(255,255,255,0.75); text-decoration: none;
       transition: color .3s; cursor: none;
     }
-    .nav-link:hover { color: var(--p); }
+    .nav-link:hover { color: #fff; }
 
-    /* ── hero ── */
+    /* ── hero section ── */
     #hero {
       min-height: 100vh;
       display: flex; flex-direction: column;
       align-items: center; justify-content: center;
       text-align: center;
-      padding: 8rem clamp(1.5rem, 6vw, 6rem) 5rem;
+      padding: 7rem clamp(1.5rem, 6vw, 6rem) 4rem;
       position: relative;
-      background: linear-gradient(180deg, #F7F9FC 0%, #EEF3F9 100%);
+      background: var(--p);
       overflow: hidden;
     }
-
     #hero::before {
       content: '';
       position: absolute; inset: 0; pointer-events: none;
-      background-image:
-        linear-gradient(rgba(127,163,209,.06) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(127,163,209,.06) 1px, transparent 1px);
-      background-size: 64px 64px;
-      mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black, transparent);
+      background-image: radial-gradient(rgba(255,255,255,.12) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: radial-gradient(ellipse 60% 60% at 50% 50%, black, transparent);
     }
-
     .hero-eyebrow {
-      font-size: .55rem; letter-spacing: .65em; text-transform: uppercase;
-      color: var(--p); margin-bottom: 2.2rem;
+      font-size: .6rem; letter-spacing: .5em; text-transform: uppercase;
+      color: rgba(255,255,255,0.9); margin-bottom: 1.5rem;
       animation: fadeUp .8s .2s ease both;
     }
     .hero-logo {
-      font-size: clamp(5rem, 18vw, 12rem);
-      letter-spacing: .02em; line-height: 1;
-      color: var(--ink);
-      animation: fadeUp 1.1s .45s ease both;
+      font-size: clamp(4.5rem, 16vw, 11rem);
+      line-height: 1; color: #fff;
+      animation: fadeUp 1s .4s ease both;
     }
-    .hero-logo sup {
-      font-size: .2em; vertical-align: super;
-      color: var(--p); letter-spacing: 0;
-      font-family: 'Jost', sans-serif;
-    }
-    .hero-rule {
-      width: 1px; height: 0;
-      background: linear-gradient(to bottom, transparent, var(--p), transparent);
-      margin: 2rem auto;
-      opacity: 0; animation: ruleGrow 1.3s 1s ease forwards;
-    }
-    @keyframes ruleGrow { to { height: 44px; opacity: 1; } }
+    .hero-logo sup { font-size: .25em; color: rgba(255,255,255,0.6); font-family: 'Jost', sans-serif; }
     .hero-tag {
-      font-size: clamp(1rem, 2.2vw, 1.4rem);
-      color: var(--mid); letter-spacing: .15em;
-      text-transform: uppercase;
-      font-weight: 300;
-      animation: fadeUp .9s 1.2s ease both;
-      margin-bottom: 3rem;
+      font-size: clamp(1rem, 2.5vw, 1.3rem);
+      color: rgba(244,247,252,0.85); letter-spacing: .12em;
+      font-weight: 300; margin-top: 1.5rem;
+      animation: fadeUp 1s .6s ease both;
     }
+    
+    /* Quadrado com fundo branco limpo e cantos retos */
     .hero-btn {
-      display: inline-block;
-      font-size: .55rem; letter-spacing: .45em; text-transform: uppercase;
-      color: var(--ink); text-decoration: none;
-      border: 1px solid rgba(127,163,209,.35);
-      padding: .85rem 2.2rem;
-      transition: border-color .3s, color .3s, background .3s;
-      cursor: none;
-      animation: fadeUp .9s 1.5s ease both;
+      margin-top: 3.5rem; display: inline-block;
+      font-size: .6rem; letter-spacing: .4em; text-transform: uppercase;
+      color: var(--ink); background: #ffffff; text-decoration: none;
+      padding: 1.1rem 3.2rem; border-radius: 0px;
+      box-shadow: 0 10px 25px rgba(26,36,51,0.15);
+      transition: background .3s, transform .3s, box-shadow .3s; cursor: none;
+      animation: fadeUp 1s .8s ease both;
+      z-index: 10;
     }
-    .hero-btn:hover {
-      border-color: var(--p);
-      color: var(--p);
-      background: rgba(127,163,209,.08);
-    }
-
-    /* ── divider ── */
-    .hdiv {
-      height: 1px;
-      background: linear-gradient(to right, transparent, rgba(127,163,209,.2), transparent);
-    }
-    .vdiv {
-      width: 1px; height: 48px;
-      background: linear-gradient(to bottom, transparent, var(--p), transparent);
-      margin: 0 auto;
+    .hero-btn:hover { 
+      background: var(--bg); 
+      transform: translateY(-2px);
+      box-shadow: 0 14px 30px rgba(26,36,51,0.2);
     }
 
-    /* ── section base ── */
-    .section {
-      padding: clamp(5rem, 10vw, 9rem) clamp(1.5rem, 5vw, 4rem);
+    /* ── grids & layouts ── */
+    .section { padding: clamp(5rem, 10vw, 8rem) clamp(1.5rem, 6vw, 5rem); }
+    .wrap { max-width: 1150px; margin: 0 auto; }
+    .label { font-size: .55rem; letter-spacing: .5em; text-transform: uppercase; color: var(--p); display: block; }
+    
+    .hdiv { height: 1px; background: linear-gradient(to right, transparent, rgba(103,142,194,.2), transparent); }
+
+    /* ── sobre / manifesto ── */
+    #manifesto { background: #fff; }
+    .manifesto-grid {
+      display: grid; grid-template-columns: 1.2fr 0.8fr;
+      gap: clamp(3rem, 7vw, 6rem); align-items: start;
     }
-    .wrap { max-width: 1200px; margin: 0 auto; }
-    .label {
-      font-size: .54rem; letter-spacing: .55em; text-transform: uppercase;
-      color: var(--p);
+    .main-heading { font-size: clamp(2rem, 4vw, 3.2rem); line-height: 1.2; color: var(--ink); letter-spacing: -0.01em; }
+    .main-heading em { font-style: normal; color: var(--p); }
+    .main-text { font-size: .82rem; letter-spacing: .08em; line-height: 2.2; color: var(--mid); font-weight: 300; }
+    
+    .founders-card {
+      background: var(--bg); padding: 2.5rem;
+      border-left: 2px solid var(--p);
+      border-radius: 4px;
+    }
+    .founder-tag { font-family: 'Syne', sans-serif; font-size: 1.05rem; color: var(--ink); margin-top: 0.5rem; }
+
+    /* ── evento pré-venda ── */
+    #pre-venda { background: var(--bg2); position: relative; }
+    .event-box {
+      background: #fff; padding: clamp(2.5rem, 6vw, 4.5rem);
+      border-radius: 8px; box-shadow: 0 10px 30px rgba(30,41,59,0.03);
+      display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center;
+    }
+    .calendar-badge {
+      display: inline-block; background: var(--pd); color: #fff;
+      font-family: 'Syne', sans-serif; font-size: 1.8rem;
+      padding: 0.5rem 1.4rem; border-radius: 4px; font-weight: 400;
     }
 
-    /* ── sobre ── */
-    #sobre { background: var(--bg2); }
-    .sobre-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: clamp(3rem, 6vw, 7rem);
-      align-items: center;
+    .insta-strip { display: flex; gap: 1rem; justify-content: center; }
+    .strip-item {
+      background: var(--bg); border: 1px solid rgba(103,142,194,0.15);
+      padding: 0.5rem; border-radius: 4px; transform: rotate(-1deg);
+      transition: transform 0.4s;
     }
-    .sobre-heading {
-      font-size: clamp(2.2rem, 4.5vw, 3.8rem);
-      line-height: 1.2; color: var(--ink);
-      letter-spacing: -0.02em;
-    }
-    .sobre-heading em {
-      font-style: normal; color: var(--p);
-    }
-    .sobre-text {
-      font-size: .72rem; letter-spacing: .12em;
-      line-height: 2.4; color: var(--mid);
-      font-weight: 300;
-    }
-    .pillar {
-      display: flex; gap: 1rem; align-items: flex-start;
-      padding: 1.4rem 0;
-      border-bottom: 1px solid rgba(127,163,209,.1);
-      transition: border-color .4s;
-    }
-    .pillar:hover { border-color: rgba(127,163,209,.3); }
-    .pillar:first-child { border-top: 1px solid rgba(127,163,209,.1); }
-    .pillar-num {
-      font-family: 'Syne', sans-serif; font-weight: 400;
-      font-size: 1rem; color: var(--p); min-width: 2rem;
-    }
-    .pillar-title {
-      font-family: 'Syne', sans-serif;
-      font-size: 1.1rem; font-weight: 400; color: var(--ink);
-      margin-bottom: .3rem;
-      text-transform: lowercase;
-    }
-    .pillar-desc {
-      font-size: .58rem; letter-spacing: .12em;
-      line-height: 2; color: var(--mid);
+    .strip-item:nth-child(2) { transform: rotate(2deg); }
+    .strip-item:hover { transform: scale(1.05) rotate(0deg); }
+    .strip-placeholder {
+      width: 100px; height: 140px; background: var(--p);
+      opacity: 0.85; display: flex; align-items: center; 
+      justify-content: center; color: #fff; font-size: 0.5rem;
+      letter-spacing: 0.2em; text-transform: uppercase; text-align: center;
     }
 
-    /* ── galeria ── */
-    #galeria { background: var(--bg); }
-    .gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1px;
-      background: rgba(127,163,209,.08);
-    }
-    .g-card {
-      position: relative; overflow: hidden;
-      background: var(--bg);
-      cursor: none;
-    }
-    .g-card:hover .g-inner { background: rgba(127,163,209,.08); }
-    .g-inner {
-      aspect-ratio: 3/4;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      gap: 1.2rem;
-      background: var(--bg);
-      transition: background .5s;
-      position: relative;
-    }
-    .g-icon {
-      opacity: .22; transition: opacity .4s, transform .6s cubic-bezier(.25,.46,.45,.94);
-    }
-    .g-card:hover .g-icon { opacity: .45; transform: scale(1.05); }
-    .g-label {
-      font-size: .5rem; letter-spacing: .5em; text-transform: uppercase;
-      color: var(--mid); opacity: 0;
-      transition: opacity .4s;
-    }
-    .g-card:hover .g-label { opacity: 1; }
-    .g-bar {
-      position: absolute; bottom: 0; left: 0;
-      height: 1px; width: 0;
-      background: var(--p);
-      transition: width .5s cubic-bezier(.25,.46,.45,.94);
-    }
-    .g-card:hover .g-bar { width: 100%; }
-
-    .g-tall { grid-row: span 2; }
-    .g-tall .g-inner { aspect-ratio: auto; height: 100%; min-height: 400px; }
-
-    /* ── footer ── */
-    footer {
-      background: #161C26;
-      padding: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 5vw, 4rem) 2rem;
-      color: rgba(247,249,252,.6);
-    }
-    .footer-top {
-      display: flex; align-items: flex-end;
-      justify-content: space-between; flex-wrap: wrap; gap: 2rem;
-      padding-bottom: 3rem;
-      border-bottom: 1px solid rgba(127,163,209,.12);
-    }
-    .footer-logo {
-      font-size: clamp(2.5rem, 6vw, 5rem); letter-spacing: .05em;
-      color: rgba(247,249,252,.9); line-height: 1;
-    }
-    .footer-logo span { color: var(--p); font-size: .35em; vertical-align: super; letter-spacing: 0; font-family: 'Jost', sans-serif; }
-    .footer-tagline {
-      font-size: .65rem; color: rgba(127,163,209,.6);
-      margin-top: .8rem; text-transform: uppercase; letter-spacing: .2em;
-    }
+    /* ── footer corporativo ── */
+    footer { background: #1a2433; padding: 5rem clamp(1.5rem, 6vw, 5rem) 2.5rem; color: rgba(244,247,252,.6); }
+    .footer-top { display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 2.5rem; padding-bottom: 3.5rem; border-bottom: 1px solid rgba(244,247,252,.1); }
+    .footer-logo { font-size: clamp(2.5rem, 5vw, 4.5rem); color: #fff; line-height: 1; }
+    .footer-logo span { color: var(--p); font-size: .4em; vertical-align: super; font-family: 'Jost', sans-serif; }
     .footer-links { display: flex; flex-direction: column; gap: .8rem; align-items: flex-end; }
-    .footer-link {
-      font-size: .52rem; letter-spacing: .4em; text-transform: uppercase;
-      color: rgba(247,249,252,.3); text-decoration: none;
-      transition: color .3s; cursor: none;
-    }
+    .footer-link { font-size: .55rem; letter-spacing: .35em; text-transform: uppercase; color: rgba(244,247,252,.4); text-decoration: none; transition: color .3s; cursor: none; }
     .footer-link:hover { color: var(--p); }
-    .footer-soc { display: flex; gap: 1rem; margin-top: .5rem; }
+    
     .soc-icon {
-      width: 32px; height: 32px; border-radius: 50%;
-      border: 1px solid rgba(127,163,209,.18);
-      display: flex; align-items: center; justify-content: center;
-      transition: border-color .3s, background .3s; cursor: none;
+      width: 34px; height: 34px; border-radius: 50%; border: 1px solid rgba(244,247,252,.15);
+      display: flex; align-items: center; justify-content: center; transition: all .3s; cursor: none;
     }
-    .soc-icon:hover { border-color: var(--p); background: rgba(127,163,209,.08); }
-    .footer-bottom {
-      display: flex; align-items: center; justify-content: space-between;
-      flex-wrap: wrap; gap: 1rem; padding-top: 2rem;
-    }
-    .footer-copy {
-      font-size: .48rem; letter-spacing: .3em; text-transform: uppercase;
-      color: rgba(247,249,252,.18);
-    }
-    .footer-values { display: flex; gap: 1.5rem; flex-wrap: wrap; }
-    .footer-val {
-      font-size: .47rem; letter-spacing: .4em; text-transform: uppercase;
-      color: rgba(127,163,209,.3);
-    }
+    .soc-icon:hover { border-color: var(--p); background: rgba(103,142,194,.1); }
+    
+    .footer-bottom { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1.5rem; padding-top: 2.5rem; }
+    .footer-copy { font-size: .5rem; letter-spacing: .25em; text-transform: uppercase; color: rgba(244,247,252,.25); }
+    .footer-val { font-size: .5rem; letter-spacing: .35em; text-transform: uppercase; color: rgba(103,142,194,.5); }
 
-    /* ── mobile ── */
+    /* ── responsividade ── */
     @media (max-width: 768px) {
       #dot, #ring { display: none; }
       body { cursor: auto; }
+      nav { background: var(--p); }
       .nav-links { display: none; }
-      .sobre-grid { grid-template-columns: 1fr; gap: 3rem; }
-      .gallery-grid { grid-template-columns: 1fr 1fr; }
-      .g-tall { grid-row: span 1; }
-      .g-tall .g-inner { min-height: unset; }
+      .manifesto-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .event-box { grid-template-columns: 1fr; gap: 2.5rem; text-align: center; }
+      .insta-strip { margin-top: 1rem; }
       .footer-top { flex-direction: column; align-items: flex-start; }
       .footer-links { align-items: flex-start; }
-      .footer-bottom { flex-direction: column; }
-    }
-    @media (max-width: 480px) {
-      .gallery-grid { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; text-align: center; }
     }
   </style>
 </head>
@@ -376,9 +256,10 @@
   </div>
 
   <nav>
-    <div class="nav-logo brand-title">xapn<sup style="font-size:.5em;color:var(--p);vertical-align:super">®</sup></div>
+    <div class="nav-logo brand-title">xapn<sup style="font-size:.45em; color:rgba(255,255,255,0.6); vertical-align:super">®</sup></div>
     <div class="nav-links">
-      <a href="#sobre" class="nav-link">Sobre</a>
+      <a href="#manifesto" class="nav-link">Manifesto</a>
+      <a href="#pre-venda" class="nav-link">Pré-Venda</a>
       <a href="#footer" class="nav-link">Contato</a>
     </div>
   </nav>
@@ -386,37 +267,50 @@
   <section id="hero">
     <p class="hero-eyebrow">Apresentamos</p>
     <h1 class="hero-logo brand-title">xapn<sup>®</sup></h1>
-    <div class="hero-rule"></div>
-    <p class="hero-tag">a graça em forma visual</p>
-    <a href="#sobre" class="hero-btn">Descobrir</a>
+    <p class="hero-tag">Refletindo a graça de Deus em cada detalhe.</p>
+    
+    <a href="https://api.whatsapp.com/send/?phone=82993689706&text&type=phone_number&app_absent=0&wame_ctl=1&source_surface=20" target="_blank" class="hero-btn">
+      Faça seu Pedido
+    </a>
   </section>
 
   <div class="hdiv"></div>
 
-  <section id="sobre" class="section">
+  <section id="manifesto" class="section">
     <div class="wrap">
-      <div class="sobre-grid">
-
+      <div class="manifesto-grid">
+        
         <div>
-          <p class="label reveal" style="margin-bottom:1.5rem">Sobre a Marca</p>
-          <h2 class="sobre-heading brand-title reveal" style="transition-delay:.1s;margin-bottom:2rem">
-            Mais do que<br>estética.<br>
-            <em>É identidade.</em>
+          <p class="label reveal" style="margin-bottom: 1.5rem;">Origem & Significado</p>
+          <h2 class="main-heading brand-title reveal" style="transition-delay: .1s; margin-bottom: 2.5rem;">
+            Sobre a<br>
+            <em>xapn.</em>
           </h2>
-          <p class="sobre-text reveal" style="transition-delay:.2s">
-            xapn — comunicar graça, unidade e propósito.
-          </p>
-          <div class="vdiv reveal" style="transition-delay:.3s;margin:2.5rem 0 0;margin-left:0"></div>
+          <div class="main-text reveal" style="transition-delay: .2s;">
+            <p style="margin-bottom: 1.5rem;">
+              A XAPN nasceu em 2023, a partir do sonho de quatro melhores amigas unidas não apenas pela amizade, mas por um propósito maior. Mais do que uma marca, somos a expressão de laços profundos firmados no amor de Cristo.
+            </p>
+            <p style="margin-bottom: 1.5rem;">
+              Nosso nome carries essência pura. Inspirada em <strong>"charis"</strong>, a palavra grega para <em>graça</em>, a XAPN representa o favor imerecido de Deus — aquilo que nos alcança, transforma e sustenta diariamente em cada pequena estação.
+            </p>
+            <p>
+              Cada detalhe da nossa identidade foi desenhado meticulosamente com propósito: a simplicidade que acolhe, os traços lineares que conectam e os símbolos que refletem unidade, infinitude e fé. Acreditamos convictamente que a graça não é apenas algo que recebemos, mas algo que transbordamos para o mundo.
+            </p>
+          </div>
         </div>
 
-        <div class="reveal" style="transition-delay:.15s; text-align: left;">
-          <p class="label" style="margin-bottom:.5rem">xapn</p>
-          <h3 class="brand-title" style="font-size: clamp(1.8rem, 3.5vw, 2.5rem); color: var(--ink); line-height: 1.2; margin-bottom: 1rem;">
-            mais.<br><span style="color:var(--p)">detalhes.</span>
-          </h3>
-          <p class="sobre-text" style="line-height: 1.8;">
-           Pensado por Jaciara, Susanne, Ana Célia e Jhennyfer — xapn nasce para comunicar graça em cada detalhe.
-          </p>
+        <div class="reveal" style="transition-delay: .3s; margin-top: 2rem;">
+          <div class="founders-card">
+            <p class="label" style="margin-bottom: 1rem;">Idealizado por</p>
+            <div class="founder-tag">Jaciara</div>
+            <div class="founder-tag">Susanne</div>
+            <div class="founder-tag">Ana Célia</div>
+            <div class="founder-tag">Jhennyfer</div>
+            <div style="width: 40px; height: 1px; background: var(--p); margin-top: 2rem;"></div>
+            <p style="font-size: 0.65rem; color: var(--mid); text-transform: uppercase; letter-spacing: 0.15em; margin-top: 1rem;">
+              Presença de Deus em cada processo.
+            </p>
+          </div>
         </div>
 
       </div>
@@ -424,55 +318,85 @@
   </section>
 
   <div class="hdiv"></div>
+
+  <section id="pre-venda" class="section">
+    <div class="wrap">
+      <div class="event-box reveal">
+        
+        <div>
+          <span class="calendar-badge">22</span>
+          <h3 class="brand-title" style="font-size: clamp(2rem, 3.5vw, 2.8rem); color: var(--ink); margin: 1.5rem 0 1rem 0; line-height: 1.1;">
+            pré-venda<br><span style="color: var(--p);">vestida de graça.</span>
+          </h3>
+          <p class="main-text" style="font-size: 0.78rem; line-height: 1.8;">
+            Venha e conheça em primeira mão a nova coleção de pré-venda da xapn. Peças concebidas para traduzir sofisticação, identidade e a beleza sutil do propósito.
+          </p>
+        </div>
+
+        <div>
+          <div class="insta-strip">
+            <div class="strip-item">
+              <div class="strip-placeholder">Coleção<br>XAPN</div>
+            </div>
+            <div class="strip-item">
+              <div class="strip-placeholder" style="background: var(--pd);">Vestida<br>de Graça</div>
+            </div>
+            <div class="strip-item">
+              <div class="strip-placeholder" style="background: var(--pl); color: var(--ink);">2026</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
 
   <footer id="footer">
     <div class="wrap">
       <div class="footer-top">
         <div>
           <div class="footer-logo brand-title">xapn<span>®</span></div>
-          <div class="footer-tagline">a graça em forma visual</div>
+          <div class="footer-tagline" style="font-size: 0.55rem; letter-spacing: 0.2em; margin-top: 0.6rem; color: rgba(244,247,252,0.4);">
+            Refletindo a graça de Deus em cada detalhe.
+          </div>
         </div>
         <div class="footer-links">
-          <a href="#sobre" class="footer-link">Sobre</a>
-          <a href="mailto:contato@xapn.com" class="footer-link">Contato</a>
-          <div class="footer-soc" style="justify-content:flex-end;margin-top:.5rem">
+          <a href="#manifesto" class="footer-link">Manifesto</a>
+          <a href="#pre-venda" class="footer-link">Pré-Venda</a>
+          <a href="https://api.whatsapp.com/send/?phone=82993689706&text&type=phone_number&app_absent=0&wame_ctl=1&source_surface=20" target="_blank" class="footer-link">Pedidos</a>
+          
+          <div class="footer-soc" style="margin-top: 1rem; display: flex; gap: 0.8rem;">
             <a href="#" class="soc-icon">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(127,163,209,.55)" stroke-width="1.4">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                 <rect x="2" y="2" width="20" height="20" rx="5"/>
                 <circle cx="12" cy="12" r="4"/>
-                <circle cx="17.5" cy="6.5" r=".5" fill="rgba(127,163,209,.55)" stroke="none"/>
-              </svg>
-            </a>
-            <a href="#" class="soc-icon">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(127,163,209,.55)" stroke-width="1.4">
-                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                <polyline points="22,6 12,13 2,6"/>
+                <circle cx="17.5" cy="6.5" r=".5" fill="currentColor" stroke="none"/>
               </svg>
             </a>
           </div>
         </div>
       </div>
+
       <div class="footer-bottom">
         <div class="footer-copy">© 2026 xapn® — Todos os direitos reservados</div>
-        <div class="footer-values">
+        <div style="display: flex; gap: 1.5rem;">
           <span class="footer-val">Graça</span>
           <span class="footer-val">·</span>
           <span class="footer-val">Unidade</span>
           <span class="footer-val">·</span>
           <span class="footer-val">Propósito</span>
-          <span class="footer-val">·</span>
         </div>
       </div>
     </div>
   </footer>
 
   <script>
-    // ── loader
+    // Animation Loader Out
     window.addEventListener('load', () =>
-      setTimeout(() => document.getElementById('loader').classList.add('out'), 2200)
+      setTimeout(() => document.getElementById('loader').classList.add('out'), 2000)
     );
 
-    // ── cursor
+    // Smooth Interactive Mouse Cursor
     const dot = document.getElementById('dot');
     const ring = document.getElementById('ring');
     let mx = 0, my = 0, rx = 0, ry = 0;
@@ -481,27 +405,38 @@
       mx = e.clientX; my = e.clientY;
       dot.style.left = mx + 'px'; dot.style.top = my + 'px';
     });
+    
     (function loop() {
-      rx += (mx - rx) * .12; ry += (my - ry) * .12;
+      rx += (mx - rx) * .15; ry += (my - ry) * .15;
       ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
       requestAnimationFrame(loop);
     })();
-    document.querySelectorAll('a, button, .g-card, .pillar').forEach(el => {
+
+    document.querySelectorAll('a, button, .strip-item, .founders-card').forEach(el => {
       el.addEventListener('mouseenter', () => {
-        dot.style.transform = 'translate(-50%,-50%) scale(2.5)';
-        ring.style.transform = 'translate(-50%,-50%) scale(1.6)';
+        dot.style.transform = 'translate(-50%,-50%) scale(2)';
+        if(el.classList.contains('hero-btn')){
+          dot.style.backgroundColor = 'var(--p)';
+        } else {
+          dot.style.backgroundColor = 'var(--pd)';
+        }
+        ring.style.transform = 'translate(-50%,-50%) scale(1.5)';
+        ring.style.borderColor = '#fff';
       });
       el.addEventListener('mouseleave', () => {
         dot.style.transform = 'translate(-50%,-50%) scale(1)';
+        dot.style.backgroundColor = 'var(--p)';
         ring.style.transform = 'translate(-50%,-50%) scale(1)';
+        ring.style.borderColor = 'rgba(103,142,194,.4)';
       });
     });
 
-    // ── scroll reveal
+    // Intersection Observer Scroll Reveal Effect
     const io = new IntersectionObserver(entries => {
       entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('on'); });
-    }, { threshold: .12, rootMargin: '0px 0px -50px 0px' });
-    document.querySelectorAll('.reveal, .reveal-fade').forEach(el => io.observe(el));
+    }, { threshold: .1, rootMargin: '0px 0px -40px 0px' });
+    
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
   </script>
 </body>
 </html>
