@@ -3,17 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>xapn® | Vestida de Graça</title>
+  <title>xapn® | Valentine's Day</title>
   <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100;0,200;0,300;0,400;0,500;1,300&family=Syne:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --p:  #678ec2;
-      --pl: #8db0dd;
-      --pd: #406494;
-      --bg: #f4f7fc;
-      --bg2:#e6eef8;
-      --ink:#1e293b;
-      --mid:#576574;
+      /* Paleta Oficial da Campanha Dia dos Namorados */
+      --p:  #690FOF; /* VINHO PROFUNDO */
+      --pl: #D7B4BA; /* ROSA ANTIGO */
+      --pd: #4A0A0A; /* VINHO ESCURO PARA CONTRASTE */
+      --bg: #E4D6C9; /* AREIA NOBRE */
+      --bg2:#D6C7BA; /* AREIA NOBRE VARIAÇÃO */
+      --ink:#2C0404; /* TEXTO ESCURO ADAPTADO */
+      --mid:#5A4A4A; /* TEXTO MÉDIO ADAPTADO */
     }
     *{margin:0;padding:0;box-sizing:border-box}
     html{scroll-behavior:smooth}
@@ -21,50 +22,104 @@
     .syne{font-family:'Syne',sans-serif}
 
     #dot{position:fixed;width:5px;height:5px;background:var(--p);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform .12s,background .2s}
-    #ring{position:fixed;width:28px;height:28px;border:1px solid rgba(103,142,194,.35);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:left .3s cubic-bezier(.25,.46,.45,.94),top .3s cubic-bezier(.25,.46,.45,.94)}
+    #ring{position:fixed;width:28px;height:28px;border:1px solid rgba(105,15,15,.35);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:left .3s cubic-bezier(.25,.46,.45,.94),top .3s cubic-bezier(.25,.46,.45,.94)}
 
     nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.4rem clamp(1.5rem,6vw,5rem);transition:background .5s,border-color .5s}
-    nav.scrolled{background:rgba(244,247,252,.94);backdrop-filter:blur(20px);border-bottom:1px solid rgba(103,142,194,.15)}
+    nav.scrolled{background:rgba(228,214,201,.94);backdrop-filter:blur(20px);border-bottom:1px solid rgba(105,15,15,.15)}
     .nav-logo{font-family:'Syne',sans-serif;font-weight:300;font-size:1.3rem;letter-spacing:.12em;color:#fff;text-decoration:none;transition:color .4s}
     nav.scrolled .nav-logo{color:var(--ink)}
     .nav-logo .reg{font-size:.45em;vertical-align:super;opacity:.5;font-family:'Jost',sans-serif}
     .nav-links{display:flex;gap:2.5rem}
     .nav-link{font-size:.58rem;letter-spacing:.38em;text-transform:uppercase;color:rgba(255,255,255,.6);text-decoration:none;transition:color .3s;cursor:none}
     nav.scrolled .nav-link{color:var(--mid)}
-    .nav-link:hover{color:var(--p)}
+    .nav-link:hover{color:var(--pl)}
     .nav-cta-btn{font-size:.52rem;letter-spacing:.3em;text-transform:uppercase;color:var(--ink);background:#fff;text-decoration:none;padding:.6rem 1.6rem;transition:background .3s,transform .3s;cursor:none;opacity:0;transition:opacity .4s,background .3s}
     nav.scrolled .nav-cta-btn{opacity:1}
     .nav-cta-btn:hover{background:var(--bg);transform:translateY(-1px)}
 
-    #hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;position:relative;overflow:hidden;background:var(--p)}
-    #hero::before{content:'';position:absolute;inset:0;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.08'/%3E%3C/svg%3E");z-index:0;opacity:.35}
-    #hero::after{content:'';position:absolute;inset:0;pointer-events:none;background-image:radial-gradient(rgba(255,255,255,.12) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse 70% 70% at 50% 50%,black,transparent);z-index:0}
+    /* Hero e Estrutura do Carrossel de Produtos */
+    #hero{min-height:100vh;position:relative;overflow:hidden;background:var(--p)}
+    #hero::before{content:'';position:absolute;inset:0;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.08'/%3E%3C/svg%3E");z-index:2;opacity:.25}
+    
+    /* Frase Fixa Dinâmica Superior */
+    .hero-fixed-phrase {
+      position: absolute;
+      top: 25%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 5;
+      text-align: center;
+      width: 100%;
+      padding: 0 1.5rem;
+      pointer-events: none;
+    }
+    .hero-fixed-phrase h1 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 400;
+      font-size: clamp(2rem, 6vw, 4.5rem);
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      text-shadow: 0 4px 24px rgba(44, 4, 4, 0.45);
+      animation: riseIn 1s cubic-bezier(.16,1,.3,1) forwards;
+    }
+    .hero-fixed-phrase p {
+      font-size: clamp(.65rem, 1.2vw, .85rem);
+      letter-spacing: .4em;
+      text-transform: uppercase;
+      color: var(--pl);
+      margin-top: 0.8rem;
+      font-weight: 400;
+      animation: riseIn .9s .3s ease forwards;
+      opacity: 0;
+    }
 
-    .hero-inner{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;padding:0 clamp(1.5rem,6vw,5rem)}
-    .hero-wordmark{font-family:'Syne',sans-serif;font-weight:300;font-size:clamp(5rem,18vw,13rem);line-height:.92;color:#fff;letter-spacing:-.01em;opacity:0;animation:riseIn 1.1s .1s cubic-bezier(.16,1,.3,1) forwards}
-    .hero-wordmark .reg{font-size:.18em;vertical-align:super;opacity:.45;font-weight:400;font-family:'Jost',sans-serif}
-    .hero-tagline{font-size:clamp(.7rem,1.5vw,.88rem);letter-spacing:.5em;text-transform:uppercase;color:rgba(255,255,255,.65);margin-top:2.2rem;opacity:0;animation:riseIn .9s .55s ease forwards}
-    .hero-line{width:36px;height:1px;background:rgba(255,255,255,.3);margin:2rem auto;opacity:0;animation:riseIn .8s .7s ease forwards}
-    .hero-cta{font-size:.55rem;letter-spacing:.42em;text-transform:uppercase;color:var(--ink);background:#fff;text-decoration:none;padding:1rem 2.8rem;opacity:0;animation:riseIn .9s .85s ease forwards;transition:background .3s,transform .3s;cursor:none;display:inline-block}
+    .hero-carousel-container{position:absolute;inset:0;width:100%;height:100%;display:flex;transition:transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);z-index:1}
+    
+    /* Slides como Banners de Produtos com Imagem de Fundo */
+    .hero-slide{flex:0 0 100%;width:100%;height:100%;display:flex;align-items:flex-end;justify-content:center;position:relative;background-size:cover;background-position:center;overflow:hidden}
+    .hero-slide::after {content:'';position:absolute;inset:0;background:linear-gradient(to bottom, rgba(105,15,15,0.4) 0%, rgba(44,4,4,0.85) 100%);z-index:1}
+    
+    /* Configuração das imagens de fundo puxando do catálogo */
+    .hero-slide:nth-child(1){background-image: url('img/WhatsApp Image 2026-06-09 at 22.21.17 (1).jpeg')}
+    .hero-slide:nth-child(2){background-image: url('img/WhatsApp Image 2026-06-09 at 22.21.17 (2).jpeg')}
+    .hero-slide:nth-child(3){background-image: url('img/WhatsApp Image 2026-06-09 at 22.21.17 (3).jpeg')}
+    .hero-slide:nth-child(4){background-image: url('img/WhatsApp Image 2026-06-09 at 22.21.17 (4).jpeg')}
+
+    .hero-inner{position:relative;z-index:3;text-align:center;padding-bottom: clamp(5rem, 10vw, 8rem);width:100%}
+    .hero-prod-title{font-family:'Syne',sans-serif;font-weight:300;font-size:clamp(1.5rem,4vw,2.8rem);color:#fff;letter-spacing:-.01em;margin-bottom:1.5rem}
+    .hero-cta{font-size:.55rem;letter-spacing:.42em;text-transform:uppercase;color:var(--ink);background:#fff;text-decoration:none;padding:1rem 2.8rem;transition:background .3s,transform .3s;cursor:none;display:inline-block}
     .hero-cta:hover{background:var(--bg);transform:translateY(-2px)}
 
-    .particles{position:absolute;inset:0;pointer-events:none;z-index:0;overflow:hidden}
-    .p-dot{position:absolute;width:4px;height:4px;background:rgba(255,255,255,.2);border-radius:50%;animation:floatUp var(--dur,8s) var(--delay,0s) linear infinite}
-    @keyframes floatUp{0%{transform:translateY(100vh) translateX(0);opacity:0}10%{opacity:1}90%{opacity:.4}100%{transform:translateY(-20vh) translateX(var(--drift,20px));opacity:0}}
+    /* Controles do Carrossel do Hero */
+    .hero-nav-btn{position:absolute;top:50%;transform:translateY(-50%);z-index:10;background:transparent;border:none;color:rgba(255,255,255,0.5);cursor:none;padding:1rem;transition:color .3s}
+    .hero-nav-btn:hover{color:#fff}
+    #hero-prev{left:clamp(1rem,4vw,3rem)}
+    #hero-next{right:clamp(1rem,4vw,3rem)}
 
-    .scroll-hint{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);z-index:2;display:flex;flex-direction:column;align-items:center;gap:.5rem;opacity:0;animation:riseIn .8s 1.3s ease forwards}
-    .scroll-hint span{font-size:.42rem;letter-spacing:.5em;text-transform:uppercase;color:rgba(255,255,255,.35)}
-    .scroll-needle{width:1px;height:36px;background:linear-gradient(to bottom,rgba(255,255,255,.4),transparent);animation:needleDrop 2s 1.8s ease infinite}
+    /* Efeito União Estética: Corações Flutuantes */
+    .particles{position:absolute;inset:0;pointer-events:none;z-index:4;overflow:hidden}
+    .p-heart{position:absolute;color:rgba(215, 180, 186, 0.4);font-size:var(--size, 16px);user-select:none;animation:floatHearts var(--dur,10s) var(--delay,0s) ease-in infinite}
+    @keyframes floatHearts{
+      0%{transform:translateY(105vh) translateX(0) rotate(0deg);opacity:0}
+      10%{opacity:var(--op, 0.6)}
+      90%{opacity:var(--op, 0.6)}
+      100%{transform:translateY(-15vh) translateX(var(--drift,40px)) rotate(var(--rot, 45deg));opacity:0}
+    }
+
+    .scroll-hint{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);z-index:4;display:flex;flex-direction:column;align-items:center;gap:.5rem}
+    .scroll-needle{width:1px;height:36px;background:linear-gradient(to bottom,rgba(255,255,255,.4),transparent);animation:needleDrop 2s 1s ease infinite}
     @keyframes needleDrop{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}100%{transform:scaleY(1);transform-origin:bottom;opacity:0}}
     @keyframes riseIn{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
 
-    .marquee-section{background:#fff;border-top:1px solid rgba(103,142,194,.1);border-bottom:1px solid rgba(103,142,194,.1);overflow:hidden;padding:.9rem 0}
+    .marquee-section{background:#fff;border-top:1px solid rgba(105,15,15,.1);border-bottom:1px solid rgba(105,15,15,.1);overflow:hidden;padding:.9rem 0}
     .marquee-track{display:flex;gap:2rem;white-space:nowrap;animation:marquee 22s linear infinite}
     @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
     .marquee-track span{font-size:.5rem;letter-spacing:.45em;text-transform:uppercase;color:var(--mid);flex-shrink:0}
     .marquee-track .sep{color:var(--pl)}
 
-    .hdiv{height:1px;background:linear-gradient(to right,transparent,rgba(103,142,194,.15),transparent)}
+    .hdiv{height:1px;background:linear-gradient(to right,transparent,rgba(105,15,15,.15),transparent)}
     .section{padding:clamp(4.5rem,9vw,7rem) clamp(1.5rem,6vw,5rem)}
     .wrap{max-width:1150px;margin:0 auto}
     .label{font-size:.52rem;letter-spacing:.5em;text-transform:uppercase;color:var(--p);display:block}
@@ -77,18 +132,18 @@
     #produtos{background:#fff}
     .produtos-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:3rem;gap:1.5rem;flex-wrap:wrap}
     .carousel-nav{display:flex;gap:.6rem}
-    .c-btn{width:40px;height:40px;border:1px solid rgba(103,142,194,.3);background:transparent;cursor:none;display:flex;align-items:center;justify-content:center;transition:all .3s;color:var(--mid);flex-shrink:0}
+    .c-btn{width:40px;height:40px;border:1px solid rgba(105,15,15,.3);background:transparent;cursor:none;display:flex;align-items:center;justify-content:center;transition:all .3s;color:var(--mid);flex-shrink:0}
     .c-btn:hover{background:var(--p);border-color:var(--p);color:#fff}
     .carousel-track-wrap{overflow:hidden}
     .carousel-track{display:flex;gap:1.4rem;transition:transform .55s cubic-bezier(.25,.46,.45,.94)}
 
     .product-card{flex:0 0 calc(25% - 1.05rem);min-width:210px;background:var(--bg);overflow:hidden;position:relative;transition:transform .35s,box-shadow .35s;cursor:none}
-    .product-card:hover{transform:translateY(-5px);box-shadow:0 14px 36px rgba(30,41,59,.1)}
+    .product-card:hover{transform:translateY(-5px);box-shadow:0 14px 36px rgba(44,4,4,.1)}
 
     .product-img{width:100%;aspect-ratio:3/4;position:relative;overflow:hidden;background:var(--bg2)}
     .product-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s cubic-bezier(.25,.46,.45,.94)}
     .product-card:hover .product-img img{transform:scale(1.04)}
-    .product-img-placeholder{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.8rem;background:linear-gradient(160deg,var(--bg2) 0%,#dde8f5 100%)}
+    .product-img-placeholder{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.8rem;background:linear-gradient(160deg,var(--bg2) 0%,#C7B8AD 100%)}
     .product-img-placeholder svg{opacity:.25}
     .product-img-placeholder span{font-size:.4rem;letter-spacing:.3em;text-transform:uppercase;color:var(--mid);opacity:.6}
     
@@ -101,24 +156,23 @@
     .product-desc{font-size:.67rem;color:var(--mid);letter-spacing:.05em;line-height:1.7}
     .product-footer{display:flex;align-items:center;justify-content:space-between;margin-top:1rem}
     .product-price{font-family:'Syne',sans-serif;font-size:.95rem;color:var(--pd);font-weight:500}
-    .product-link{font-size:.5rem;letter-spacing:.3em;text-transform:uppercase;color:var(--p);text-decoration:none;cursor:none;border-bottom:1px solid rgba(103,142,194,.28);padding-bottom:.1rem;transition:color .3s,border-color .3s}
+    .product-link{font-size:.5rem;letter-spacing:.3em;text-transform:uppercase;color:var(--p);text-decoration:none;cursor:none;border-bottom:1px solid rgba(105,15,15,.28);padding-bottom:.1rem;transition:color .3s,border-color .3s}
     .product-link:hover{color:var(--pd);border-color:var(--pd)}
     .carousel-dots{display:flex;gap:.45rem;justify-content:center;margin-top:2rem}
-    .c-dot{width:5px;height:5px;border-radius:50%;background:rgba(103,142,194,.2);border:none;cursor:none;transition:background .3s,transform .3s}
+    .c-dot{width:5px;height:5px;border-radius:50%;background:rgba(105,15,15,.2);border:none;cursor:none;transition:background .3s,transform .3s}
     .c-dot.active{background:var(--p);transform:scale(1.4)}
 
     #founders{background:var(--bg2);overflow:hidden}
     .founders-layout{display:grid;grid-template-columns:1fr 1fr;min-height:560px}
 
-    .founders-photos{display:grid;grid-template-columns:1fr 1fr;gap:3px;background:#dde8f5}
-    .founder-slot{aspect-ratio:3/4;position:relative;overflow:hidden;background:linear-gradient(160deg,var(--bg2),#dde8f5);display:flex;align-items:center;justify-content:center}
+    .founders-photos{display:grid;grid-template-columns:1fr 1fr;gap:3px;background:#C7B8AD}
+    .founder-slot{aspect-ratio:3/4;position:relative;overflow:hidden;background:linear-gradient(160deg,var(--bg2),#C7B8AD);display:flex;align-items:center;justify-content:center}
     .founder-slot img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease}
     .founder-slot:hover img{transform:scale(1.04)}
     .founder-slot-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.7rem;width:100%;height:100%;padding:1.5rem}
     .founder-slot-placeholder svg{opacity:.2}
     .founder-slot-placeholder span{font-size:.38rem;letter-spacing:.3em;text-transform:uppercase;color:var(--mid);text-align:center;line-height:1.8;opacity:.7}
-    .founder-slot-placeholder code{font-size:.45rem;letter-spacing:.05em;color:var(--p);opacity:.7;background:rgba(103,142,194,.08);padding:.2rem .5rem}
-    .founder-overlay{position:absolute;bottom:0;left:0;right:0;padding:.6rem .8rem;background:linear-gradient(transparent,rgba(26,36,51,.55));opacity:0;transition:opacity .35s}
+    .founder-overlay{position:absolute;bottom:0;left:0;right:0;padding:.6rem .8rem;background:linear-gradient(transparent,rgba(44,4,4,.55));opacity:0;transition:opacity .35s}
     .founder-slot:hover .founder-overlay{opacity:1}
     .founder-overlay-name{font-family:'Syne',sans-serif;font-size:.72rem;color:#fff;font-weight:400}
     .founder-overlay-role{font-size:.42rem;letter-spacing:.25em;text-transform:uppercase;color:rgba(255,255,255,.6)}
@@ -128,23 +182,19 @@
     .founders-quote p{font-family:'Syne',sans-serif;font-size:clamp(1rem,2vw,1.3rem);color:var(--ink);font-weight:300;line-height:1.6;font-style:italic}
     .founders-quote cite{font-size:.52rem;letter-spacing:.35em;text-transform:uppercase;color:var(--p);display:block;margin-top:.9rem;font-style:normal}
 
-    #manifesto{background:var(--bg)}
-    .manifesto-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:clamp(3rem,7vw,6rem);align-items:start}
-
     #como-funciona{background:#fff}
     .steps-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.4rem}
-    .step-card{padding:2rem 1.6rem 2.2rem;border-top:2px solid rgba(103,142,194,.1);background:var(--bg);transition:border-color .35s,background .35s;position:relative}
+    .step-card{padding:2rem 1.6rem 2.2rem;border-top:2px solid rgba(105,15,15,.1);background:var(--bg);transition:border-color .35s,background .35s;position:relative}
     .step-card:hover{border-color:var(--p);background:#fff}
-    .step-num{font-family:'Syne',sans-serif;font-size:2.6rem;color:rgba(103,142,194,.15);font-weight:700;line-height:1;margin-bottom:1.1rem}
-    .step-icon{width:36px;height:36px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(103,142,194,.2);color:var(--p);margin-bottom:1rem}
+    .step-num{font-family:'Syne',sans-serif;font-size:2.6rem;color:rgba(105,15,15,.15);font-weight:700;line-height:1;margin-bottom:1.1rem}
+    .step-icon{width:36px;height:36px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(105,15,15,.2);color:var(--p);margin-bottom:1rem}
     .step-title{font-family:'Syne',sans-serif;font-size:.85rem;color:var(--ink);font-weight:400;margin-bottom:.65rem}
     .step-desc{font-size:.67rem;color:var(--mid);letter-spacing:.04em;line-height:1.85}
 
     #vendas{background:var(--ink);position:relative;overflow:hidden}
-    #vendas::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,#1a2433 0%,var(--pd) 100%);opacity:.95}
+    #vendas::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,#2C0404 0%,var(--pd) 100%);opacity:.95}
     #vendas::after{content:'';position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.05) 1px,transparent 1px);background-size:38px 38px;mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black,transparent)}
-    .vendas-inner{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
-    .vendas-left{}
+    .vendas-inner{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
     .vendas-eyebrow{display:flex;align-items:center;gap:.8rem;margin-bottom:1.8rem}
     .vendas-eyebrow-dot{width:8px;height:8px;border-radius:50%;background:#4ade80;box-shadow:0 0 10px rgba(74,222,128,.5)}
     .vendas-eyebrow span{font-size:.48rem;letter-spacing:.5em;text-transform:uppercase;color:rgba(255,255,255,.45)}
@@ -153,16 +203,15 @@
     .vendas-desc{font-size:.78rem;color:rgba(244,247,252,.55);letter-spacing:.06em;line-height:2;margin-bottom:2.2rem}
     .vendas-cta{display:inline-flex;align-items:center;gap:.8rem;font-size:.54rem;letter-spacing:.4em;text-transform:uppercase;color:var(--ink);background:#fff;text-decoration:none;padding:1rem 2.6rem;transition:background .3s,transform .3s;cursor:none}
     .vendas-cta:hover{background:var(--bg);transform:translateY(-2px)}
-    .vendas-cta svg{flex-shrink:0}
 
     .vendas-cards{display:flex;flex-direction:column;gap:.8rem}
     .vendas-card{display:flex;align-items:flex-start;gap:1rem;padding:1.1rem 1.3rem;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.07);transition:background .3s,border-color .3s}
-    .vendas-card:hover{background:rgba(255,255,255,.1);border-color:rgba(103,142,194,.3)}
+    .vendas-card:hover{background:rgba(255,255,255,.1);border-color:rgba(105,15,15,.3)}
     .vendas-card-icon{width:36px;height:36px;border:1px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--pl)}
     .vendas-card strong{font-family:'Syne',sans-serif;font-size:.78rem;color:#fff;font-weight:400;display:block;margin-bottom:.2rem}
     .vendas-card p{font-size:.66rem;color:rgba(255,255,255,.5);letter-spacing:.04em;line-height:1.6}
 
-    footer{background:#1a2433;padding:5rem clamp(1.5rem,6vw,5rem) 2.5rem;color:rgba(244,247,252,.5)}
+    footer{background:#2C0404;padding:5rem clamp(1.5rem,6vw,5rem) 2.5rem;color:rgba(244,247,252,.5)}
     .footer-top{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:2.5rem;padding-bottom:3.5rem;border-bottom:1px solid rgba(244,247,252,.07)}
     .footer-logo{font-family:'Syne',sans-serif;font-weight:300;font-size:clamp(2.5rem,5vw,4rem);color:#fff;line-height:1}
     .footer-logo .reg{color:var(--p);font-size:.38em;vertical-align:super;font-family:'Jost',sans-serif}
@@ -175,7 +224,7 @@
     .footer-bottom{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.5rem;padding-top:2.5rem}
     .footer-copy{font-size:.46rem;letter-spacing:.25em;text-transform:uppercase;color:rgba(244,247,252,.18)}
     .footer-vals{display:flex;gap:1rem}
-    .footer-val{font-size:.46rem;letter-spacing:.35em;text-transform:uppercase;color:rgba(103,142,194,.4)}
+    .footer-val{font-size:.46rem;letter-spacing:.35em;text-transform:uppercase;color:rgba(105,15,15,.4)}
 
     .wapp-float{position:fixed;bottom:2rem;right:2rem;z-index:200;width:52px;height:52px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 18px rgba(37,211,102,.35);transition:transform .3s,box-shadow .3s;cursor:none;text-decoration:none}
     .wapp-float:hover{transform:scale(1.1);box-shadow:0 6px 24px rgba(37,211,102,.5)}
@@ -193,15 +242,12 @@
     @media(max-width:768px){
       #dot,#ring{display:none}
       body{cursor:auto}
-      nav.scrolled{background:rgba(244,247,252,.97)}
+      nav.scrolled{background:rgba(228,214,201,.97)}
       .nav-links{display:none}
       .nav-cta-btn{display:none}
-      .manifesto-grid{grid-template-columns:1fr}
-      .steps-grid{grid-template-columns:1fr}
       .footer-top{flex-direction:column;align-items:flex-start}
       .footer-links{align-items:flex-start}
       .footer-bottom{flex-direction:column;text-align:center}
-      .hero-stats-row{flex-wrap:wrap;gap:1.5rem}
     }
     @media(max-width:520px){.product-card{flex:0 0 82vw}}
   </style>
@@ -223,29 +269,55 @@
 </nav>
 
 <section id="hero">
-  <div class="particles" id="particles"></div>
-  <div class="hero-inner">
-    <h1 class="hero-wordmark syne">xapn<span class="reg">®</span></h1>
-    <p class="hero-tagline">Refletindo a graça de Deus em cada detalhe.</p>
-    <div class="hero-line"></div>
-    <a href="https://api.whatsapp.com/send/?phone=82993689706" target="_blank" class="hero-cta">Faça seu Pedido</a>
+  <!-- Texto e Slogan Totalmente Fixados por cima das fotos -->
+  <div class="hero-fixed-phrase">
+    <h1>valentines day xapn</h1>
+    <p>vestida de graça — peças com propósito</p>
   </div>
+
+  <button class="hero-nav-btn" id="hero-prev" aria-label="Slide anterior">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="15 18 9 12 15 6"/></svg>
+  </button>
+  <button class="hero-nav-btn" id="hero-next" aria-label="Próximo slide">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="9 18 15 12 9 6"/></svg>
+  </button>
+
+  <!-- Carrossel Exibindo Fotos das Roupas do Catálogo -->
+  <div class="hero-carousel-container" id="hero-track">
+    <div class="hero-slide">
+      <div class="hero-inner">
+        <h2 class="hero-prod-title syne">T-shirt Xapn Premium</h2>
+        <a href="https://api.whatsapp.com/send/?phone=82993689706" target="_blank" class="hero-cta">Garantir Peça</a>
+      </div>
+    </div>
+    <div class="hero-slide">
+      <div class="hero-inner">
+        <h2 class="hero-prod-title syne">T-shirt Xapn Graça</h2>
+        <a href="https://api.whatsapp.com/send/?phone=82993689706" target="_blank" class="hero-cta">Garantir Peça</a>
+      </div>
+    </div>
+    <div class="hero-slide">
+      <div class="hero-inner">
+        <h2 class="hero-prod-title syne">T-shirt Xapn Brasa</h2>
+        <a href="https://api.whatsapp.com/send/?phone=82993689706" target="_blank" class="hero-cta">Garantir Peça</a>
+      </div>
+    </div>
+    <div class="hero-slide">
+      <div class="hero-inner">
+        <h2 class="hero-prod-title syne">T-shirt Xapn Blue</h2>
+        <a href="https://api.whatsapp.com/send/?phone=82993689706" target="_blank" class="hero-cta">Garantir Peça</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="particles" id="particles"></div>
   <div class="scroll-hint">
-    <span></span>
     <div class="scroll-needle"></div>
   </div>
 </section>
 
 <div class="marquee-section">
   <div class="marquee-track">
-    <span>Graça</span><span class="sep">✦</span>
-    <span>Fé</span><span class="sep">✦</span>
-    <span>Charis</span><span class="sep">✦</span>
-    <span>Vestida de Graça</span><span class="sep">✦</span>
-    <span>Moda com Propósito</span><span class="sep">✦</span>
-    <span>xapn® 2026</span><span class="sep">✦</span>
-    <span>Unidade</span><span class="sep">✦</span>
-    <span>Autenticidade</span><span class="sep">✦</span>
     <span>Graça</span><span class="sep">✦</span>
     <span>Fé</span><span class="sep">✦</span>
     <span>Charis</span><span class="sep">✦</span>
@@ -279,12 +351,10 @@
     <div class="carousel-track-wrap reveal" style="transition-delay:.25s">
       <div class="carousel-track" id="track">
 
-       
         <div class="product-card">
           <div class="product-img">
             <div class="product-img-placeholder">
-              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-              <span><img src="img/WhatsApp Image 2026-06-09 at 22.21.17 (1).jpeg" alt=""></span>
+              <span><img src="img/WhatsApp Image 2026-06-09 at 22.21.17 (1).jpeg" alt="" style="width:100%;height:100%;object-fit:cover"></span>
             </div>
             <span class="product-badge">Nova</span>
           </div>
@@ -298,12 +368,10 @@
           </div>
         </div>
 
-        
         <div class="product-card">
           <div class="product-img">
             <div class="product-img-placeholder">
-              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-              <span><img src="img/WhatsApp Image 2026-06-09 at 22.21.17 (2).jpeg" alt=""></span>
+              <span><img src="img/WhatsApp Image 2026-06-09 at 22.21.17 (2).jpeg" alt="" style="width:100%;height:100%;object-fit:cover"></span>
             </div>
             <span class="product-badge">Destaque</span>
           </div>
@@ -317,12 +385,10 @@
           </div>
         </div>
 
-        
         <div class="product-card">
           <div class="product-img">
             <div class="product-img-placeholder">
-              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-              <span><img src="img/WhatsApp Image 2026-06-09 at 22.21.17 (3).jpeg" alt=""></span>
+              <span><img src="img/WhatsApp Image 2026-06-09 at 22.21.17 (3).jpeg" alt="" style="width:100%;height:100%;object-fit:cover"></span>
             </div>
             <span class="product-badge">Limited</span>
           </div>
@@ -336,56 +402,16 @@
           </div>
         </div>
 
-        
         <div class="product-card">
           <div class="product-img">
             <div class="product-img-placeholder">
-              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-              <span><img src="img/WhatsApp Image 2026-06-09 at 22.21.17 (4).jpeg" alt=""></span>
+              <span><img src="img/WhatsApp Image 2026-06-09 at 22.21.17 (4).jpeg" alt="" style="width:100%;height:100%;object-fit:cover"></span>
             </div>
             <span class="product-badge">Nova</span>
           </div>
           <div class="product-body">
             <div class="product-name">T-shirt Xapn Blue</div>
             <div class="product-desc">T-shirt feminina. Algodão suave.</div>
-            <div class="product-footer">
-              <span class="product-price">R$ 49,50</span>
-              <a href="https://api.whatsapp.com/send/?phone=82993689706" target="_blank" class="product-link">Pedir →</a>
-            </div>
-          </div>
-        </div>
-
-        
-        <div class="product-card">
-          <div class="product-img">
-            <div class="product-img-placeholder">
-              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-              <span><img src="img/WhatsApp Image 2026-06-09 at 22.21.17.jpeg" alt=""></span>
-            </div>
-            <span class="product-badge">Acessório</span>
-          </div>
-          <div class="product-body">
-            <div class="product-name">T-shirt Xapn Green</div>
-            <div class="product-desc">T-shirt Xapn. Uso diário com propósito.</div>
-            <div class="product-footer">
-              <span class="product-price">R$ 49,50</span>
-              <a href="https://api.whatsapp.com/send/?phone=82993689706" target="_blank" class="product-link">Pedir →</a>
-            </div>
-          </div>
-        </div>
-
-        
-        <div class="product-card">
-          <div class="product-img">
-            <div class="product-img-placeholder">
-              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-              <span><img src="img/WhatsApp Image 2026-06-09 at 22.21.18 (1).jpeg" alt=""></span>
-            </div>
-            <span class="product-badge">premium</span>
-          </div>
-          <div class="product-body">
-            <div class="product-name"></div>T-shirt Xapn Blue and White</div>
-            <div class="product-desc">Camiseta T-shirt Xapn Premium.</div>
             <div class="product-footer">
               <span class="product-price">R$ 49,50</span>
               <a href="https://api.whatsapp.com/send/?phone=82993689706" target="_blank" class="product-link">Pedir →</a>
@@ -403,14 +429,10 @@
 
 <section id="founders">
   <div class="founders-layout">
-
-    
     <div class="founders-photos">
       <div class="founder-slot">
         <div class="founder-slot-placeholder">
-          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-          <span><br></span>
-          <code><img src="img2/WhatsApp Image 2026-05-23 at 14.33.45 (1).jpeg" alt=""></code>
+          <code><img src="img2/WhatsApp Image 2026-05-23 at 14.33.45 (1).jpeg" alt="" style="width:100%;height:100%;object-fit:cover"></code>
         </div>
         <div class="founder-overlay">
           <div class="founder-overlay-name">Jaciara</div>
@@ -419,9 +441,7 @@
       </div>
       <div class="founder-slot">
         <div class="founder-slot-placeholder">
-          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-          <span><br></span>
-          <code><img src="img2/WhatsApp Image 2026-05-23 at 14.28.28 (1).jpeg" alt=""></code>
+          <code><img src="img2/WhatsApp Image 2026-05-23 at 14.28.28 (1).jpeg" alt="" style="width:100%;height:100%;object-fit:cover"></code>
         </div>
         <div class="founder-overlay">
           <div class="founder-overlay-name">Jennifer</div>
@@ -430,9 +450,7 @@
       </div>
       <div class="founder-slot">
         <div class="founder-slot-placeholder">
-          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-          <span><br></span>
-          <code><img src="img2/WhatsApp Image 2026-05-23 at 17.04.41.jpeg" alt=""></code>
+          <code><img src="img2/WhatsApp Image 2026-05-23 at 17.04.41.jpeg" alt="" style="width:100%;height:100%;object-fit:cover"></code>
         </div>
         <div class="founder-overlay">
           <div class="founder-overlay-name">Susanne</div>
@@ -441,9 +459,7 @@
       </div>
       <div class="founder-slot">
         <div class="founder-slot-placeholder">
-          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-          <span><br></span>
-          <code><img src="img2/WhatsApp Image 2026-05-23 at 17.44.29.jpeg" alt=""></code>
+          <code><img src="img2/WhatsApp Image 2026-05-23 at 17.44.29.jpeg" alt="" style="width:100%;height:100%;object-fit:cover"></code>
         </div>
         <div class="founder-overlay">
           <div class="founder-overlay-name">Ana Célia</div>
@@ -461,13 +477,11 @@
           <p>Nosso nome é inspirado em <strong>"charis"</strong> — a palavra grega para <em>graça</em>. Cada peça carrega esse significado: o favor imerecido de Deus que nos alcança, transforma e sustenta.</p>
         </div>
       </div>
-
       <div class="founders-quote reveal" style="transition-delay:.15s">
         <p>"Nascemos de quatro amigas. Crescemos como família. Vestimos com graça."</p>
         <cite>As fundadoras da xapn®</cite>
       </div>
     </div>
-
   </div>
 </section>
 
@@ -525,50 +539,23 @@
           <span>Vendas abertas agora</span>
         </div>
         <h2 class="vendas-title">Sua peça favorita<br><em>esperando por você.</em></h2>
-        <p class="vendas-desc">
-          A coleção já está disponível para compra. Cada peça é produzida com atenção e cuidado — sem pressa, mas com propósito. Garanta a sua antes que esgote.
-        </p>
-        <a href="https://api.whatsapp.com/send/?phone=82993689706" target="_blank" class="vendas-cta">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-          Comprar pelo WhatsApp
-        </a>
+        <p class="vendas-desc">A coleção já está disponível para compra. Cada peça é produzida com atenção e cuidado. Garanta a sua antes que esgote.</p>
+        <a href="https://api.whatsapp.com/send/?phone=82993689706" target="_blank" class="vendas-cta">Fazer Pedido →</a>
       </div>
 
       <div class="vendas-cards reveal" style="transition-delay:.15s">
         <div class="vendas-card">
-          <div class="vendas-card-icon">
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-          </div>
+          <div class="vendas-card-icon">🔑</div>
           <div>
             <strong>Qualidade Garantida</strong>
             <p>Algodão premium, acabamento artesanal e bordado exclusivo em cada peça.</p>
           </div>
         </div>
         <div class="vendas-card">
-          <div class="vendas-card-icon">
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          </div>
+          <div class="vendas-card-icon">⚡</div>
           <div>
             <strong>Entrega Rápida</strong>
             <p>Prazo combinado na hora do pedido.</p>
-          </div>
-        </div>
-        <div class="vendas-card">
-          <div class="vendas-card-icon">
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
-          </div>
-          <div>
-            <strong>Pix · Cartão · Transferência</strong>
-            <p>Formas de pagamento flexíveis para facilitar o seu pedido.</p>
-          </div>
-        </div>
-        <div class="vendas-card">
-          <div class="vendas-card-icon">
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-          </div>
-          <div>
-            <strong>Feito com Afeto</strong>
-            <p>Cada peça passa pelo cuidado das fundadoras antes de chegar até você.</p>
           </div>
         </div>
       </div>
@@ -583,27 +570,9 @@
         <div class="footer-logo syne">xapn<span class="reg">®</span></div>
         <div class="footer-tagline">Refletindo a graça de Deus em cada detalhe.</div>
       </div>
-      <div class="footer-links">
-        <a href="#produtos" class="footer-link">Produtos</a>
-        <a href="#founders" class="footer-link">Sobre</a>
-        <a href="#como-funciona" class="footer-link">Como Funciona</a>
-        <a href="https://api.whatsapp.com/send/?phone=82993689706" target="_blank" class="footer-link">Pedidos</a>
-        <div style="margin-top:.7rem;display:flex;gap:.6rem">
-          <a href="#" class="soc-icon" aria-label="Instagram">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".5" fill="currentColor" stroke="none"/></svg>
-          </a>
-        </div>
-      </div>
     </div>
     <div class="footer-bottom">
       <div class="footer-copy">© 2026 xapn® — Todos os direitos reservados</div>
-      <div class="footer-vals">
-        <span class="footer-val">Graça</span>
-        <span class="footer-val">·</span>
-        <span class="footer-val">Unidade</span>
-        <span class="footer-val">·</span>
-        <span class="footer-val">Propósito</span>
-      </div>
     </div>
   </div>
 </footer>
@@ -613,7 +582,7 @@
 </a>
 
 <script>
-
+// Lógica do Cursor Customizado
 const dot = document.getElementById('dot');
 const ring = document.getElementById('ring');
 let mx=0,my=0,rx=0,ry=0;
@@ -639,30 +608,58 @@ document.querySelectorAll('a,button,.product-card,.founder-slot,.step-card,.vend
   });
 });
 
-
+// Lógica de Rolagem da Barra de Navegação
 const nav = document.getElementById('nav');
 window.addEventListener('scroll',()=>{
   nav.classList.toggle('scrolled', window.scrollY > 60);
 },{passive:true});
 
-
+// NOVO: Gerador Dinâmico de Corações Flutuantes (Efeito Romântico Valentine's)
 const pc = document.getElementById('particles');
 if(pc){
-  for(let i=0;i<22;i++){
-    const d = document.createElement('div');
-    d.className = 'p-dot';
-    d.style.cssText = `left:${Math.random()*100}%;--dur:${6+Math.random()*10}s;--delay:${Math.random()*8}s;--drift:${(Math.random()-.5)*80}px;width:${2+Math.random()*4}px;height:${2+Math.random()*4}px;opacity:${.1+Math.random()*.25}`;
-    pc.appendChild(d);
+  for(let i=0;i<25;i++){
+    const heart = document.createElement('div');
+    heart.className = 'p-heart';
+    heart.innerHTML = '♥';
+    heart.style.cssText = `
+      left: ${Math.random() * 100}%;
+      --dur: ${8 + Math.random() * 8}s;
+      --delay: ${Math.random() * 6}s;
+      --drift: ${(Math.random() - 0.5) * 100}px;
+      --rot: ${(Math.random() - 0.5) * 90}deg;
+      --size: ${12 + Math.random() * 16}px;
+      --op: ${0.2 + Math.random() * 0.4};
+    `;
+    pc.appendChild(heart);
   }
 }
 
-
+// Lógica de Revelação de Elementos (Scroll Reveal)
 const io = new IntersectionObserver(entries=>entries.forEach(e=>{
   if(e.isIntersecting) e.target.classList.add('on');
 }),{threshold:.1,rootMargin:'0px 0px -40px 0px'});
 document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 
+// LÓGICA DO CARROSSEL DE PRODUTOS NO HERO
+const heroTrack = document.getElementById('hero-track');
+const heroSlides = document.querySelectorAll('.hero-slide');
+let heroCur = 0;
 
+function goToHero(n) {
+  heroCur = (n + heroSlides.length) % heroSlides.length;
+  heroTrack.style.transform = `translateX(-${heroCur * 100}%)`;
+}
+
+document.getElementById('hero-prev').addEventListener('click', () => goToHero(heroCur - 1));
+document.getElementById('hero-next').addEventListener('click', () => goToHero(heroCur + 1));
+
+// Transição automática das roupas do catálogo a cada 4.5 segundos
+setInterval(() => {
+  goToHero(heroCur + 1);
+}, 4500);
+
+
+// Lógica do Carrossel de Produtos Inferior (Original Mantido)
 const track = document.getElementById('track');
 const cards = track.querySelectorAll('.product-card');
 const dotsEl = document.getElementById('dots');
