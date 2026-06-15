@@ -1,44 +1,50 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>xapn® | Valentine's Day</title>
-  <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100;0,200;0,300;0,400;0,500;1,300&family=Syne:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>xapn® — Edição Especial Copa do Mundo 2026</title>
+  
+  <!-- Fontes Premium do projeto original mantidas -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+
   <style>
     :root {
-      /* Paleta Oficial da Campanha Dia dos Namorados */
-      --p:  #690FOF; /* VINHO PROFUNDO */
-      --pl: #D7B4BA; /* ROSA ANTIGO */
-      --pd: #4A0A0A; /* VINHO ESCURO PARA CONTRASTE */
-      --bg: #E4D6C9; /* AREIA NOBRE */
-      --bg2:#D6C7BA; /* AREIA NOBRE VARIAÇÃO */
-      --ink:#2C0404; /* TEXTO ESCURO ADAPTADO */
-      --mid:#5A4A4A; /* TEXTO MÉDIO ADAPTADO */
+      /* Paleta Oficial da Campanha xapn® - Estilo Copa do Mundo Premium */
+      --p:   #004B23; /* VERDE CANARINHO PROFUNDO */
+      --pl:  #FFCC00; /* AMARELO SOL COPA */
+      --pd:  #001F0E; /* VERDE ESCURO PARA CONTRASTE */
+      --blue:#002F6C; /* AZUL ROYAL DA BANDEIRA */
+      --bg:  #F4F7F4; /* BRANCO OFF-WHITE NOBRE */
+      --bg2: #E1EBE1; /* VARIAÇÃO DE FUNDO SUAVE */
+      --ink: #00150A; /* TEXTO ESCURO ADAPTADO */
+      --mid: #3F5249; /* TEXTO MÉDIO ADAPTADO */
     }
     *{margin:0;padding:0;box-sizing:border-box}
     html{scroll-behavior:smooth}
     body{font-family:'Jost',sans-serif;font-weight:300;background:var(--bg);color:var(--ink);cursor:none;overflow-x:hidden}
     .syne{font-family:'Syne',sans-serif}
 
-    #dot{position:fixed;width:5px;height:5px;background:var(--p);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform .12s,background .2s}
-    #ring{position:fixed;width:28px;height:28px;border:1px solid rgba(105,15,15,.35);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:left .3s cubic-bezier(.25,.46,.45,.94),top .3s cubic-bezier(.25,.46,.45,.94)}
+    #dot{position:fixed;width:5px;height:5px;background:var(--pl);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform .12s,background .2s}
+    #ring{position:fixed;width:28px;height:28px;border:1px solid rgba(0,75,35,.35);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:left .3s cubic-bezier(.25,.46,.45,.94),top .3s cubic-bezier(.25,.46,.45,.94)}
 
     nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.4rem clamp(1.5rem,6vw,5rem);transition:background .5s,border-color .5s}
-    nav.scrolled{background:rgba(228,214,201,.94);backdrop-filter:blur(20px);border-bottom:1px solid rgba(105,15,15,.15)}
-    .nav-logo{font-family:'Syne',sans-serif;font-weight:300;font-size:1.3rem;letter-spacing:.12em;color:#fff;text-decoration:none;transition:color .4s}
-    nav.scrolled .nav-logo{color:var(--ink)}
-    .nav-logo .reg{font-size:.45em;vertical-align:super;opacity:.5;font-family:'Jost',sans-serif}
+    nav.scrolled{background:rgba(244,247,244,.94);backdrop-filter:blur(20px);border-bottom:1px solid rgba(0,75,35,.15)}
+    .nav-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.4rem;letter-spacing:.05em;color:#fff;text-decoration:none;transition:color .4s}
+    nav.scrolled .nav-logo{color:var(--p)}
+    .nav-logo .reg{font-size:.45em;vertical-align:super;opacity:.7;font-family:'Jost',sans-serif;color:var(--pl)}
     .nav-links{display:flex;gap:2.5rem}
-    .nav-link{font-size:.58rem;letter-spacing:.38em;text-transform:uppercase;color:rgba(255,255,255,.6);text-decoration:none;transition:color .3s;cursor:none}
+    .nav-link{font-size:.58rem;letter-spacing:.38em;text-transform:uppercase;color:rgba(255,255,255,.8);text-decoration:none;transition:color .3s;cursor:none;font-weight:500}
     nav.scrolled .nav-link{color:var(--mid)}
-    .nav-link:hover{color:var(--pl)}
-    .nav-cta-btn{font-size:.52rem;letter-spacing:.3em;text-transform:uppercase;color:var(--ink);background:#fff;text-decoration:none;padding:.6rem 1.6rem;transition:background .3s,transform .3s;cursor:none;opacity:0;transition:opacity .4s,background .3s}
+    .nav-link:hover{color:var(--pl)!important}
+    .nav-cta-btn{font-size:.52rem;letter-spacing:.3em;text-transform:uppercase;color:#fff;background:var(--blue);text-decoration:none;padding:.6rem 1.6rem;transition:background .3s,transform .3s;cursor:none;opacity:0;transition:opacity .4s,background .3s;font-weight:500}
     nav.scrolled .nav-cta-btn{opacity:1}
-    .nav-cta-btn:hover{background:var(--bg);transform:translateY(-1px)}
+    .nav-cta-btn:hover{background:var(--p);transform:translateY(-1px)}
 
-    /* Hero e Estrutura do Carrossel de Produtos */
-    #hero{min-height:100vh;position:relative;overflow:hidden;background:var(--p)}
+    /* Hero com as cores da Seleção */
+    #hero{min-height:100vh;position:relative;overflow:hidden;background:var(--pd)}
     #hero::before{content:'';position:absolute;inset:0;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.08'/%3E%3C/svg%3E");z-index:2;opacity:.25}
     
     /* Frase Fixa Dinâmica Superior */
@@ -55,52 +61,58 @@
     }
     .hero-fixed-phrase h1 {
       font-family: 'Syne', sans-serif;
-      font-weight: 400;
-      font-size: clamp(2rem, 6vw, 4.5rem);
+      font-weight: 800;
+      font-size: clamp(2.2rem, 7vw, 5rem);
       color: #fff;
       text-transform: uppercase;
       letter-spacing: -0.02em;
       line-height: 1;
-      text-shadow: 0 4px 24px rgba(44, 4, 4, 0.45);
+      text-shadow: 0 4px 24px rgba(0, 31, 14, 0.65);
       animation: riseIn 1s cubic-bezier(.16,1,.3,1) forwards;
+    }
+    .hero-fixed-phrase h1 span{
+      color: var(--pl);
     }
     .hero-fixed-phrase p {
       font-size: clamp(.65rem, 1.2vw, .85rem);
       letter-spacing: .4em;
       text-transform: uppercase;
-      color: var(--pl);
+      color: #fff;
       margin-top: 0.8rem;
-      font-weight: 400;
+      font-weight: 500;
       animation: riseIn .9s .3s ease forwards;
       opacity: 0;
+      background: linear-gradient(90deg, var(--pl), #fff, var(--pl));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     .hero-carousel-container{position:absolute;inset:0;width:100%;height:100%;display:flex;transition:transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);z-index:1}
     
     /* Slides como Banners de Produtos com Imagem de Fundo */
     .hero-slide{flex:0 0 100%;width:100%;height:100%;display:flex;align-items:flex-end;justify-content:center;position:relative;background-size:cover;background-position:center;overflow:hidden}
-    .hero-slide::after {content:'';position:absolute;inset:0;background:linear-gradient(to bottom, rgba(105,15,15,0.4) 0%, rgba(44,4,4,0.85) 100%);z-index:1}
+    .hero-slide::after {content:'';position:absolute;inset:0;background:linear-gradient(to bottom, rgba(0,75,35,0.3) 0%, rgba(0,31,14,0.9) 100%);z-index:1}
     
-    /* Configuração das imagens de fundo puxando do catálogo */
+    /* Imagens do catálogo mantidas nas posições originais */
     .hero-slide:nth-child(1){background-image: url('img/WhatsApp Image 2026-06-09 at 22.21.17 (1).jpeg')}
     .hero-slide:nth-child(2){background-image: url('img/WhatsApp Image 2026-06-09 at 22.21.17 (2).jpeg')}
     .hero-slide:nth-child(3){background-image: url('img/WhatsApp Image 2026-06-09 at 22.21.17 (3).jpeg')}
     .hero-slide:nth-child(4){background-image: url('img/WhatsApp Image 2026-06-09 at 22.21.17 (4).jpeg')}
 
     .hero-inner{position:relative;z-index:3;text-align:center;padding-bottom: clamp(5rem, 10vw, 8rem);width:100%}
-    .hero-prod-title{font-family:'Syne',sans-serif;font-weight:300;font-size:clamp(1.5rem,4vw,2.8rem);color:#fff;letter-spacing:-.01em;margin-bottom:1.5rem}
-    .hero-cta{font-size:.55rem;letter-spacing:.42em;text-transform:uppercase;color:var(--ink);background:#fff;text-decoration:none;padding:1rem 2.8rem;transition:background .3s,transform .3s;cursor:none;display:inline-block}
-    .hero-cta:hover{background:var(--bg);transform:translateY(-2px)}
+    .hero-prod-title{font-family:'Syne',sans-serif;font-weight:700;font-size:clamp(1.5rem,4vw,2.8rem);color:#fff;letter-spacing:-.01em;margin-bottom:1.5rem}
+    .hero-cta{font-size:.55rem;letter-spacing:.42em;text-transform:uppercase;color:#fff;background:var(--blue);text-decoration:none;padding:1rem 2.8rem;transition:background .3s,transform .3s;cursor:none;display:inline-block;font-weight:600;box-shadow: 0 4px 15px rgba(0,47,108,0.4)}
+    .hero-cta:hover{background:var(--pl);color:var(--pd);transform:translateY(-2px)}
 
     /* Controles do Carrossel do Hero */
-    .hero-nav-btn{position:absolute;top:50%;transform:translateY(-50%);z-index:10;background:transparent;border:none;color:rgba(255,255,255,0.5);cursor:none;padding:1rem;transition:color .3s}
-    .hero-nav-btn:hover{color:#fff}
+    .hero-nav-btn{position:absolute;top:50%;transform:translateY(-50%);z-index:10;background:transparent;border:none;color:rgba(255,255,255,0.6);cursor:none;padding:1rem;transition:color .3s}
+    .hero-nav-btn:hover{color:var(--pl)}
     #hero-prev{left:clamp(1rem,4vw,3rem)}
     #hero-next{right:clamp(1rem,4vw,3rem)}
 
-    /* Efeito União Estética: Corações Flutuantes */
+    /* Estrelas e Bandeiras do Brasil Flutuantes */
     .particles{position:absolute;inset:0;pointer-events:none;z-index:4;overflow:hidden}
-    .p-heart{position:absolute;color:rgba(215, 180, 186, 0.4);font-size:var(--size, 16px);user-select:none;animation:floatHearts var(--dur,10s) var(--delay,0s) ease-in infinite}
+    .p-heart{position:absolute;font-size:var(--size, 16px);user-select:none;animation:floatHearts var(--dur,10s) var(--delay,0s) ease-in infinite}
     @keyframes floatHearts{
       0%{transform:translateY(105vh) translateX(0) rotate(0deg);opacity:0}
       10%{opacity:var(--op, 0.6)}
@@ -109,22 +121,23 @@
     }
 
     .scroll-hint{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);z-index:4;display:flex;flex-direction:column;align-items:center;gap:.5rem}
-    .scroll-needle{width:1px;height:36px;background:linear-gradient(to bottom,rgba(255,255,255,.4),transparent);animation:needleDrop 2s 1s ease infinite}
+    .scroll-needle{width:2px;height:36px;background:linear-gradient(to bottom,var(--pl),transparent);animation:needleDrop 2s 1s ease infinite}
     @keyframes needleDrop{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}100%{transform:scaleY(1);transform-origin:bottom;opacity:0}}
     @keyframes riseIn{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
 
-    .marquee-section{background:#fff;border-top:1px solid rgba(105,15,15,.1);border-bottom:1px solid rgba(105,15,15,.1);overflow:hidden;padding:.9rem 0}
+    /* Barra Estilo Letreiro Marquee */
+    .marquee-section{background:var(--pl);border-top:1px solid rgba(0,75,35,.2);border-bottom:1px solid rgba(0,75,35,.2);overflow:hidden;padding:.9rem 0}
     .marquee-track{display:flex;gap:2rem;white-space:nowrap;animation:marquee 22s linear infinite}
     @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-    .marquee-track span{font-size:.5rem;letter-spacing:.45em;text-transform:uppercase;color:var(--mid);flex-shrink:0}
-    .marquee-track .sep{color:var(--pl)}
+    .marquee-track span{font-size:.55rem;letter-spacing:.45em;text-transform:uppercase;color:var(--pd);flex-shrink:0;font-weight:700}
+    .marquee-track .sep{color:var(--blue)}
 
-    .hdiv{height:1px;background:linear-gradient(to right,transparent,rgba(105,15,15,.15),transparent)}
+    .hdiv{height:1px;background:linear-gradient(to right,transparent,rgba(0,75,35,.15),transparent)}
     .section{padding:clamp(4.5rem,9vw,7rem) clamp(1.5rem,6vw,5rem)}
     .wrap{max-width:1150px;margin:0 auto}
-    .label{font-size:.52rem;letter-spacing:.5em;text-transform:uppercase;color:var(--p);display:block}
-    .main-heading{font-family:'Syne',sans-serif;font-weight:300;font-size:clamp(2rem,4vw,3rem);line-height:1.15;color:var(--ink)}
-    .main-heading em{font-style:normal;color:var(--p)}
+    .label{font-size:.52rem;letter-spacing:.5em;text-transform:uppercase;color:var(--blue);display:block;font-weight:700}
+    .main-heading{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(2rem,4vw,3rem);line-height:1.15;color:var(--ink);text-transform:uppercase}
+    .main-heading em{font-style:normal;color:var(--p);background: linear-gradient(120deg, var(--p), var(--blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;}
     .main-text{font-size:.8rem;letter-spacing:.07em;line-height:2.2;color:var(--mid);font-weight:300}
     .reveal{opacity:0;transform:translateY(24px);transition:opacity .9s cubic-bezier(.215,.61,.355,1),transform .9s cubic-bezier(.215,.61,.355,1)}
     .reveal.on{opacity:1;transform:none}
@@ -132,99 +145,92 @@
     #produtos{background:#fff}
     .produtos-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:3rem;gap:1.5rem;flex-wrap:wrap}
     .carousel-nav{display:flex;gap:.6rem}
-    .c-btn{width:40px;height:40px;border:1px solid rgba(105,15,15,.3);background:transparent;cursor:none;display:flex;align-items:center;justify-content:center;transition:all .3s;color:var(--mid);flex-shrink:0}
+    .c-btn{width:40px;height:40px;border:1px solid rgba(0,75,35,.3);background:transparent;cursor:none;display:flex;align-items:center;justify-content:center;transition:all .3s;color:var(--mid);flex-shrink:0}
     .c-btn:hover{background:var(--p);border-color:var(--p);color:#fff}
     .carousel-track-wrap{overflow:hidden}
     .carousel-track{display:flex;gap:1.4rem;transition:transform .55s cubic-bezier(.25,.46,.45,.94)}
 
-    .product-card{flex:0 0 calc(25% - 1.05rem);min-width:210px;background:var(--bg);overflow:hidden;position:relative;transition:transform .35s,box-shadow .35s;cursor:none}
-    .product-card:hover{transform:translateY(-5px);box-shadow:0 14px 36px rgba(44,4,4,.1)}
+    .product-card{flex:0 0 calc(25% - 1.05rem);min-width:210px;background:var(--bg);overflow:hidden;position:relative;transition:transform .35s,box-shadow .35s;cursor:none;border: 1px solid rgba(0,75,35,.05)}
+    .product-card:hover{transform:translateY(-5px);box-shadow:0 14px 36px rgba(0,31,14,.15);border-color:var(--pl)}
 
     .product-img{width:100%;aspect-ratio:3/4;position:relative;overflow:hidden;background:var(--bg2)}
     .product-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s cubic-bezier(.25,.46,.45,.94)}
     .product-card:hover .product-img img{transform:scale(1.04)}
-    .product-img-placeholder{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.8rem;background:linear-gradient(160deg,var(--bg2) 0%,#C7B8AD 100%)}
-    .product-img-placeholder svg{opacity:.25}
-    .product-img-placeholder span{font-size:.4rem;letter-spacing:.3em;text-transform:uppercase;color:var(--mid);opacity:.6}
     
-    .product-img::after{content:'';position:absolute;inset:0;background:linear-gradient(120deg,transparent 30%,rgba(255,255,255,.2) 50%,transparent 70%);transform:translateX(-100%);transition:transform .6s;pointer-events:none}
+    .product-img::after{content:'';position:absolute;inset:0;background:linear-gradient(120deg,transparent 30%,rgba(255,255,255,.3) 50%,transparent 70%);transform:translateX(-100%);transition:transform .6s;pointer-events:none}
     .product-card:hover .product-img::after{transform:translateX(100%)}
 
-    .product-badge{position:absolute;top:.9rem;left:.9rem;font-size:.44rem;letter-spacing:.3em;text-transform:uppercase;background:#fff;color:var(--p);padding:.28rem .65rem;z-index:1}
+    .product-badge{position:absolute;top:.9rem;left:.9rem;font-size:.44rem;letter-spacing:.3em;text-transform:uppercase;background:var(--blue);color:#fff;padding:.28rem .65rem;z-index:1;font-weight:600}
     .product-body{padding:1.1rem 1.1rem 1.4rem}
-    .product-name{font-family:'Syne',sans-serif;font-size:.88rem;color:var(--ink);font-weight:400;margin-bottom:.35rem}
+    .product-name{font-family:'Syne',sans-serif;font-size:.9rem;color:var(--ink);font-weight:700;margin-bottom:.35rem}
     .product-desc{font-size:.67rem;color:var(--mid);letter-spacing:.05em;line-height:1.7}
     .product-footer{display:flex;align-items:center;justify-content:space-between;margin-top:1rem}
-    .product-price{font-family:'Syne',sans-serif;font-size:.95rem;color:var(--pd);font-weight:500}
-    .product-link{font-size:.5rem;letter-spacing:.3em;text-transform:uppercase;color:var(--p);text-decoration:none;cursor:none;border-bottom:1px solid rgba(105,15,15,.28);padding-bottom:.1rem;transition:color .3s,border-color .3s}
-    .product-link:hover{color:var(--pd);border-color:var(--pd)}
+    .product-price{font-family:'Syne',sans-serif;font-size:1rem;color:var(--p);font-weight:700}
+    .product-link{font-size:.52rem;letter-spacing:.3em;text-transform:uppercase;color:var(--blue);text-decoration:none;cursor:none;border-bottom:2px solid var(--pl);padding-bottom:.1rem;transition:color .3s,border-color .3s;font-weight:700}
+    .product-link:hover{color:var(--p);border-color:var(--p)}
     .carousel-dots{display:flex;gap:.45rem;justify-content:center;margin-top:2rem}
-    .c-dot{width:5px;height:5px;border-radius:50%;background:rgba(105,15,15,.2);border:none;cursor:none;transition:background .3s,transform .3s}
+    .c-dot{width:6px;height:6px;border-radius:50%;background:rgba(0,75,35,.2);border:none;cursor:none;transition:background .3s,transform .3s}
     .c-dot.active{background:var(--p);transform:scale(1.4)}
 
-    #founders{background:var(--bg2);overflow:hidden}
+    #founders{background:var(--bg2);position:relative}
     .founders-layout{display:grid;grid-template-columns:1fr 1fr;min-height:560px}
 
-    .founders-photos{display:grid;grid-template-columns:1fr 1fr;gap:3px;background:#C7B8AD}
-    .founder-slot{aspect-ratio:3/4;position:relative;overflow:hidden;background:linear-gradient(160deg,var(--bg2),#C7B8AD);display:flex;align-items:center;justify-content:center}
+    .founders-photos{display:grid;grid-template-columns:1fr 1fr;gap:3px;background:rgba(0,75,35,.1)}
+    .founder-slot{aspect-ratio:3/4;position:relative;overflow:hidden;background:var(--bg);display:flex;align-items:center;justify-content:center}
     .founder-slot img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease}
     .founder-slot:hover img{transform:scale(1.04)}
-    .founder-slot-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.7rem;width:100%;height:100%;padding:1.5rem}
-    .founder-slot-placeholder svg{opacity:.2}
-    .founder-slot-placeholder span{font-size:.38rem;letter-spacing:.3em;text-transform:uppercase;color:var(--mid);text-align:center;line-height:1.8;opacity:.7}
-    .founder-overlay{position:absolute;bottom:0;left:0;right:0;padding:.6rem .8rem;background:linear-gradient(transparent,rgba(44,4,4,.55));opacity:0;transition:opacity .35s}
+    
+    .founder-overlay{position:absolute;bottom:0;left:0;right:0;padding:.6rem .8rem;background:linear-gradient(transparent,rgba(0,31,14,.8));opacity:0;transition:opacity .35s}
     .founder-slot:hover .founder-overlay{opacity:1}
-    .founder-overlay-name{font-family:'Syne',sans-serif;font-size:.72rem;color:#fff;font-weight:400}
-    .founder-overlay-role{font-size:.42rem;letter-spacing:.25em;text-transform:uppercase;color:rgba(255,255,255,.6)}
+    .founder-overlay-name{font-family:'Syne',sans-serif;font-size:.72rem;color:#fff;font-weight:700}
+    .founder-overlay-role{font-size:.42rem;letter-spacing:.25em;text-transform:uppercase;color:var(--pl);font-weight:600}
 
     .founders-content{padding:clamp(3rem,6vw,5rem) clamp(2rem,5vw,4rem);display:flex;flex-direction:column;justify-content:center;gap:2rem;background:#fff}
-    .founders-quote{border-left:2px solid var(--p);padding-left:1.5rem;margin-top:1rem}
-    .founders-quote p{font-family:'Syne',sans-serif;font-size:clamp(1rem,2vw,1.3rem);color:var(--ink);font-weight:300;line-height:1.6;font-style:italic}
-    .founders-quote cite{font-size:.52rem;letter-spacing:.35em;text-transform:uppercase;color:var(--p);display:block;margin-top:.9rem;font-style:normal}
+    .founders-quote{border-left:3px solid var(--pl);padding-left:1.5rem;margin-top:1rem}
+    .founders-quote p{font-family:'Syne',sans-serif;font-size:clamp(1rem,2vw,1.3rem);color:var(--ink);font-weight:400;line-height:1.6;font-style:italic}
+    .founders-quote cite{font-size:.52rem;letter-spacing:.35em;text-transform:uppercase;color:var(--blue);display:block;margin-top:.9rem;font-style:normal;font-weight:700}
 
     #como-funciona{background:#fff}
     .steps-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.4rem}
-    .step-card{padding:2rem 1.6rem 2.2rem;border-top:2px solid rgba(105,15,15,.1);background:var(--bg);transition:border-color .35s,background .35s;position:relative}
-    .step-card:hover{border-color:var(--p);background:#fff}
-    .step-num{font-family:'Syne',sans-serif;font-size:2.6rem;color:rgba(105,15,15,.15);font-weight:700;line-height:1;margin-bottom:1.1rem}
-    .step-icon{width:36px;height:36px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(105,15,15,.2);color:var(--p);margin-bottom:1rem}
-    .step-title{font-family:'Syne',sans-serif;font-size:.85rem;color:var(--ink);font-weight:400;margin-bottom:.65rem}
+    .step-card{padding:2rem 1.6rem 2.2rem;border-top:3px solid rgba(0,75,35,.1);background:var(--bg);transition:border-color .35s,background .35s;position:relative;cursor:none}
+    .step-card:hover{border-color:var(--pl);background:#fff}
+    .step-num{font-family:'Syne',sans-serif;font-size:2.6rem;color:rgba(0,75,35,.15);font-weight:800;line-height:1;margin-bottom:1.1rem}
+    .step-icon{width:36px;height:36px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(0,75,35,.2);color:var(--p);margin-bottom:1rem}
+    .step-title{font-family:'Syne',sans-serif;font-size:.85rem;color:var(--ink);font-weight:700;margin-bottom:.65rem}
     .step-desc{font-size:.67rem;color:var(--mid);letter-spacing:.04em;line-height:1.85}
 
-    #vendas{background:var(--ink);position:relative;overflow:hidden}
-    #vendas::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,#2C0404 0%,var(--pd) 100%);opacity:.95}
+    #vendas{background:var(--pd);position:relative;overflow:hidden}
+    #vendas::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--pd) 0%,var(--blue) 100%);opacity:.95}
     #vendas::after{content:'';position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.05) 1px,transparent 1px);background-size:38px 38px;mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black,transparent)}
     .vendas-inner{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
     .vendas-eyebrow{display:flex;align-items:center;gap:.8rem;margin-bottom:1.8rem}
-    .vendas-eyebrow-dot{width:8px;height:8px;border-radius:50%;background:#4ade80;box-shadow:0 0 10px rgba(74,222,128,.5)}
-    .vendas-eyebrow span{font-size:.48rem;letter-spacing:.5em;text-transform:uppercase;color:rgba(255,255,255,.45)}
-    .vendas-title{font-family:'Syne',sans-serif;font-size:clamp(2rem,4vw,3.2rem);color:#fff;line-height:1.1;font-weight:300;margin-bottom:1.4rem}
+    .vendas-eyebrow-dot{width:8px;height:8px;border-radius:50%;background:var(--pl);box-shadow:0 0 10px var(--pl)}
+    .vendas-eyebrow span{font-size:.48rem;letter-spacing:.5em;text-transform:uppercase;color:rgba(255,255,255,0.7);font-weight:600}
+    .vendas-title{font-family:'Syne',sans-serif;font-size:clamp(2rem,4vw,3.2rem);color:#fff;line-height:1.1;font-weight:800;margin-bottom:1.4rem;text-transform:uppercase}
     .vendas-title em{font-style:normal;color:var(--pl)}
-    .vendas-desc{font-size:.78rem;color:rgba(244,247,252,.55);letter-spacing:.06em;line-height:2;margin-bottom:2.2rem}
-    .vendas-cta{display:inline-flex;align-items:center;gap:.8rem;font-size:.54rem;letter-spacing:.4em;text-transform:uppercase;color:var(--ink);background:#fff;text-decoration:none;padding:1rem 2.6rem;transition:background .3s,transform .3s;cursor:none}
-    .vendas-cta:hover{background:var(--bg);transform:translateY(-2px)}
+    .vendas-desc{font-size:.78rem;color:rgba(244,247,252,.7);letter-spacing:.06em;line-height:2;margin-bottom:2.2rem}
+    .vendas-cta{display:inline-flex;align-items:center;gap:.8rem;font-size:.54rem;letter-spacing:.4em;text-transform:uppercase;color:var(--pd);background:var(--pl);text-decoration:none;padding:1rem 2.6rem;transition:background .3s,transform .3s;cursor:none;font-weight:700}
+    .vendas-cta:hover{background:#fff;transform:translateY(-2px)}
 
     .vendas-cards{display:flex;flex-direction:column;gap:.8rem}
-    .vendas-card{display:flex;align-items:flex-start;gap:1rem;padding:1.1rem 1.3rem;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.07);transition:background .3s,border-color .3s}
-    .vendas-card:hover{background:rgba(255,255,255,.1);border-color:rgba(105,15,15,.3)}
-    .vendas-card-icon{width:36px;height:36px;border:1px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--pl)}
-    .vendas-card strong{font-family:'Syne',sans-serif;font-size:.78rem;color:#fff;font-weight:400;display:block;margin-bottom:.2rem}
-    .vendas-card p{font-size:.66rem;color:rgba(255,255,255,.5);letter-spacing:.04em;line-height:1.6}
+    .vendas-card{display:flex;align-items:flex-start;gap:1rem;padding:1.1rem 1.3rem;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);transition:background .3s,border-color .3s;cursor:none}
+    .vendas-card:hover{background:rgba(255,255,255,.1);border-color:var(--pl)}
+    .vendas-card-icon{width:36px;height:36px;border:1px solid rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--pl)}
+    .vendas-card strong{font-family:'Syne',sans-serif;font-size:.78rem;color:#fff;font-weight:700;display:block;margin-bottom:.2rem}
+    .vendas-card p{font-size:.66rem;color:rgba(255,255,255,.6);letter-spacing:.04em;line-height:1.6}
 
-    footer{background:#2C0404;padding:5rem clamp(1.5rem,6vw,5rem) 2.5rem;color:rgba(244,247,252,.5)}
+    footer{background:var(--pd);padding:5rem clamp(1.5rem,6vw,5rem) 2.5rem;color:rgba(244,247,252,.5);border-top:1px solid rgba(255,255,255,.05)}
     .footer-top{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:2.5rem;padding-bottom:3.5rem;border-bottom:1px solid rgba(244,247,252,.07)}
-    .footer-logo{font-family:'Syne',sans-serif;font-weight:300;font-size:clamp(2.5rem,5vw,4rem);color:#fff;line-height:1}
-    .footer-logo .reg{color:var(--p);font-size:.38em;vertical-align:super;font-family:'Jost',sans-serif}
-    .footer-tagline{font-size:.52rem;letter-spacing:.2em;margin-top:.5rem;color:rgba(244,247,252,.28)}
+    .footer-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(2.5rem,5vw,4rem);color:#fff;line-height:1}
+    .footer-logo .reg{color:var(--pl);font-size:.38em;vertical-align:super;font-family:'Jost',sans-serif}
+    .footer-tagline{font-size:.52rem;letter-spacing:.2em;margin-top:.5rem;color:var(--pl);font-weight:600;text-transform:uppercase}
     .footer-links{display:flex;flex-direction:column;gap:.7rem;align-items:flex-end}
-    .footer-link{font-size:.5rem;letter-spacing:.35em;text-transform:uppercase;color:rgba(244,247,252,.3);text-decoration:none;transition:color .3s;cursor:none}
-    .footer-link:hover{color:var(--p)}
-    .soc-icon{width:32px;height:32px;border-radius:50%;border:1px solid rgba(244,247,252,.1);display:flex;align-items:center;justify-content:center;transition:all .3s;cursor:none;color:rgba(244,247,252,.35)}
-    .soc-icon:hover{border-color:var(--p);color:var(--p)}
+    .footer-link{font-size:.5rem;letter-spacing:.35em;text-transform:uppercase;color:rgba(244,247,252,.6);text-decoration:none;transition:color .3s;cursor:none}
+    .footer-link:hover{color:var(--pl)}
     .footer-bottom{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.5rem;padding-top:2.5rem}
-    .footer-copy{font-size:.46rem;letter-spacing:.25em;text-transform:uppercase;color:rgba(244,247,252,.18)}
+    .footer-copy{font-size:.46rem;letter-spacing:.25em;text-transform:uppercase;color:rgba(244,247,252,.3)}
     .footer-vals{display:flex;gap:1rem}
-    .footer-val{font-size:.46rem;letter-spacing:.35em;text-transform:uppercase;color:rgba(105,15,15,.4)}
+    .footer-val{font-size:.46rem;letter-spacing:.35em;text-transform:uppercase;color:var(--pl);font-weight:600}
 
     .wapp-float{position:fixed;bottom:2rem;right:2rem;z-index:200;width:52px;height:52px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 18px rgba(37,211,102,.35);transition:transform .3s,box-shadow .3s;cursor:none;text-decoration:none}
     .wapp-float:hover{transform:scale(1.1);box-shadow:0 6px 24px rgba(37,211,102,.5)}
@@ -242,7 +248,7 @@
     @media(max-width:768px){
       #dot,#ring{display:none}
       body{cursor:auto}
-      nav.scrolled{background:rgba(228,214,201,.97)}
+      nav.scrolled{background:rgba(244,247,244,.97)}
       .nav-links{display:none}
       .nav-cta-btn{display:none}
       .footer-top{flex-direction:column;align-items:flex-start}
@@ -265,14 +271,14 @@
     <a href="#como-funciona" class="nav-link">Como Funciona</a>
     <a href="#footer" class="nav-link">Contato</a>
   </div>
-  <a href="https://api.whatsapp.com/send/?phone=82993689706" target="_blank" class="nav-cta-btn">Pedir →</a>
+  <a href="https://api.whatsapp.com/send/?phone=82993689706" target="_blank" class="nav-cta-btn">Pedir Lote →</a>
 </nav>
 
 <section id="hero">
-  <!-- Texto e Slogan Totalmente Fixados por cima das fotos -->
+  <!-- Frase Fixa com Temática de Copa do Mundo Premium -->
   <div class="hero-fixed-phrase">
-    <h1>valentines day xapn</h1>
-    <p>vestida de graça — peças com propósito</p>
+    <h1>copa do mundo <span>xapn</span></h1>
+    <p>vestida de orgulho — nossa garra, nosso propósito</p>
   </div>
 
   <button class="hero-nav-btn" id="hero-prev" aria-label="Slide anterior">
@@ -282,30 +288,29 @@
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="9 18 15 12 9 6"/></svg>
   </button>
 
-  <!-- Carrossel Exibindo Fotos das Roupas do Catálogo -->
   <div class="hero-carousel-container" id="hero-track">
     <div class="hero-slide">
       <div class="hero-inner">
-        <h2 class="hero-prod-title syne">T-shirt Xapn Premium</h2>
-        <a href="https://api.whatsapp.com/send/?phone=82993689706" target="_blank" class="hero-cta">Garantir Peça</a>
+        <h2 class="hero-prod-title syne">T-shirt Xapn Canarinho</h2>
+        <a href="https://api.whatsapp.com/send/?phone=82993689706" target="_blank" class="hero-cta">Garantir Manto</a>
       </div>
     </div>
     <div class="hero-slide">
       <div class="hero-inner">
-        <h2 class="hero-prod-title syne">T-shirt Xapn Graça</h2>
-        <a href="https://api.whatsapp.com/send/?phone=82993689706" target="_blank" class="hero-cta">Garantir Peça</a>
+        <h2 class="hero-prod-title syne">T-shirt Xapn Brasil Amarela</h2>
+        <a href="https://api.whatsapp.com/send/?phone=82993689706" target="_blank" class="hero-cta">Garantir Manto</a>
       </div>
     </div>
     <div class="hero-slide">
       <div class="hero-inner">
-        <h2 class="hero-prod-title syne">T-shirt Xapn Brasa</h2>
-        <a href="https://api.whatsapp.com/send/?phone=82993689706" target="_blank" class="hero-cta">Garantir Peça</a>
+        <h2 class="hero-prod-title syne">T-shirt Xapn Azul Hexa</h2>
+        <a href="https://api.whatsapp.com/send/?phone=82993689706" target="_blank" class="hero-cta">Garantir Manto</a>
       </div>
     </div>
     <div class="hero-slide">
       <div class="hero-inner">
-        <h2 class="hero-prod-title syne">T-shirt Xapn Blue</h2>
-        <a href="https://api.whatsapp.com/send/?phone=82993689706" target="_blank" class="hero-cta">Garantir Peça</a>
+        <h2 class="hero-prod-title syne">T-shirt Xapn Premium Verde</h2>
+        <a href="https://api.whatsapp.com/send/?phone=82993689706" target="_blank" class="hero-cta">Garantir Manto</a>
       </div>
     </div>
   </div>
@@ -318,13 +323,13 @@
 
 <div class="marquee-section">
   <div class="marquee-track">
-    <span>Graça</span><span class="sep">✦</span>
-    <span>Fé</span><span class="sep">✦</span>
+    <span>Nossa Garra</span><span class="sep">✦</span>
+    <span>Brasil Core</span><span class="sep">✦</span>
     <span>Charis</span><span class="sep">✦</span>
-    <span>Vestida de Graça</span><span class="sep">✦</span>
+    <span>Manto Exclusivo</span><span class="sep">✦</span>
     <span>Moda com Propósito</span><span class="sep">✦</span>
-    <span>xapn® 2026</span><span class="sep">✦</span>
-    <span>Unidade</span><span class="sep">✦</span>
+    <span>xapn® na Copa 2026</span><span class="sep">✦</span>
+    <span>Unidade Brasileira</span><span class="sep">✦</span>
     <span>Autenticidade</span><span class="sep">✦</span>
   </div>
 </div>
@@ -335,8 +340,8 @@
   <div class="wrap">
     <div class="produtos-header">
       <div>
-        <p class="label reveal" style="margin-bottom:.8rem">Coleção 2026</p>
-        <h2 class="main-heading reveal" style="transition-delay:.1s">Nossas <em>peças</em></h2>
+        <p class="label reveal" style="margin-bottom:.8rem">Edição Especial 2026</p>
+        <h2 class="main-heading reveal" style="transition-delay:.1s">Nossos <em>Mantos</em></h2>
       </div>
       <div class="carousel-nav reveal" style="transition-delay:.2s">
         <button class="c-btn" id="prev" aria-label="anterior">
@@ -353,68 +358,60 @@
 
         <div class="product-card">
           <div class="product-img">
-            <div class="product-img-placeholder">
-              <span><img src="img/WhatsApp Image 2026-06-09 at 22.21.17 (1).jpeg" alt="" style="width:100%;height:100%;object-fit:cover"></span>
-            </div>
-            <span class="product-badge">Nova</span>
+            <img src="img/WhatsApp Image 2026-06-09 at 22.21.17 (1).jpeg" alt="T-shirt Canarinho">
+            <span class="product-badge">Lançamento</span>
           </div>
           <div class="product-body">
-            <div class="product-name">T-shirt Xapn Premium</div>
-            <div class="product-desc">Camiseta T-shirt em algodão premium. Bordado exclusivo xapn no peito.</div>
+            <div class="product-name">T-shirt Xapn Canarinho</div>
+            <div class="product-desc">Edição especial Copa. Algodão egípcio com toque leve e as cores da nossa bandeira.</div>
             <div class="product-footer">
               <span class="product-price">R$ 49,99</span>
-              <a href="https://api.whatsapp.com/send/?phone=82993689706" target="_blank" class="product-link">Pedir →</a>
+              <a href="https://api.whatsapp.com/send/?phone=82993689706" target="_blank" class="product-link">Comprar →</a>
             </div>
           </div>
         </div>
 
         <div class="product-card">
           <div class="product-img">
-            <div class="product-img-placeholder">
-              <span><img src="img/WhatsApp Image 2026-06-09 at 22.21.17 (2).jpeg" alt="" style="width:100%;height:100%;object-fit:cover"></span>
-            </div>
-            <span class="product-badge">Destaque</span>
+            <img src="img/WhatsApp Image 2026-06-09 at 22.21.17 (2).jpeg" alt="T-shirt Brasil Amarela">
+            <span class="product-badge">Favorita</span>
           </div>
           <div class="product-body">
-            <div class="product-name">T-shirt Xapn Graça</div>
-            <div class="product-desc">T-shirt Graça. Qualidade premium.</div>
+            <div class="product-name">T-shirt Xapn Amarela</div>
+            <div class="product-desc">Bordado exclusivo em alta definição. Perfeita para vibrar com estilo e elegância.</div>
             <div class="product-footer">
               <span class="product-price">R$ 49,99</span>
-              <a href="https://api.whatsapp.com/send/?phone=82993689706" target="_blank" class="product-link">Pedir →</a>
+              <a href="https://api.whatsapp.com/send/?phone=82993689706" target="_blank" class="product-link">Comprar →</a>
             </div>
           </div>
         </div>
 
         <div class="product-card">
           <div class="product-img">
-            <div class="product-img-placeholder">
-              <span><img src="img/WhatsApp Image 2026-06-09 at 22.21.17 (3).jpeg" alt="" style="width:100%;height:100%;object-fit:cover"></span>
-            </div>
-            <span class="product-badge">Limited</span>
+            <img src="img/WhatsApp Image 2026-06-09 at 22.21.17 (3).jpeg" alt="T-shirt Azul Hexa">
+            <span class="product-badge">Limitada</span>
           </div>
           <div class="product-body">
-            <div class="product-name">T-shirt Xapn Cristo</div>
-            <div class="product-desc">Exclusiva.</div>
+            <div class="product-name">T-shirt Xapn Azul Hexa</div>
+            <div class="product-desc">Tonalidade azul royal premium com detalhes dourados minimalistas. Lote único.</div>
             <div class="product-footer">
               <span class="product-price">R$ 49,99</span>
-              <a href="https://api.whatsapp.com/send/?phone=82993689706" target="_blank" class="product-link">Pedir →</a>
+              <a href="https://api.whatsapp.com/send/?phone=82993689706" target="_blank" class="product-link">Comprar →</a>
             </div>
           </div>
         </div>
 
         <div class="product-card">
           <div class="product-img">
-            <div class="product-img-placeholder">
-              <span><img src="img/WhatsApp Image 2026-06-09 at 22.21.17 (4).jpeg" alt="" style="width:100%;height:100%;object-fit:cover"></span>
-            </div>
-            <span class="product-badge">Nova</span>
+            <img src="img/WhatsApp Image 2026-06-09 at 22.21.17 (4).jpeg" alt="T-shirt Verde">
+            <span class="product-badge">Exclusiva</span>
           </div>
           <div class="product-body">
-            <div class="product-name">T-shirt Xapn Blue</div>
-            <div class="product-desc">T-shirt feminina. Algodão suave.</div>
+            <div class="product-name">T-shirt Premium Verde</div>
+            <div class="product-desc">Algodão sustentável em tom verde floresta profundo. Estilo casual refinado.</div>
             <div class="product-footer">
               <span class="product-price">R$ 49,99</span>
-              <a href="https://api.whatsapp.com/send/?phone=82993689706" target="_blank" class="product-link">Pedir →</a>
+              <a href="https://api.whatsapp.com/send/?phone=82993689706" target="_blank" class="product-link">Comprar →</a>
             </div>
           </div>
         </div>
@@ -431,36 +428,28 @@
   <div class="founders-layout">
     <div class="founders-photos">
       <div class="founder-slot">
-        <div class="founder-slot-placeholder">
-          <code><img src="img2/WhatsApp Image 2026-05-23 at 14.33.45 (1).jpeg" alt="" style="width:100%;height:100%;object-fit:cover"></code>
-        </div>
+        <img src="img2/WhatsApp Image 2026-05-23 at 14.33.45 (1).jpeg" alt="Jaciara">
         <div class="founder-overlay">
           <div class="founder-overlay-name">Jaciara</div>
           <div class="founder-overlay-role">Co-fundadora</div>
         </div>
       </div>
       <div class="founder-slot">
-        <div class="founder-slot-placeholder">
-          <code><img src="img2/WhatsApp Image 2026-05-23 at 14.28.28 (1).jpeg" alt="" style="width:100%;height:100%;object-fit:cover"></code>
-        </div>
+        <img src="img2/WhatsApp Image 2026-05-23 at 14.28.28 (1).jpeg" alt="Jennifer">
         <div class="founder-overlay">
           <div class="founder-overlay-name">Jennifer</div>
           <div class="founder-overlay-role">Co-fundadora</div>
         </div>
       </div>
       <div class="founder-slot">
-        <div class="founder-slot-placeholder">
-          <code><img src="img2/WhatsApp Image 2026-05-23 at 17.04.41.jpeg" alt="" style="width:100%;height:100%;object-fit:cover"></code>
-        </div>
+        <img src="img2/WhatsApp Image 2026-05-23 at 17.04.41.jpeg" alt="Susanne">
         <div class="founder-overlay">
           <div class="founder-overlay-name">Susanne</div>
           <div class="founder-overlay-role">Co-fundadora</div>
         </div>
       </div>
       <div class="founder-slot">
-        <div class="founder-slot-placeholder">
-          <code><img src="img2/WhatsApp Image 2026-05-23 at 17.44.29.jpeg" alt="" style="width:100%;height:100%;object-fit:cover"></code>
-        </div>
+        <img src="img2/WhatsApp Image 2026-05-23 at 17.44.29.jpeg" alt="Ana Célia">
         <div class="founder-overlay">
           <div class="founder-overlay-name">Ana Célia</div>
           <div class="founder-overlay-role">Co-fundadora</div>
@@ -470,15 +459,15 @@
 
     <div class="founders-content">
       <div class="reveal">
-        <p class="label" style="margin-bottom:1.2rem">Origem & Significado</p>
+        <p class="label" style="margin-bottom:1.2rem">Origem & Identidade</p>
         <h2 class="main-heading" style="margin-bottom:1.8rem">Sobre a<br><em>xapn.</em></h2>
         <div class="main-text">
-          <p style="margin-bottom:1.2rem">A XAPN nasceu em 2023 a partir do sonho de quatro melhores amigas unidas não apenas pela amizade, mas por um propósito maior. Mais do que uma marca, somos a expressão de laços profundos firmados no amor de Cristo.</p>
-          <p>Nosso nome é inspirado em <strong>"charis"</strong> — a palavra grega para <em>graça</em>. Cada peça carrega esse significado: o favor imerecido de Deus que nos alcança, transforma e sustenta.</p>
+          <p style="margin-bottom:1.2rem">A XAPN nasceu em 2023 a partir do sonho de quatro melhores amigas unidas por um propósito maior. Nesta temporada de união nacional, transformamos nossa paixão pela moda em um grito de celebração e identidade.</p>
+          <p>Nosso nome é inspirado em <strong>"charis"</strong> — palavra grega para <em>graça</em>. Unimos a elegância desse conceito à vibração e garra do povo brasileiro.</p>
         </div>
       </div>
       <div class="founders-quote reveal" style="transition-delay:.15s">
-        <p>"Nascemos de quatro amigas. Crescemos como família. Vestimos com graça."</p>
+        <p>"Quatro amigas. Uma só torcida. Vestindo nossa nação com propósito e muita graça."</p>
         <cite>As fundadoras da xapn®</cite>
       </div>
     </div>
@@ -490,8 +479,8 @@
 <section id="como-funciona" class="section">
   <div class="wrap">
     <div style="text-align:center;margin-bottom:3.5rem">
-      <p class="label reveal" style="margin-bottom:.9rem;display:block">Simples assim</p>
-      <h2 class="main-heading reveal" style="transition-delay:.1s">Como <em>funciona</em></h2>
+      <p class="label reveal" style="margin-bottom:.9rem;display:block">Passo a Passo</p>
+      <h2 class="main-heading reveal" style="transition-delay:.1s">Como <em>escalar</em> seu look</h2>
     </div>
     <div class="steps-grid reveal" style="transition-delay:.2s">
       <div class="step-card">
@@ -499,64 +488,68 @@
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
         </div>
         <div class="step-num">01</div>
-        <div class="step-title">Escolha sua peça</div>
-        <div class="step-desc">Navegue pelo catálogo e encontre a peça que fala com você. Cada item é produzido com intenção e cuidado.</div>
+        <div class="step-title">Escolha seu Manto</div>
+        <div class="step-desc">Selecione os modelos e tamanhos da Edição Especial Copa que combinam com sua energia de torcedora.</div>
       </div>
       <div class="step-card">
         <div class="step-icon">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
         </div>
         <div class="step-num">02</div>
-        <div class="step-title">Fale com a gente</div>
-        <div class="step-desc">Entre em contato pelo WhatsApp com o nome da peça, tamanho e quantidade. Atendimento rápido e personalizado.</div>
+        <div class="step-title">Convoque nossa Equipe</div>
+        <div class="step-desc">Chame a gente no WhatsApp informando as peças desejadas. Nosso atendimento entra em campo rápido.</div>
       </div>
       <div class="step-card">
         <div class="step-icon">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
         </div>
         <div class="step-num">03</div>
-        <div class="step-title">Confirme o pedido</div>
-        <div class="step-desc">Combinamos a forma de pagamento e confirmamos seu pedido. Aceitamos Pix, cartão e transferência.</div>
+        <div class="step-title">Confirme o Pedido</div>
+        <div class="step-desc">Defina a melhor forma de pagamento (Pix, Cartão ou Transferência) para garantir a segurança da transação.</div>
       </div>
       <div class="step-card">
         <div class="step-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 12V22H4V12"/><path d="M22 7H2v5h20V7z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
         </div>
         <div class="step-num">04</div>
-        <div class="step-title">Receba com graça</div>
-        <div class="step-desc">Sua peça é preparada com carinho e entregue diretamente para você — ou retirada com a gente.</div>
+        <div class="step-title">Golaço na Entrega</div>
+        <div class="step-desc">Enviamos direto para sua casa em embalagem premium e temática para você estrear na hora dos jogos!</div>
       </div>
     </div>
   </div>
 </section>
 
-<section id="vendas" class="section">
-  <div class="wrap">
-    <div class="vendas-inner">
-      <div class="reveal">
-        <div class="vendas-eyebrow">
-          <div class="vendas-eyebrow-dot"></div>
-          <span>Vendas abertas agora</span>
-        </div>
-        <h2 class="vendas-title">Sua peça favorita<br><em>esperando por você.</em></h2>
-        <p class="vendas-desc">A coleção já está disponível para compra. Cada peça é produzida com atenção e cuidado. Garanta a sua antes que esgote.</p>
-        <a href="https://api.whatsapp.com/send/?phone=82993689706" target="_blank" class="vendas-cta">Fazer Pedido →</a>
-      </div>
+<div class="hdiv"></div>
 
-      <div class="vendas-cards reveal" style="transition-delay:.15s">
-        <div class="vendas-card">
-          <div class="vendas-card-icon">🔑</div>
-          <div>
-            <strong>Qualidade Garantida</strong>
-            <p>Algodão premium, acabamento artesanal e bordado exclusivo em cada peça.</p>
-          </div>
+<section id="vendas" class="section">
+  <div class="wrap vendas-inner">
+    <div class="reveal">
+      <div class="vendas-eyebrow">
+        <div class="vendas-eyebrow-dot"></div>
+        <span>Lote Oficial Da Seleção</span>
+      </div>
+      <h2 class="vendas-title">Vista o orgulho da nossa <em>pátria</em>.</h2>
+      <p class="vendas-desc">Edições limitadas para a temporada mais aguardada do ano. Vista-se com a sofisticação da xapn® e torça de um jeito único.</p>
+      <a href="https://api.whatsapp.com/send/?phone=82993689706" target="_blank" class="vendas-cta">Garantir Lote no WhatsApp →</a>
+    </div>
+
+    <div class="vendas-cards reveal" style="transition-delay:.15s">
+      <div class="vendas-card">
+        <div class="vendas-card-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"></polygon><line x1="12" y1="22" x2="12" y2="15.5"></line><polyline points="22 8.5 12 15.5 2 8.5"></polyline><polyline points="2 8.5 12 2 22 8.5"></polyline></svg>
         </div>
-        <div class="vendas-card">
-          <div class="vendas-card-icon">⚡</div>
-          <div>
-            <strong>Entrega Rápida</strong>
-            <p>Prazo combinado na hora do pedido.</p>
-          </div>
+        <div>
+          <strong>Qualidade de Atleta</strong>
+          <p>Modelagens anatômicas de extremo conforto feitas para você celebrar o dia inteiro.</p>
+        </div>
+      </div>
+      <div class="vendas-card">
+        <div class="vendas-card-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+        </div>
+        <div>
+          <strong>Estoque Exclusivo</strong>
+          <p>Produção artesanal e numerada. Evite cópias e garanta o design autêntico.</p>
         </div>
       </div>
     </div>
@@ -568,79 +561,122 @@
     <div class="footer-top">
       <div>
         <div class="footer-logo syne">xapn<span class="reg">®</span></div>
-        <div class="footer-tagline">Refletindo a graça de Deus em cada detalhe.</div>
+        <p class="footer-tagline">vestida de graça — Brasil Core 2026</p>
+      </div>
+      <div class="footer-links">
+        <a href="#produtos" class="footer-link">Coleção Copa</a>
+        <a href="#founders" class="footer-link">Nossa História</a>
+        <a href="https://api.whatsapp.com/send/?phone=82993689706" target="_blank" class="footer-link">Suporte Técnico</a>
       </div>
     </div>
     <div class="footer-bottom">
-      <div class="footer-copy">© 2026 xapn® — Todos os direitos reservados</div>
+      <div class="footer-copy">© 2026 xapn®. Feito no Brasil. Todos os direitos reservados.</div>
+      <div class="footer-vals">
+        <span class="footer-val">Verde</span>
+        <span class="footer-val">Amarelo</span>
+        <span class="footer-val">Graça</span>
+      </div>
     </div>
   </div>
 </footer>
 
-<a href="https://api.whatsapp.com/send/?phone=82993689706" target="_blank" class="wapp-float" aria-label="Comprar pelo WhatsApp">
-  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+<a href="https://api.whatsapp.com/send/?phone=82993689706" target="_blank" class="wapp-float" aria-label="Contato pelo WhatsApp">
+  <svg viewBox="0 0 32 32">
+    <path d="M16 2a13 13 0 0 0-11.3 19.4L3 29l7.8-2A13 13 0 1 0 16 2zm6.8 18.2c-.3.9-1.7 1.7-2.4 1.8-.7.1-1.6.2-4.6-1-3-1.2-5-4.3-5.1-4.5-.1-.2-1-1.4-1-2.7 0-1.3.7-1.9.9-2.2.3-.3.6-.4.8-.4h.5c.2 0 .4-.1.6.4.2.5.8 2 .9 2.2.1.2.1.4-.1.7-.2.3-.3.4-.5.7-.2.2-.4.5-.2.8.3.6.8 1.2 1.5 1.8.9.8 1.7 1.1 2 1.2.3.1.5.1.7-.1.2-.3.9-1 1.1-1.4.2-.4.4-.3.7-.2.3.1 2 1 2.3 1.2.3.1.5.3.4.5a3.9 3.9 0 0 1-1.6 2.3z"/>
+  </svg>
 </a>
 
 <script>
-// Lógica do Cursor Customizado
+// ==========================================
+// 1. LÓGICA DO CURSOR CUSTOMIZADO (LERP)
+// ==========================================
 const dot = document.getElementById('dot');
 const ring = document.getElementById('ring');
-let mx=0,my=0,rx=0,ry=0;
-document.addEventListener('mousemove',e=>{
-  mx=e.clientX; my=e.clientY;
-  dot.style.left=mx+'px'; dot.style.top=my+'px';
+let mx = 0, my = 0, rx = 0, ry = 0;
+
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; 
+  my = e.clientY;
+  dot.style.left = mx + 'px'; 
+  dot.style.top = my + 'px';
 });
+
 (function loop(){
-  rx+=(mx-rx)*.14; ry+=(my-ry)*.14;
-  ring.style.left=rx+'px'; ring.style.top=ry+'px';
+  rx += (mx - rx) * 0.14; 
+  ry += (my - ry) * 0.14;
+  ring.style.left = rx + 'px'; 
+  ring.style.top = ry + 'px';
   requestAnimationFrame(loop);
 })();
-document.querySelectorAll('a,button,.product-card,.founder-slot,.step-card,.vendas-card').forEach(el=>{
-  el.addEventListener('mouseenter',()=>{
-    dot.style.transform='translate(-50%,-50%) scale(2.2)';
-    dot.style.background='var(--pd)';
-    ring.style.transform='translate(-50%,-50%) scale(1.5)';
+
+document.querySelectorAll('a, button, .product-card, .founder-slot, .step-card, .vendas-card, .c-btn').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    dot.style.transform = 'translate(-50%, -50%) scale(2.2)';
+    dot.style.background = 'var(--blue)';
+    ring.style.transform = 'translate(-50%, -50%) scale(1.5)';
+    ring.style.borderColor = 'var(--pl)';
   });
-  el.addEventListener('mouseleave',()=>{
-    dot.style.transform='translate(-50%,-50%) scale(1)';
-    dot.style.background='var(--p)';
-    ring.style.transform='translate(-50%,-50%) scale(1)';
+  el.addEventListener('mouseleave', () => {
+    dot.style.transform = 'translate(-50%, -50%) scale(1)';
+    dot.style.background = 'var(--pl)';
+    ring.style.transform = 'translate(-50%, -50%) scale(1)';
+    ring.style.borderColor = 'rgba(0,75,35,.35)';
   });
 });
 
-// Lógica de Rolagem da Barra de Navegação
+// ==========================================
+// 2. NAVBAR SCROLL EFFECT
+// ==========================================
 const nav = document.getElementById('nav');
-window.addEventListener('scroll',()=>{
+window.addEventListener('scroll', () => {
   nav.classList.toggle('scrolled', window.scrollY > 60);
-},{passive:true});
+}, { passive: true });
 
-// NOVO: Gerador Dinâmico de Corações Flutuantes (Efeito Romântico Valentine's)
+// ==========================================
+// 3. NOVO: GERADOR DE ESTRELAS & BANDEIRAS DA SELEÇÃO (Fundo do Hero)
+// ==========================================
 const pc = document.getElementById('particles');
-if(pc){
-  for(let i=0;i<25;i++){
-    const heart = document.createElement('div');
-    heart.className = 'p-heart';
-    heart.innerHTML = '♥';
-    heart.style.cssText = `
+if (pc) {
+  const elementosCopa = ['✦', '🇧🇷', '✦', '⭐'];
+  for (let i = 0; i < 30; i++) {
+    const particle = document.createElement('div');
+    particle.className = 'p-heart';
+    particle.innerHTML = elementosCopa[Math.floor(Math.random() * elementosCopa.length)];
+    
+    if(particle.innerHTML === '✦' || particle.innerHTML === '⭐') {
+      particle.style.color = Math.random() > 0.5 ? 'var(--pl)' : '#fff';
+    }
+
+    particle.style.cssText += `
       left: ${Math.random() * 100}%;
       --dur: ${8 + Math.random() * 8}s;
       --delay: ${Math.random() * 6}s;
-      --drift: ${(Math.random() - 0.5) * 100}px;
-      --rot: ${(Math.random() - 0.5) * 90}deg;
-      --size: ${12 + Math.random() * 16}px;
+      --drift: ${(Math.random() - 0.5) * 120}px;
+      --rot: ${(Math.random() - 0.5) * 180}deg;
+      --size: ${14 + Math.random() * 18}px;
       --op: ${0.2 + Math.random() * 0.4};
     `;
-    pc.appendChild(heart);
+    pc.appendChild(particle);
   }
 }
 
-// Lógica de Revelação de Elementos (Scroll Reveal)
-const io = new IntersectionObserver(entries=>entries.forEach(e=>{
-  if(e.isIntersecting) e.target.classList.add('on');
-}),{threshold:.1,rootMargin:'0px 0px -40px 0px'});
-document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+// ==========================================
+// 4. SCROLL REVEAL (INTERSECTION OBSERVER)
+// ==========================================
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('on');
+      io.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
 
-// LÓGICA DO CARROSSEL DE PRODUTOS NO HERO
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+// ==========================================
+// 5. CARROSSEL DO HERO (BANNER ROTATIVO)
+// ==========================================
 const heroTrack = document.getElementById('hero-track');
 const heroSlides = document.querySelectorAll('.hero-slide');
 let heroCur = 0;
@@ -653,63 +689,98 @@ function goToHero(n) {
 document.getElementById('hero-prev').addEventListener('click', () => goToHero(heroCur - 1));
 document.getElementById('hero-next').addEventListener('click', () => goToHero(heroCur + 1));
 
-// Transição automática das roupas do catálogo a cada 4.5 segundos
-setInterval(() => {
-  goToHero(heroCur + 1);
-}, 4500);
+let heroInterval = setInterval(() => goToHero(heroCur + 1), 4500);
 
+document.querySelectorAll('#hero-prev, #hero-next').forEach(btn => {
+  btn.addEventListener('click', () => {
+    clearInterval(heroInterval);
+    heroInterval = setInterval(() => goToHero(heroCur + 1), 4500);
+  });
+});
 
-// Lógica do Carrossel de Produtos Inferior (Original Mantido)
+// ==========================================
+// 6. CARROSSEL DE VITRINE DE PRODUTOS
+// ==========================================
 const track = document.getElementById('track');
 const cards = track.querySelectorAll('.product-card');
 const dotsEl = document.getElementById('dots');
 let cur = 0;
 
-function getVis(){
-  const w = track.parentElement.offsetWidth;
-  if(w < 520) return 1;
-  if(w < 900) return 2;
+function getVis() {
+  const w = window.innerWidth;
+  if (w < 520) return 1;
+  if (w < 900) return 2;
   return 4;
 }
 
-function buildDots(total){
-  dotsEl.innerHTML='';
-  for(let i=0;i<total;i++){
+function maxIndex() {
+  return Math.max(0, cards.length - getVis());
+}
+
+function buildDots() {
+  dotsEl.innerHTML = '';
+  const totalDots = maxIndex() + 1;
+  if (totalDots <= 1) return;
+
+  for (let i = 0; i < totalDots; i++) {
     const d = document.createElement('button');
-    d.className = 'c-dot'+(i===cur?' active':'');
-    d.addEventListener('click',()=>goTo(i));
+    d.className = 'c-dot' + (i === cur ? ' active' : '');
+    d.ariaLabel = `Avançar tela ${i + 1}`;
+    d.addEventListener('click', () => goTo(i));
     dotsEl.appendChild(d);
   }
 }
 
-function goTo(n){
-  const vis = getVis();
-  const total = Math.ceil(cards.length/vis);
-  cur = Math.max(0, Math.min(n, total-1));
-  const gap = 22;
-  const cardW = cards[0].offsetWidth + gap;
-  track.style.transform = `translateX(-${cur*vis*cardW}px)`;
-  dotsEl.querySelectorAll('.c-dot').forEach((d,i)=>d.classList.toggle('active',i===cur));
+function goTo(n) {
+  const max = maxIndex();
+  cur = Math.max(0, Math.min(n, max));
+  
+  const cardW = cards[0].offsetWidth;
+  const gap = parseFloat(window.getComputedStyle(track).gap) || 0;
+  
+  const moveX = cur * (cardW + gap);
+  track.style.transform = `translateX(-${moveX}px)`;
+  
+  dotsEl.querySelectorAll('.c-dot').forEach((d, i) => d.classList.toggle('active', i === cur));
 }
 
-function init(){
-  cur=0;
-  track.style.transform='translateX(0)';
-  buildDots(Math.ceil(cards.length/getVis()));
-}
-
-document.getElementById('prev').addEventListener('click',()=>goTo(cur-1));
-document.getElementById('next').addEventListener('click',()=>goTo(cur+1));
-
-let sx=0;
-track.addEventListener('touchstart',e=>{sx=e.touches[0].clientX},{passive:true});
-track.addEventListener('touchend',e=>{
-  const d = sx - e.changedTouches[0].clientX;
-  if(Math.abs(d)>40) d>0 ? goTo(cur+1) : goTo(cur-1);
+document.getElementById('prev').addEventListener('click', () => {
+  if (cur === 0) goTo(maxIndex());
+  else goTo(cur - 1);
 });
 
-window.addEventListener('resize', init);
-init();
+document.getElementById('next').addEventListener('click', () => {
+  if (cur === maxIndex()) goTo(0);
+  else goTo(cur + 1);
+});
+
+let sx = 0, sy = 0;
+track.addEventListener('touchstart', e => {
+  sx = e.touches[0].clientX;
+  sy = e.touches[0].clientY;
+}, { passive: true });
+
+track.addEventListener('touchend', e => {
+  const dx = sx - e.changedTouches[0].clientX;
+  const dy = sy - e.changedTouches[0].clientY;
+  
+  if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
+    dx > 0 ? goTo(cur + 1) : goTo(cur - 1);
+  }
+});
+
+let resizeTimeout;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimeout);
+  resizeTimeout = setTimeout(() => {
+    cur = Math.min(cur, maxIndex());
+    buildDots();
+    goTo(cur);
+  }, 100);
+});
+
+buildDots();
+goTo(0);
 </script>
 </body>
 </html>
