@@ -104,6 +104,9 @@
     .hero-cta{font-size:.55rem;letter-spacing:.42em;text-transform:uppercase;color:#fff;background:var(--blue);text-decoration:none;padding:1rem 2.8rem;transition:background .3s,transform .3s;cursor:none;display:inline-block;font-weight:600;box-shadow: 0 4px 15px rgba(0,47,108,0.4)}
     .hero-cta:hover{background:var(--pl);color:var(--pd);transform:translateY(-2px)}
 
+    /* Ajuste do botão CTA para itens indisponíveis no banner */
+    .hero-slide.unavailable-product .hero-cta {background: #333; color: rgba(255,255,255,0.4); pointer-events: none;}
+
     /* Controles do Carrossel do Hero */
     .hero-nav-btn{position:absolute;top:50%;transform:translateY(-50%);z-index:10;background:transparent;border:none;color:rgba(255,255,255,0.6);cursor:none;padding:1rem;transition:color .3s}
     .hero-nav-btn:hover{color:var(--pl)}
@@ -150,24 +153,37 @@
     .carousel-track-wrap{overflow:hidden}
     .carousel-track{display:flex;gap:1.4rem;transition:transform .55s cubic-bezier(.25,.46,.45,.94)}
 
+    /* Estilização para Cards de Produtos Indisponíveis */
     .product-card{flex:0 0 calc(25% - 1.05rem);min-width:210px;background:var(--bg);overflow:hidden;position:relative;transition:transform .35s,box-shadow .35s;cursor:none;border: 1px solid rgba(0,75,35,.05)}
     .product-card:hover{transform:translateY(-5px);box-shadow:0 14px 36px rgba(0,31,14,.15);border-color:var(--pl)}
+    
+    .product-card.unavailable {opacity: 0.75;}
+    .product-card.unavailable:hover {border-color: #777; box-shadow: none; transform: none;}
 
     .product-img{width:100%;aspect-ratio:3/4;position:relative;overflow:hidden;background:var(--bg2)}
     .product-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s cubic-bezier(.25,.46,.45,.94)}
     .product-card:hover .product-img img{transform:scale(1.04)}
+    .product-card.unavailable .product-img img {filter: grayscale(40%); transform: none !important;}
     
     .product-img::after{content:'';position:absolute;inset:0;background:linear-gradient(120deg,transparent 30%,rgba(255,255,255,.3) 50%,transparent 70%);transform:translateX(-100%);transition:transform .6s;pointer-events:none}
     .product-card:hover .product-img::after{transform:translateX(100%)}
+    .product-card.unavailable .product-img::after {display: none;}
 
     .product-badge{position:absolute;top:.9rem;left:.9rem;font-size:.44rem;letter-spacing:.3em;text-transform:uppercase;background:var(--blue);color:#fff;padding:.28rem .65rem;z-index:1;font-weight:600}
+    .product-badge.soldout{background: #222; color: #bbb;}
+
     .product-body{padding:1.1rem 1.1rem 1.4rem}
     .product-name{font-family:'Syne',sans-serif;font-size:.9rem;color:var(--ink);font-weight:700;margin-bottom:.35rem}
+    .product-card.unavailable .product-name {color: #666;}
     .product-desc{font-size:.67rem;color:var(--mid);letter-spacing:.05em;line-height:1.7}
     .product-footer{display:flex;align-items:center;justify-content:space-between;margin-top:1rem}
     .product-price{font-family:'Syne',sans-serif;font-size:1rem;color:var(--p);font-weight:700}
+    .product-card.unavailable .product-price {color: #777; text-decoration: line-through;}
+    
     .product-link{font-size:.52rem;letter-spacing:.3em;text-transform:uppercase;color:var(--blue);text-decoration:none;cursor:none;border-bottom:2px solid var(--pl);padding-bottom:.1rem;transition:color .3s,border-color .3s;font-weight:700}
     .product-link:hover{color:var(--p);border-color:var(--p)}
+    .product-card.unavailable .product-link {color: #888; border-bottom-color: #999; pointer-events: none;}
+
     .carousel-dots{display:flex;gap:.45rem;justify-content:center;margin-top:2rem}
     .c-dot{width:6px;height:6px;border-radius:50%;background:rgba(0,75,35,.2);border:none;cursor:none;transition:background .3s,transform .3s}
     .c-dot.active{background:var(--p);transform:scale(1.4)}
@@ -289,28 +305,28 @@
   </button>
 
   <div class="hero-carousel-container" id="hero-track">
-    <div class="hero-slide">
+    <div class="hero-slide unavailable-product">
       <div class="hero-inner">
         <h2 class="hero-prod-title syne">T-shirt Xapn Canarinho</h2>
-        <a href="https://api.whatsapp.com/send/?phone=82993689706" target="_blank" class="hero-cta">Garantir Manto</a>
+        <a href="#" class="hero-cta">Esgotado</a>
       </div>
     </div>
-    <div class="hero-slide">
+    <div class="hero-slide unavailable-product">
       <div class="hero-inner">
         <h2 class="hero-prod-title syne">T-shirt Xapn Brasil Amarela</h2>
-        <a href="https://api.whatsapp.com/send/?phone=82993689706" target="_blank" class="hero-cta">Garantir Manto</a>
+        <a href="#" class="hero-cta">Esgotado</a>
       </div>
     </div>
-    <div class="hero-slide">
+    <div class="hero-slide unavailable-product">
       <div class="hero-inner">
         <h2 class="hero-prod-title syne">T-shirt Xapn Azul Hexa</h2>
-        <a href="https://api.whatsapp.com/send/?phone=82993689706" target="_blank" class="hero-cta">Garantir Manto</a>
+        <a href="#" class="hero-cta">Esgotado</a>
       </div>
     </div>
-    <div class="hero-slide">
+    <div class="hero-slide unavailable-product">
       <div class="hero-inner">
         <h2 class="hero-prod-title syne">T-shirt Xapn Premium Verde</h2>
-        <a href="https://api.whatsapp.com/send/?phone=82993689706" target="_blank" class="hero-cta">Garantir Manto</a>
+        <a href="#" class="hero-cta">Esgotado</a>
       </div>
     </div>
   </div>
@@ -356,62 +372,62 @@
     <div class="carousel-track-wrap reveal" style="transition-delay:.25s">
       <div class="carousel-track" id="track">
 
-        <div class="product-card">
+        <div class="product-card unavailable">
           <div class="product-img">
             <img src="img/WhatsApp Image 2026-06-09 at 22.21.17 (1).jpeg" alt="T-shirt Canarinho">
-            <span class="product-badge">Lançamento</span>
+            <span class="product-badge soldout">Indisponível</span>
           </div>
           <div class="product-body">
             <div class="product-name">T-shirt Xapn Canarinho</div>
             <div class="product-desc">Edição especial Copa. Algodão egípcio com toque leve e as cores da nossa bandeira.</div>
             <div class="product-footer">
               <span class="product-price">R$ 49,99</span>
-              <a href="https://api.whatsapp.com/send/?phone=82993689706" target="_blank" class="product-link">Comprar →</a>
+              <a href="#" class="product-link">Esgotado</a>
             </div>
           </div>
         </div>
 
-        <div class="product-card">
+        <div class="product-card unavailable">
           <div class="product-img">
             <img src="img/WhatsApp Image 2026-06-09 at 22.21.17 (2).jpeg" alt="T-shirt Brasil Amarela">
-            <span class="product-badge">Favorita</span>
+            <span class="product-badge soldout">Indisponível</span>
           </div>
           <div class="product-body">
             <div class="product-name">T-shirt Xapn Amarela</div>
             <div class="product-desc">Bordado exclusivo em alta definição. Perfeita para vibrar com estilo e elegância.</div>
             <div class="product-footer">
               <span class="product-price">R$ 49,99</span>
-              <a href="https://api.whatsapp.com/send/?phone=82993689706" target="_blank" class="product-link">Comprar →</a>
+              <a href="#" class="product-link">Esgotado</a>
             </div>
           </div>
         </div>
 
-        <div class="product-card">
+        <div class="product-card unavailable">
           <div class="product-img">
             <img src="img/WhatsApp Image 2026-06-09 at 22.21.17 (3).jpeg" alt="T-shirt Azul Hexa">
-            <span class="product-badge">Limitada</span>
+            <span class="product-badge soldout">Indisponível</span>
           </div>
           <div class="product-body">
             <div class="product-name">T-shirt Xapn Azul Hexa</div>
             <div class="product-desc">Tonalidade azul royal premium com detalhes dourados minimalistas. Lote único.</div>
             <div class="product-footer">
               <span class="product-price">R$ 49,99</span>
-              <a href="https://api.whatsapp.com/send/?phone=82993689706" target="_blank" class="product-link">Comprar →</a>
+              <a href="#" class="product-link">Esgotado</a>
             </div>
           </div>
         </div>
 
-        <div class="product-card">
+        <div class="product-card unavailable">
           <div class="product-img">
             <img src="img/WhatsApp Image 2026-06-09 at 22.21.17 (4).jpeg" alt="T-shirt Verde">
-            <span class="product-badge">Exclusiva</span>
+            <span class="product-badge soldout">Indisponível</span>
           </div>
           <div class="product-body">
             <div class="product-name">T-shirt Premium Verde</div>
             <div class="product-desc">Algodão sustentável em tom verde floresta profundo. Estilo casual refinado.</div>
             <div class="product-footer">
               <span class="product-price">R$ 49,99</span>
-              <a href="https://api.whatsapp.com/send/?phone=82993689706" target="_blank" class="product-link">Comprar →</a>
+              <a href="#" class="product-link">Esgotado</a>
             </div>
           </div>
         </div>
@@ -525,12 +541,12 @@
   <div class="wrap vendas-inner">
     <div class="reveal">
       <div class="vendas-eyebrow">
-        <div class="vendas-eyebrow-dot"></div>
-        <span>Lote Oficial Da Seleção</span>
+        <div class="vendas-eyebrow-dot" style="background: #777; box-shadow: none;"></div>
+        <span style="color: #888;">Lote Encerrado</span>
       </div>
-      <h2 class="vendas-title">Vista o orgulho da nossa <em>pátria</em>.</h2>
-      <p class="vendas-desc">Edições limitadas para a temporada mais aguardada do ano. Vista-se com a sofisticação da xapn® e torça de um jeito único.</p>
-      <a href="https://api.whatsapp.com/send/?phone=82993689706" target="_blank" class="vendas-cta">Garantir Lote no WhatsApp →</a>
+      <h2 class="vendas-title">Edição de Copa <em>Esgotada</em>.</h2>
+      <p class="vendas-desc">Nossos mantos exclusivos voaram dos estoques. Agradecemos a todas as torcedoras que garantiram a identidade xapn® para este ano.</p>
+      <a href="https://api.whatsapp.com/send/?phone=82993689706" target="_blank" class="vendas-cta" style="background: #333; color: #999;">Falar com Suporte →</a>
     </div>
 
     <div class="vendas-cards reveal" style="transition-delay:.15s">
@@ -609,7 +625,7 @@ document.addEventListener('mousemove', e => {
   requestAnimationFrame(loop);
 })();
 
-document.querySelectorAll('a, button, .product-card, .founder-slot, .step-card, .vendas-card, .c-btn').forEach(el => {
+document.querySelectorAll('a, button, .product-card:not(.unavailable), .founder-slot, .step-card, .vendas-card, .c-btn').forEach(el => {
   el.addEventListener('mouseenter', () => {
     dot.style.transform = 'translate(-50%, -50%) scale(2.2)';
     dot.style.background = 'var(--blue)';
