@@ -16,6 +16,7 @@
     .form-group { margin-bottom: 15px; display: flex; flex-direction: column; gap: 6px; }
     label { font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; }
     input, textarea { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.3); background: rgba(0, 0, 0, 0.2); color: #fff; font-family: inherit; }
+    input[type="file"] { background: transparent; border: none; padding: 5px 0; }
     input:focus, textarea:focus { outline: none; border-color: #fff; }
     
     button { padding: 12px 24px; background: #fff; color: var(--ink); border: none; border-radius: 8px; font-weight: 500; cursor: pointer; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.15em; transition: 0.2s; }
@@ -28,6 +29,7 @@
     .item-card img { width: 100%; height: 120px; object-fit: cover; border-radius: 8px; margin-bottom: 10px; }
     .hidden { display: none !important; }
     .header-actions { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+    .divider { margin: 10px 0; text-align: center; font-size: 0.75rem; opacity: 0.6; text-transform: uppercase; }
   </style>
 </head>
 <body>
@@ -55,19 +57,24 @@
         <button id="btn-logout" class="btn-danger">Sair</button>
       </div>
 
-      <!-- Alterar Imagem da Seção Sobre -->
+      <!-- Imagem Seção Sobre -->
       <div class="card-box">
         <h2>Imagem da Seção "Mais do que uma camiseta"</h2>
         <form id="about-form">
           <div class="form-group">
-            <label>URL da Imagem</label>
-            <input type="url" id="about-img-input" placeholder="https://..." required>
+            <label>Enviar da Galeria / Arquivo</label>
+            <input type="file" id="about-file" accept="image/*">
           </div>
-          <button type="submit">Atualizar Foto Sobre</button>
+          <div class="divider">OU</div>
+          <div class="form-group">
+            <label>Colar URL da Imagem</label>
+            <input type="url" id="about-img-input" placeholder="https://...">
+          </div>
+          <button type="submit" id="btn-about">Atualizar Foto Sobre</button>
         </form>
       </div>
 
-      <!-- Gerenciar Banners -->
+      <!-- Banner Carrossel -->
       <div class="card-box">
         <h2>Adicionar Banner ao Carrossel</h2>
         <form id="banner-form">
@@ -84,21 +91,26 @@
             <textarea id="b-desc" rows="2" required></textarea>
           </div>
           <div class="form-group">
-            <label>Texto do Botão (ex: Ver coleção)</label>
+            <label>Texto do Botão</label>
             <input type="text" id="b-btnText" value="Ver coleção" required>
           </div>
           <div class="form-group">
-            <label>URL da Imagem</label>
-            <input type="url" id="b-img" placeholder="https://..." required>
+            <label>Enviar da Galeria / Arquivo</label>
+            <input type="file" id="b-file" accept="image/*">
           </div>
-          <button type="submit">Cadastrar Banner</button>
+          <div class="divider">OU</div>
+          <div class="form-group">
+            <label>Colar URL da Imagem</label>
+            <input type="url" id="b-img" placeholder="https://...">
+          </div>
+          <button type="submit" id="btn-banner">Cadastrar Banner</button>
         </form>
 
         <h3 style="margin-top: 20px;">Banners Cadastrados</h3>
         <div id="banners-list" class="admin-grid"></div>
       </div>
 
-      <!-- Gerenciar Produtos -->
+      <!-- Produtos -->
       <div class="card-box">
         <h2>Adicionar Produto</h2>
         <form id="product-form">
@@ -111,10 +123,15 @@
             <input type="number" step="0.01" id="p-price" required>
           </div>
           <div class="form-group">
-            <label>URL da Imagem</label>
-            <input type="url" id="p-img" placeholder="https://..." required>
+            <label>Enviar da Galeria / Arquivo</label>
+            <input type="file" id="p-file" accept="image/*">
           </div>
-          <button type="submit">Cadastrar Produto</button>
+          <div class="divider">OU</div>
+          <div class="form-group">
+            <label>Colar URL da Imagem</label>
+            <input type="url" id="p-img" placeholder="https://...">
+          </div>
+          <button type="submit" id="btn-product">Cadastrar Produto</button>
         </form>
 
         <h3 style="margin-top: 20px;">Produtos Cadastrados</h3>
