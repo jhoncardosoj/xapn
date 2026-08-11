@@ -1,13 +1,4 @@
 ```javascript
-// =====================================================
-// XAPN® — ADMIN.JS
-// Painel administrativo
-// =====================================================
-
-// =====================================================
-// FIREBASE
-// =====================================================
-
 import {
   auth,
   db
@@ -36,11 +27,18 @@ import {
 // CONFIGURAÇÃO
 // =====================================================
 
+// UID do administrador
 const ADMIN_UID = "mpBZ0ta8CJcyuQf10gS70BVBGcC2";
+
+// Coleções usadas pelo SITE
+// IMPORTANTE:
+// O index.html usa "products" e "carousel".
+const PRODUCTS_COLLECTION = "products";
+const CAROUSEL_COLLECTION = "carousel";
 
 
 // =====================================================
-// ELEMENTOS — LOGIN
+// ELEMENTOS
 // =====================================================
 
 const loginScreen =
@@ -66,6 +64,205 @@ const logoutButton =
 
 
 // =====================================================
+// ELEMENTOS - PRODUTOS
+// =====================================================
+
+const productForm =
+  document.getElementById("product-form");
+
+const productId =
+  document.getElementById("product-id");
+
+const productTitle =
+  document.getElementById("product-title");
+
+const productPrice =
+  document.getElementById("product-price");
+
+const productDescription =
+  document.getElementById("product-description");
+
+const productImg =
+  document.getElementById("product-img");
+
+const productPreview =
+  document.getElementById("product-preview");
+
+const productSubmit =
+  document.getElementById("product-submit");
+
+const productCancel =
+  document.getElementById("product-cancel");
+
+const productStatus =
+  document.getElementById("product-status");
+
+const productList =
+  document.getElementById("product-list");
+
+
+// =====================================================
+// ELEMENTOS - CARROSSEL
+// =====================================================
+
+const carouselForm =
+  document.getElementById("carousel-form");
+
+const carouselId =
+  document.getElementById("carousel-id");
+
+const carouselTitle =
+  document.getElementById("carousel-title");
+
+const carouselImg =
+  document.getElementById("carousel-img");
+
+const carouselPreview =
+  document.getElementById("carousel-preview");
+
+const carouselSubmit =
+  document.getElementById("carousel-submit");
+
+const carouselCancel =
+  document.getElementById("carousel-cancel");
+
+const carouselStatus =
+  document.getElementById("carousel-status");
+
+const carouselList =
+  document.getElementById("carousel-list");
+
+
+// =====================================================
+// ESTADO
+// =====================================================
+
+let products = [];
+let slides = [];
+
+
+// =====================================================
+// MELHORIAS AUTOMÁTICAS DO PAINEL
+// =====================================================
+
+// -----------------------------------------------------
+// BOTÃO VOLTAR PARA A LOJA
+// -----------------------------------------------------
+
+function createBackButton() {
+
+  if (document.getElementById("back-store-button")) {
+    return;
+  }
+
+  const button = document.createElement("button");
+
+  button.id = "back-store-button";
+  button.type = "button";
+  button.innerHTML = "← Voltar para a loja";
+
+  button.style.cssText = `
+    width: auto;
+    margin-top: 10px;
+    padding: 10px 16px;
+    background: rgba(255,255,255,.10);
+    color: white;
+    border: 1px solid rgba(255,255,255,.20);
+    border-radius: 10px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: .78rem;
+  `;
+
+  button.addEventListener("click", () => {
+    window.location.href = "./index.html";
+  });
+
+  const topbar = document.querySelector(".topbar");
+
+  if (topbar) {
+    topbar.appendChild(button);
+  }
+}
+
+
+// -----------------------------------------------------
+// BOTÃO MOSTRAR / OCULTAR SENHA
+// -----------------------------------------------------
+
+function createPasswordToggle() {
+
+  if (!loginPassword) {
+    return;
+  }
+
+  if (document.getElementById("password-toggle")) {
+    return;
+  }
+
+  const wrapper = document.createElement("div");
+
+  wrapper.style.cssText = `
+    position: relative;
+    width: 100%;
+  `;
+
+  loginPassword.parentNode.insertBefore(
+    wrapper,
+    loginPassword
+  );
+
+  wrapper.appendChild(loginPassword);
+
+  loginPassword.style.paddingRight = "50px";
+
+  const button = document.createElement("button");
+
+  button.id = "password-toggle";
+  button.type = "button";
+  button.innerHTML = "👁";
+
+  button.style.cssText = `
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 38px;
+    height: 38px;
+    padding: 0;
+    background: transparent;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+  `;
+
+  button.addEventListener("click", () => {
+
+    const showing =
+      loginPassword.type === "text";
+
+    loginPassword.type =
+      showing ? "password" : "text";
+
+    button.innerHTML =
+      showing ? "👁" : "🙈";
+
+  });
+
+  wrapper.appendChild(button);
+}
+
+
+// =====================================================
+// INICIALIZA MELHORIAS
+// =====================================================
+
+createPasswordToggle();
+createBackButton();
+
+
+// =====================================================
 // LOGIN
 // =====================================================
 
@@ -83,7 +280,7 @@ loginButton.addEventListener(
 
       showStatus(
         loginStatus,
-        "Digite e-mail e senha.",
+        "Digite seu e-mail e sua senha.",
         true
       );
 
@@ -135,9 +332,7 @@ loginPassword.addEventListener(
   event => {
 
     if (event.key === "Enter") {
-
       loginButton.click();
-
     }
 
   }
@@ -162,17 +357,35 @@ onAuthStateChanged(
         "hidden"
       );
 
+      loginButton.disabled = false;
+
+      loginButton.innerText =
+        "Entrar";
+
       return;
     }
 
 
-    // =================================================
-    // SEGURANÇA DO ADMIN
-    // =================================================
+    // -------------------------------------------------
+    // VERIFICA UID DO ADMINISTRADOR
+    // -------------------------------------------------
 
     if (user.uid !== ADMIN_UID) {
 
+      console.warn(
+        "Usuário autenticado sem permissão:",
+        user.uid
+      );
+
       await signOut(auth);
+
+      loginScreen.classList.remove(
+        "hidden"
+      );
+
+      dashboard.classList.add(
+        "hidden"
+      );
 
       showStatus(
         loginStatus,
@@ -184,9 +397,9 @@ onAuthStateChanged(
     }
 
 
-    // =================================================
-    // ACESSO AUTORIZADO
-    // =================================================
+    // -------------------------------------------------
+    // LOGIN AUTORIZADO
+    // -------------------------------------------------
 
     loginScreen.classList.add(
       "hidden"
@@ -197,6 +410,11 @@ onAuthStateChanged(
     );
 
 
+    // Recria botão caso necessário
+    createBackButton();
+
+
+    // Carrega dados
     await loadProducts();
 
     await loadCarousel();
@@ -231,181 +449,100 @@ logoutButton.addEventListener(
 
 
 // =====================================================
-// =====================================================
 // PRODUTOS
-// =====================================================
-// =====================================================
-
-const productForm =
-  document.getElementById(
-    "product-form"
-  );
-
-const productId =
-  document.getElementById(
-    "product-id"
-  );
-
-const productTitle =
-  document.getElementById(
-    "product-title"
-  );
-
-const productPrice =
-  document.getElementById(
-    "product-price"
-  );
-
-const productDescription =
-  document.getElementById(
-    "product-description"
-  );
-
-const productImg =
-  document.getElementById(
-    "product-img"
-  );
-
-const productPreview =
-  document.getElementById(
-    "product-preview"
-  );
-
-const productSubmit =
-  document.getElementById(
-    "product-submit"
-  );
-
-const productCancel =
-  document.getElementById(
-    "product-cancel"
-  );
-
-const productStatus =
-  document.getElementById(
-    "product-status"
-  );
-
-const productList =
-  document.getElementById(
-    "product-list"
-  );
-
-
-let products = [];
-
-
-// =====================================================
-// CARREGAR PRODUTOS
 // =====================================================
 
 async function loadProducts() {
 
   try {
 
-    /*
-     * IMPORTANTE:
-     *
-     * O site público usa:
-     *
-     * collection(db, "products")
-     *
-     * Portanto o admin também precisa
-     * usar exatamente "products".
-     */
-
-    const productsRef =
+    const q = query(
       collection(
         db,
-        "products"
-      );
+        PRODUCTS_COLLECTION
+      ),
+      orderBy(
+        "createdAt",
+        "desc"
+      )
+    );
 
-
-    let snapshot;
-
-
-    // =================================================
-    // PRIMEIRO TENTA ORDENAR POR createdAt
-    // =================================================
-
-    try {
-
-      const q =
-        query(
-          productsRef,
-          orderBy(
-            "createdAt",
-            "desc"
-          )
-        );
-
-      snapshot =
-        await getDocs(q);
-
-    } catch (orderError) {
-
-      /*
-       * Caso documentos antigos não tenham
-       * createdAt, carrega normalmente.
-       */
-
-      console.warn(
-        "Não foi possível ordenar por createdAt. Carregando normalmente.",
-        orderError
-      );
-
-      snapshot =
-        await getDocs(
-          productsRef
-        );
-
-    }
-
+    const snapshot =
+      await getDocs(q);
 
     products =
       snapshot.docs.map(
         item => ({
-
           id: item.id,
-
           ...item.data()
-
         })
       );
 
-
-    renderProducts();
-
-
   } catch (error) {
 
-    console.error(
-      "Erro ao carregar produtos:",
+    console.warn(
+      "Não foi possível ordenar produtos. Carregando sem ordenação.",
       error
     );
 
+    try {
 
-    productList.innerHTML = `
+      const snapshot =
+        await getDocs(
+          collection(
+            db,
+            PRODUCTS_COLLECTION
+          )
+        );
 
-      <div
-        style="
-          color:#ffd0d0;
-          font-size:.8rem;
-          padding:15px 0;
-        "
-      >
-        Erro ao carregar produtos.
-      </div>
+      products =
+        snapshot.docs.map(
+          item => ({
+            id: item.id,
+            ...item.data()
+          })
+        );
 
-    `;
+      products.sort(
+        (a, b) => {
+
+          const dateA =
+            a.createdAt?.seconds || 0;
+
+          const dateB =
+            b.createdAt?.seconds || 0;
+
+          return dateB - dateA;
+
+        }
+      );
+
+    } catch (secondError) {
+
+      console.error(
+        "Erro ao carregar produtos:",
+        secondError
+      );
+
+      products = [];
+
+      showStatus(
+        productStatus,
+        "Não foi possível carregar os produtos. Verifique as regras do Firestore.",
+        true
+      );
+
+    }
 
   }
+
+  renderProducts();
 
 }
 
 
 // =====================================================
-// RENDERIZAR PRODUTOS
+// RENDER PRODUTOS
 // =====================================================
 
 function renderProducts() {
@@ -413,119 +550,81 @@ function renderProducts() {
   if (!products.length) {
 
     productList.innerHTML = `
-
       <div
         style="
           color:rgba(255,255,255,.5);
           font-size:.8rem;
-          padding:15px 0;
+          padding:10px 0;
         "
       >
         Nenhum produto cadastrado.
       </div>
-
     `;
 
     return;
-
   }
 
 
   productList.innerHTML =
-    products
-      .map(
-        product => {
+    products.map(
+      product => `
 
-          const image =
-            product.img ||
-            product.image ||
-            "";
+        <div class="item">
 
+          <img
+            src="${escapeAttribute(
+              product.img || ""
+            )}"
+            alt="${escapeAttribute(
+              product.title || ""
+            )}"
+            onerror="this.style.opacity='.25'"
+          >
 
-          return `
+          <div class="item-info">
 
-            <div class="item">
-
-              ${
-                image
-                  ?
-                `
-                  <img
-                    src="${escapeAttribute(image)}"
-                    alt="${escapeAttribute(product.title || "Produto")}"
-                  >
-                `
-                  :
-                `
-                  <div
-                    style="
-                      width:60px;
-                      height:60px;
-                      border-radius:8px;
-                      background:rgba(255,255,255,.08);
-                      display:flex;
-                      align-items:center;
-                      justify-content:center;
-                      font-size:20px;
-                    "
-                  >
-                    👕
-                  </div>
-                `
-              }
-
-
-              <div class="item-info">
-
-                <div class="item-title">
-
-                  ${escapeHTML(
-                    product.title ||
-                    "Produto sem nome"
-                  )}
-
-                </div>
-
-
-                <div class="item-price">
-
-                  ${formatPrice(
-                    product.price
-                  )}
-
-                </div>
-
-              </div>
-
-
-              <div class="item-actions">
-
-                <button
-                  type="button"
-                  class="edit"
-                  data-edit-product="${escapeAttribute(product.id)}"
-                >
-                  Editar
-                </button>
-
-
-                <button
-                  type="button"
-                  class="delete"
-                  data-delete-product="${escapeAttribute(product.id)}"
-                >
-                  Excluir
-                </button>
-
-              </div>
-
+            <div class="item-title">
+              ${escapeHTML(
+                product.title || "Produto"
+              )}
             </div>
 
-          `;
+            <div class="item-price">
+              ${formatPrice(
+                product.price
+              )}
+            </div>
 
-        }
-      )
-      .join("");
+          </div>
+
+          <div class="item-actions">
+
+            <button
+              class="edit"
+              type="button"
+              data-edit-product="${escapeAttribute(
+                product.id
+              )}"
+            >
+              Editar
+            </button>
+
+            <button
+              class="delete"
+              type="button"
+              data-delete-product="${escapeAttribute(
+                product.id
+              )}"
+            >
+              Excluir
+            </button>
+
+          </div>
+
+        </div>
+
+      `
+    ).join("");
 
 }
 
@@ -544,71 +643,33 @@ productForm.addEventListener(
     const title =
       productTitle.value.trim();
 
-
     const price =
-      Number(
-        productPrice.value
-      );
-
+      Number(productPrice.value);
 
     const description =
       productDescription.value.trim();
-
 
     const img =
       productImg.value.trim();
 
 
-    // =================================================
-    // VALIDAÇÃO
-    // =================================================
-
-    if (!title) {
-
-      showStatus(
-        productStatus,
-        "Digite o nome do produto.",
-        true
-      );
-
-      return;
-
-    }
-
-
     if (
-      productPrice.value === "" ||
-      Number.isNaN(price) ||
-      price < 0
+      !title ||
+      !img ||
+      Number.isNaN(price)
     ) {
 
       showStatus(
         productStatus,
-        "Digite um preço válido.",
+        "Preencha nome, preço e imagem.",
         true
       );
 
       return;
-
     }
 
 
-    if (!img) {
-
-      showStatus(
-        productStatus,
-        "Adicione uma imagem do produto.",
-        true
-      );
-
-      return;
-
-    }
-
-
-    productSubmit.disabled =
-      true;
-
+    productSubmit.disabled = true;
 
     productSubmit.innerText =
       productId.value
@@ -634,21 +695,20 @@ productForm.addEventListener(
       };
 
 
-      // =================================================
+      // -------------------------------------------------
       // EDITAR
-      // =================================================
+      // -------------------------------------------------
 
       if (productId.value) {
 
         await updateDoc(
           doc(
             db,
-            "products",
+            PRODUCTS_COLLECTION,
             productId.value
           ),
           data
         );
-
 
         showStatus(
           productStatus,
@@ -658,28 +718,29 @@ productForm.addEventListener(
 
       }
 
-
-      // =================================================
+      // -------------------------------------------------
       // ADICIONAR
-      // =================================================
+      // -------------------------------------------------
 
       else {
 
         await addDoc(
           collection(
             db,
-            "products"
+            PRODUCTS_COLLECTION
           ),
           {
 
             ...data,
 
             createdAt:
-              serverTimestamp()
+              serverTimestamp(),
+
+            order:
+              products.length
 
           }
         );
-
 
         showStatus(
           productStatus,
@@ -692,7 +753,6 @@ productForm.addEventListener(
 
       resetProductForm();
 
-
       await loadProducts();
 
 
@@ -703,18 +763,15 @@ productForm.addEventListener(
         error
       );
 
-
       showStatus(
         productStatus,
         getFirestoreError(error),
         true
       );
 
-
     } finally {
 
-      productSubmit.disabled =
-        false;
+      productSubmit.disabled = false;
 
       productSubmit.innerText =
         productId.value
@@ -740,86 +797,72 @@ productList.addEventListener(
         "[data-edit-product]"
       );
 
-
     const deleteButton =
       event.target.closest(
         "[data-delete-product]"
       );
 
 
-    // =================================================
+    // -------------------------------------------------
     // EDITAR
-    // =================================================
+    // -------------------------------------------------
 
     if (editButton) {
 
       const id =
         editButton.dataset.editProduct;
 
-
       const product =
         products.find(
-          item =>
-            item.id === id
+          item => item.id === id
         );
 
-
-      if (!product)
+      if (!product) {
         return;
+      }
 
 
       productId.value =
         product.id;
 
-
       productTitle.value =
         product.title || "";
-
 
       productPrice.value =
         product.price ?? "";
 
-
       productDescription.value =
         product.description || "";
 
-
       productImg.value =
-        product.img ||
-        product.image ||
-        "";
+        product.img || "";
 
 
       showPreview(
         productPreview,
-        product.img ||
-        product.image ||
-        ""
+        product.img
       );
 
 
       productSubmit.innerText =
         "Salvar alterações";
 
-
       productCancel.classList.remove(
         "hidden"
       );
 
 
-      document
-        .getElementById("product-form")
-        .scrollIntoView({
-          behavior: "smooth",
-          block: "start"
-        });
+      productForm.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
 
     }
 
 
-    // =================================================
+    // -------------------------------------------------
     // EXCLUIR
-    // =================================================
+    // -------------------------------------------------
 
     if (deleteButton) {
 
@@ -841,13 +884,12 @@ async function deleteProduct(id) {
 
   const product =
     products.find(
-      item =>
-        item.id === id
+      item => item.id === id
     );
 
-
-  if (!product)
+  if (!product) {
     return;
+  }
 
 
   const confirmed =
@@ -856,8 +898,9 @@ async function deleteProduct(id) {
     );
 
 
-  if (!confirmed)
+  if (!confirmed) {
     return;
+  }
 
 
   try {
@@ -865,20 +908,20 @@ async function deleteProduct(id) {
     await deleteDoc(
       doc(
         db,
-        "products",
+        PRODUCTS_COLLECTION,
         id
       )
     );
 
 
-    await loadProducts();
-
-
     showStatus(
       productStatus,
-      "Produto excluído com sucesso.",
+      "Produto excluído com sucesso!",
       false
     );
+
+
+    await loadProducts();
 
 
   } catch (error) {
@@ -887,7 +930,6 @@ async function deleteProduct(id) {
       "Erro ao excluir produto:",
       error
     );
-
 
     showStatus(
       productStatus,
@@ -901,7 +943,7 @@ async function deleteProduct(id) {
 
 
 // =====================================================
-// CANCELAR EDIÇÃO
+// CANCELAR EDIÇÃO PRODUTO
 // =====================================================
 
 productCancel.addEventListener(
@@ -914,26 +956,21 @@ function resetProductForm() {
 
   productForm.reset();
 
-
-  productId.value =
-    "";
-
+  productId.value = "";
 
   productSubmit.innerText =
     "Adicionar produto";
-
 
   productCancel.classList.add(
     "hidden"
   );
 
-
-  productPreview.src =
-    "";
-
-
   productPreview.style.display =
     "none";
+
+  productPreview.removeAttribute(
+    "src"
+  );
 
 }
 
@@ -956,168 +993,100 @@ productImg.addEventListener(
 
 
 // =====================================================
-// =====================================================
 // CARROSSEL
-// =====================================================
-// =====================================================
-
-const carouselForm =
-  document.getElementById(
-    "carousel-form"
-  );
-
-const carouselId =
-  document.getElementById(
-    "carousel-id"
-  );
-
-const carouselTitle =
-  document.getElementById(
-    "carousel-title"
-  );
-
-const carouselImg =
-  document.getElementById(
-    "carousel-img"
-  );
-
-const carouselPreview =
-  document.getElementById(
-    "carousel-preview"
-  );
-
-const carouselSubmit =
-  document.getElementById(
-    "carousel-submit"
-  );
-
-const carouselCancel =
-  document.getElementById(
-    "carousel-cancel"
-  );
-
-const carouselStatus =
-  document.getElementById(
-    "carousel-status"
-  );
-
-const carouselList =
-  document.getElementById(
-    "carousel-list"
-  );
-
-
-let slides = [];
-
-
-// =====================================================
-// CARREGAR CARROSSEL
 // =====================================================
 
 async function loadCarousel() {
 
   try {
 
-    /*
-     * IMPORTANTE:
-     *
-     * O site público usa:
-     *
-     * collection(db, "carousel")
-     *
-     * Portanto o admin também usa "carousel".
-     */
-
-    const carouselRef =
+    const q = query(
       collection(
         db,
-        "carousel"
-      );
+        CAROUSEL_COLLECTION
+      ),
+      orderBy(
+        "order",
+        "asc"
+      )
+    );
 
 
-    let snapshot;
-
-
-    // =================================================
-    // TENTA ORDENAR POR createdAt
-    // =================================================
-
-    try {
-
-      const q =
-        query(
-          carouselRef,
-          orderBy(
-            "createdAt",
-            "asc"
-          )
-        );
-
-
-      snapshot =
-        await getDocs(q);
-
-
-    } catch (orderError) {
-
-      console.warn(
-        "Não foi possível ordenar o carrossel por createdAt.",
-        orderError
-      );
-
-
-      snapshot =
-        await getDocs(
-          carouselRef
-        );
-
-    }
+    const snapshot =
+      await getDocs(q);
 
 
     slides =
       snapshot.docs.map(
         item => ({
-
           id: item.id,
-
           ...item.data()
-
         })
       );
 
 
-    renderCarouselAdmin();
-
-
   } catch (error) {
 
-    console.error(
-      "Erro ao carregar carrossel:",
+    console.warn(
+      "Não foi possível ordenar o carrossel. Carregando sem ordenação.",
       error
     );
 
 
-    carouselList.innerHTML = `
+    try {
 
-      <div
-        style="
-          color:#ffd0d0;
-          font-size:.8rem;
-          padding:15px 0;
-        "
-      >
-        Erro ao carregar slides.
-      </div>
+      const snapshot =
+        await getDocs(
+          collection(
+            db,
+            CAROUSEL_COLLECTION
+          )
+        );
 
-    `;
+
+      slides =
+        snapshot.docs.map(
+          item => ({
+            id: item.id,
+            ...item.data()
+          })
+        );
+
+
+      slides.sort(
+        (a, b) =>
+          (a.order ?? 9999) -
+          (b.order ?? 9999)
+      );
+
+
+    } catch (secondError) {
+
+      console.error(
+        "Erro ao carregar carrossel:",
+        secondError
+      );
+
+      slides = [];
+
+      showStatus(
+        carouselStatus,
+        "Não foi possível carregar o carrossel. Verifique as regras do Firestore.",
+        true
+      );
+
+    }
 
   }
+
+
+  renderCarouselAdmin();
 
 }
 
 
 // =====================================================
-// RENDERIZAR CARROSSEL
+// RENDER CARROSSEL
 // =====================================================
 
 function renderCarouselAdmin() {
@@ -1125,110 +1094,86 @@ function renderCarouselAdmin() {
   if (!slides.length) {
 
     carouselList.innerHTML = `
-
       <div
         style="
           color:rgba(255,255,255,.5);
           font-size:.8rem;
-          padding:15px 0;
+          padding:10px 0;
         "
       >
         Nenhum slide cadastrado.
       </div>
-
     `;
 
     return;
-
   }
 
 
   carouselList.innerHTML =
-    slides
-      .map(
-        slide => {
+    slides.map(
+      slide => `
 
-          const image =
-            slide.img ||
-            slide.image ||
-            "";
+        <div class="item">
 
+          <img
+            src="${escapeAttribute(
+              slide.img || ""
+            )}"
+            alt="${escapeAttribute(
+              slide.title || ""
+            )}"
+            onerror="this.style.opacity='.25'"
+          >
 
-          return `
+          <div class="item-info">
 
-            <div class="item">
-
-              ${
-                image
-                  ?
-                `
-                  <img
-                    src="${escapeAttribute(image)}"
-                    alt="${escapeAttribute(slide.title || "Slide")}"
-                  >
-                `
-                  :
-                `
-                  <div
-                    style="
-                      width:60px;
-                      height:60px;
-                      border-radius:8px;
-                      background:rgba(255,255,255,.08);
-                      display:flex;
-                      align-items:center;
-                      justify-content:center;
-                      font-size:20px;
-                    "
-                  >
-                    🖼️
-                  </div>
-                `
-              }
-
-
-              <div class="item-info">
-
-                <div class="item-title">
-
-                  ${escapeHTML(
-                    slide.title ||
-                    "Slide sem título"
-                  )}
-
-                </div>
-
-              </div>
-
-
-              <div class="item-actions">
-
-                <button
-                  type="button"
-                  class="edit"
-                  data-edit-slide="${escapeAttribute(slide.id)}"
-                >
-                  Editar
-                </button>
-
-
-                <button
-                  type="button"
-                  class="delete"
-                  data-delete-slide="${escapeAttribute(slide.id)}"
-                >
-                  Excluir
-                </button>
-
-              </div>
-
+            <div class="item-title">
+              ${escapeHTML(
+                slide.title || "Slide"
+              )}
             </div>
 
-          `;
+            <div
+              style="
+                color:rgba(255,255,255,.5);
+                font-size:.7rem;
+                margin-top:3px;
+              "
+            >
+              Ordem:
+              ${slide.order ?? 9999}
+            </div>
 
-        }
-      )
-      .join("");
+          </div>
+
+          <div class="item-actions">
+
+            <button
+              class="edit"
+              type="button"
+              data-edit-slide="${escapeAttribute(
+                slide.id
+              )}"
+            >
+              Editar
+            </button>
+
+            <button
+              class="delete"
+              type="button"
+              data-delete-slide="${escapeAttribute(
+                slide.id
+              )}"
+            >
+              Excluir
+            </button>
+
+          </div>
+
+        </div>
+
+      `
+    ).join("");
 
 }
 
@@ -1247,40 +1192,23 @@ carouselForm.addEventListener(
     const title =
       carouselTitle.value.trim();
 
-
     const img =
       carouselImg.value.trim();
 
 
-    if (!title) {
+    if (!title || !img) {
 
       showStatus(
         carouselStatus,
-        "Digite o título do slide.",
+        "Preencha o título e a imagem.",
         true
       );
 
       return;
-
     }
 
 
-    if (!img) {
-
-      showStatus(
-        carouselStatus,
-        "Adicione uma imagem para o slide.",
-        true
-      );
-
-      return;
-
-    }
-
-
-    carouselSubmit.disabled =
-      true;
-
+    carouselSubmit.disabled = true;
 
     carouselSubmit.innerText =
       carouselId.value
@@ -1302,16 +1230,16 @@ carouselForm.addEventListener(
       };
 
 
-      // =================================================
-      // EDITAR
-      // =================================================
+      // -------------------------------------------------
+      // EDITAR SLIDE
+      // -------------------------------------------------
 
       if (carouselId.value) {
 
         await updateDoc(
           doc(
             db,
-            "carousel",
+            CAROUSEL_COLLECTION,
             carouselId.value
           ),
           data
@@ -1327,23 +1255,26 @@ carouselForm.addEventListener(
       }
 
 
-      // =================================================
-      // ADICIONAR
-      // =================================================
+      // -------------------------------------------------
+      // ADICIONAR SLIDE
+      // -------------------------------------------------
 
       else {
 
         await addDoc(
           collection(
             db,
-            "carousel"
+            CAROUSEL_COLLECTION
           ),
           {
 
             ...data,
 
             createdAt:
-              serverTimestamp()
+              serverTimestamp(),
+
+            order:
+              slides.length
 
           }
         );
@@ -1360,7 +1291,6 @@ carouselForm.addEventListener(
 
       resetCarouselForm();
 
-
       await loadCarousel();
 
 
@@ -1371,18 +1301,15 @@ carouselForm.addEventListener(
         error
       );
 
-
       showStatus(
         carouselStatus,
         getFirestoreError(error),
         true
       );
 
-
     } finally {
 
-      carouselSubmit.disabled =
-        false;
+      carouselSubmit.disabled = false;
 
       carouselSubmit.innerText =
         carouselId.value
@@ -1403,88 +1330,76 @@ carouselList.addEventListener(
   "click",
   event => {
 
-    const editButton =
+    const edit =
       event.target.closest(
         "[data-edit-slide]"
       );
 
-
-    const deleteButton =
+    const del =
       event.target.closest(
         "[data-delete-slide]"
       );
 
 
-    // =================================================
+    // -------------------------------------------------
     // EDITAR
-    // =================================================
+    // -------------------------------------------------
 
-    if (editButton) {
+    if (edit) {
 
       const id =
-        editButton.dataset.editSlide;
-
+        edit.dataset.editSlide;
 
       const slide =
         slides.find(
-          item =>
-            item.id === id
+          item => item.id === id
         );
 
-
-      if (!slide)
+      if (!slide) {
         return;
+      }
 
 
       carouselId.value =
         slide.id;
 
-
       carouselTitle.value =
         slide.title || "";
 
-
       carouselImg.value =
-        slide.img ||
-        slide.image ||
-        "";
+        slide.img || "";
 
 
       showPreview(
         carouselPreview,
-        slide.img ||
-        slide.image ||
-        ""
+        slide.img
       );
 
 
       carouselSubmit.innerText =
         "Salvar alterações";
 
-
       carouselCancel.classList.remove(
         "hidden"
       );
 
 
-      document
-        .getElementById("carousel-form")
-        .scrollIntoView({
-          behavior: "smooth",
-          block: "start"
-        });
+      carouselForm.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
 
     }
 
 
-    // =================================================
+    // -------------------------------------------------
     // EXCLUIR
-    // =================================================
+    // -------------------------------------------------
 
-    if (deleteButton) {
+    if (del) {
 
       deleteSlide(
-        deleteButton.dataset.deleteSlide
+        del.dataset.deleteSlide
       );
 
     }
@@ -1501,13 +1416,12 @@ async function deleteSlide(id) {
 
   const slide =
     slides.find(
-      item =>
-        item.id === id
+      item => item.id === id
     );
 
-
-  if (!slide)
+  if (!slide) {
     return;
+  }
 
 
   const confirmed =
@@ -1516,8 +1430,9 @@ async function deleteSlide(id) {
     );
 
 
-  if (!confirmed)
+  if (!confirmed) {
     return;
+  }
 
 
   try {
@@ -1525,20 +1440,20 @@ async function deleteSlide(id) {
     await deleteDoc(
       doc(
         db,
-        "carousel",
+        CAROUSEL_COLLECTION,
         id
       )
     );
 
 
-    await loadCarousel();
-
-
     showStatus(
       carouselStatus,
-      "Slide excluído com sucesso.",
+      "Slide excluído com sucesso!",
       false
     );
+
+
+    await loadCarousel();
 
 
   } catch (error) {
@@ -1547,7 +1462,6 @@ async function deleteSlide(id) {
       "Erro ao excluir slide:",
       error
     );
-
 
     showStatus(
       carouselStatus,
@@ -1561,7 +1475,7 @@ async function deleteSlide(id) {
 
 
 // =====================================================
-// CANCELAR EDIÇÃO DO CARROSSEL
+// CANCELAR CARROSSEL
 // =====================================================
 
 carouselCancel.addEventListener(
@@ -1574,26 +1488,21 @@ function resetCarouselForm() {
 
   carouselForm.reset();
 
-
-  carouselId.value =
-    "";
-
+  carouselId.value = "";
 
   carouselSubmit.innerText =
     "Adicionar slide";
-
 
   carouselCancel.classList.add(
     "hidden"
   );
 
-
-  carouselPreview.src =
-    "";
-
-
   carouselPreview.style.display =
     "none";
+
+  carouselPreview.removeAttribute(
+    "src"
+  );
 
 }
 
@@ -1616,7 +1525,7 @@ carouselImg.addEventListener(
 
 
 // =====================================================
-// UTILITÁRIOS
+// PREVIEW
 // =====================================================
 
 function showPreview(
@@ -1626,31 +1535,34 @@ function showPreview(
 
   if (!url) {
 
-    element.src = "";
+    element.style.display =
+      "none";
+
+    element.removeAttribute(
+      "src"
+    );
+
+    return;
+  }
+
+
+  element.onerror = () => {
 
     element.style.display =
       "none";
 
-    return;
-
-  }
+  };
 
 
-  element.style.display =
-    "block";
+  element.onload = () => {
+
+    element.style.display =
+      "block";
+
+  };
 
 
-  element.src =
-    url;
-
-
-  element.onerror =
-    () => {
-
-      element.style.display =
-        "none";
-
-    };
+  element.src = url;
 
 }
 
@@ -1662,8 +1574,13 @@ function showPreview(
 function showStatus(
   element,
   message,
-  error
+  error = false
 ) {
+
+  if (!element) {
+    return;
+  }
+
 
   element.innerText =
     message;
@@ -1699,7 +1616,7 @@ function formatPrice(value) {
 
 
 // =====================================================
-// PROTEÇÃO CONTRA HTML
+// SEGURANÇA HTML
 // =====================================================
 
 function escapeHTML(value) {
@@ -1747,36 +1664,28 @@ function getAuthError(error) {
   switch (error.code) {
 
     case "auth/invalid-credential":
-
       return "E-mail ou senha incorretos.";
 
-
     case "auth/invalid-email":
-
       return "E-mail inválido.";
 
-
     case "auth/user-disabled":
-
       return "Este usuário foi desativado.";
 
-
     case "auth/too-many-requests":
-
-      return "Muitas tentativas. Aguarde um pouco.";
-
+      return "Muitas tentativas. Aguarde alguns minutos.";
 
     case "auth/network-request-failed":
-
       return "Erro de conexão. Verifique sua internet.";
 
+    case "auth/user-not-found":
+      return "Usuário não encontrado.";
+
+    case "auth/wrong-password":
+      return "Senha incorreta.";
 
     default:
-
-      return (
-        "Não foi possível entrar. " +
-        "Verifique seus dados."
-      );
+      return "Não foi possível entrar. Verifique seus dados.";
 
   }
 
@@ -1795,53 +1704,27 @@ function getFirestoreError(error) {
   );
 
 
-  switch (error.code) {
+  if (
+    error?.code ===
+    "permission-denied"
+  ) {
 
-    case "permission-denied":
-
-      return (
-        "Permissão negada pelo Firebase. " +
-        "Verifique as regras do Firestore."
-      );
-
-
-    case "unavailable":
-
-      return (
-        "Firebase temporariamente indisponível."
-      );
-
-
-    case "failed-precondition":
-
-      return (
-        "O Firebase informou que uma configuração " +
-        "ou índice precisa ser ajustado."
-      );
-
-
-    case "not-found":
-
-      return (
-        "O documento não foi encontrado."
-      );
-
-
-    case "network-request-failed":
-
-      return (
-        "Erro de conexão com o Firebase."
-      );
-
-
-    default:
-
-      return (
-        "Erro ao salvar. " +
-        "Abra o console do navegador para mais detalhes."
-      );
+    return "O Firebase bloqueou esta operação. Verifique as regras do Firestore.";
 
   }
+
+
+  if (
+    error?.code ===
+    "unauthenticated"
+  ) {
+
+    return "Sua sessão expirou. Entre novamente.";
+
+  }
+
+
+  return "Não foi possível concluir a operação.";
 
 }
 ```
