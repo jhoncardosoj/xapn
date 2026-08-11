@@ -1,337 +1,1151 @@
 <!DOCTYPE html>
+
 <html lang="pt-BR">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>xapn® | Em Manutenção</title>
+<title>xapn® | Vestida de Graça</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&family=Syne:wght@300;400;500;700&display=swap" rel="stylesheet" />
+<link
+  href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&family=Syne:wght@300;400;500;700&display=swap"
+  rel="stylesheet"
+>
 
-  <style>
-    :root{
-      --p:#678ec2;
-      --pl:#8db0dd;
-      --pd:#406494;
-      --bg:#f4f7fc;
-      --ink:#1e293b;
-    }
+<style>
 
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-    }
+:root{
+  --p:#678ec2;
+  --pd:#406494;
+  --ink:#1e293b
+}
 
-    body{
-      font-family:'Jost',sans-serif;
-      background:linear-gradient(135deg,#678ec2 0%, #406494 100%);
-      min-height:100vh;
-      overflow:hidden;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      color:#fff;
-      position:relative;
-      cursor:none;
-    }
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box
+}
 
-    .syne{
-      font-family:'Syne',sans-serif;
-    }
+body{
+  font-family:'Jost',sans-serif;
+  background:linear-gradient(135deg,#678ec2,#406494);
+  color:#fff
+}
 
-    /* fundo */
-    body::before{
-      content:'';
-      position:absolute;
-      inset:0;
-      background-image:
-      radial-gradient(rgba(255,255,255,.08) 1px, transparent 1px);
-      background-size:40px 40px;
-      opacity:.7;
-    }
+header{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  padding:18px 30px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:rgba(64,100,148,.28);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(255,255,255,.12);
+  z-index:10
+}
 
-    /* partículas */
-    .particles{
-      position:absolute;
-      inset:0;
-      overflow:hidden;
-      pointer-events:none;
-    }
+.logo{
+  font-family:'Syne',sans-serif;
+  font-size:2rem;
+  font-weight:300
+}
 
-    .particle{
-      position:absolute;
-      width:4px;
-      height:4px;
-      background:rgba(255,255,255,.25);
-      border-radius:50%;
-      animation:float linear infinite;
-    }
+.logo span{
+  font-size:.4em;
+  vertical-align:super;
+  opacity:.6
+}
 
-    @keyframes float{
-      from{
-        transform:translateY(100vh);
-        opacity:0;
-      }
+nav a{
+  color:#fff;
+  text-decoration:none;
+  margin-left:20px;
+  letter-spacing:.15em;
+  text-transform:uppercase;
+  font-size:.72rem
+}
 
-      10%{
-        opacity:1;
-      }
+.hero{
+  margin-top:76px;
+  height:72vh;
+  position:relative
+}
 
-      to{
-        transform:translateY(-20vh);
-        opacity:0;
-      }
-    }
+.slider{
+  position:relative;
+  width:100%;
+  height:100%;
+  overflow:hidden
+}
 
-    /* cursor */
-    #dot{
-      position:fixed;
-      width:5px;
-      height:5px;
-      background:#fff;
-      border-radius:50%;
-      pointer-events:none;
-      z-index:9999;
-      transform:translate(-50%,-50%);
-    }
+.slide{
+  position:absolute;
+  inset:0;
+  background-size:cover;
+  background-position:center;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  opacity:0;
+  transition:opacity .9s ease
+}
 
-    #ring{
-      position:fixed;
-      width:30px;
-      height:30px;
-      border:1px solid rgba(255,255,255,.35);
-      border-radius:50%;
-      pointer-events:none;
-      z-index:9998;
-      transform:translate(-50%,-50%);
-    }
+.slide.active{
+  opacity:1
+}
 
-    .container{
-      position:relative;
-      z-index:2;
-      text-align:center;
-      width:min(90%,700px);
-      padding:3rem;
-      animation:fadeUp 1s ease;
-    }
+.dots{
+  position:absolute;
+  bottom:24px;
+  left:50%;
+  transform:translateX(-50%);
+  display:flex;
+  gap:10px;
+  z-index:5
+}
 
-    @keyframes fadeUp{
-      from{
-        opacity:0;
-        transform:translateY(30px);
-      }
+.dot{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.6);
+  background:transparent;
+  cursor:pointer
+}
 
-      to{
-        opacity:1;
-        transform:none;
-      }
-    }
+.dot.active{
+  background:#fff
+}
 
-    .logo{
-      font-size:clamp(4rem,12vw,8rem);
-      font-weight:300;
-      line-height:1;
-      margin-bottom:1rem;
-      letter-spacing:-2px;
-    }
+.overlay{
+  text-align:center;
+  padding:20px;
+  background:rgba(0,0,0,.25);
+  backdrop-filter:blur(4px);
+  border-radius:22px;
+  max-width:850px
+}
 
-    .logo .reg{
-      font-size:.2em;
-      vertical-align:super;
-      opacity:.5;
-    }
+.badge{
+  display:inline-block;
+  padding:8px 14px;
+  border:1px solid rgba(255,255,255,.25);
+  background:rgba(255,255,255,.08);
+  letter-spacing:.25em;
+  text-transform:uppercase;
+  font-size:.62rem;
+  margin-bottom:14px
+}
 
-    .badge{
-      display:inline-block;
-      padding:.5rem 1rem;
-      border:1px solid rgba(255,255,255,.2);
-      background:rgba(255,255,255,.08);
-      backdrop-filter:blur(10px);
-      font-size:.6rem;
-      letter-spacing:.4em;
-      text-transform:uppercase;
-      margin-bottom:2rem;
-    }
+.overlay h1{
+  font-family:'Syne',sans-serif;
+  font-size:4rem;
+  font-weight:300
+}
 
-    h1{
-      font-family:'Syne',sans-serif;
-      font-weight:300;
-      font-size:clamp(2rem,5vw,4rem);
-      line-height:1.1;
-      margin-bottom:1.5rem;
-    }
+.overlay p{
+  max-width:700px;
+  margin:16px auto;
+  line-height:1.8
+}
 
-    h1 em{
-      font-style:normal;
-      color:#dbeafe;
-    }
+.cta{
+  display:inline-block;
+  margin-top:18px;
+  padding:14px 28px;
+  background:#fff;
+  color:var(--ink);
+  text-decoration:none;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  font-size:.68rem
+}
 
-    p{
-      font-size:.95rem;
-      line-height:2;
-      color:rgba(255,255,255,.75);
-      max-width:580px;
-      margin:0 auto;
-    }
+.section{
+  max-width:1200px;
+  margin:0 auto;
+  padding:70px 22px
+}
 
-    .line{
-      width:60px;
-      height:1px;
-      background:rgba(255,255,255,.3);
-      margin:2rem auto;
-    }
+.section h2{
+  font-family:'Syne',sans-serif;
+  font-size:2.3rem;
+  font-weight:300;
+  text-align:center;
+  margin-bottom:10px
+}
 
-    .btn{
-      display:inline-flex;
-      align-items:center;
-      gap:.8rem;
-      margin-top:2rem;
-      padding:1rem 2.3rem;
-      background:#fff;
-      color:var(--ink);
-      text-decoration:none;
-      text-transform:uppercase;
-      letter-spacing:.3em;
-      font-size:.55rem;
-      transition:.3s;
-    }
+.section .sub{
+  text-align:center;
+  color:rgba(255,255,255,.75);
+  margin-bottom:30px
+}
 
-    .btn:hover{
-      transform:translateY(-3px);
-      background:#f4f7fc;
-    }
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:22px
+}
 
-    .footer{
-      margin-top:3rem;
-      font-size:.55rem;
-      letter-spacing:.3em;
-      text-transform:uppercase;
-      color:rgba(255,255,255,.4);
-    }
+.card{
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:18px;
+  overflow:hidden;
+  backdrop-filter:blur(10px);
+  transition:.3s
+}
 
-    @media(max-width:768px){
-      body{
-        cursor:auto;
-      }
+.card:hover{
+  transform:translateY(-5px);
+  background:rgba(255,255,255,.12)
+}
 
-      #dot,
-      #ring{
-        display:none;
-      }
+.card img{
+  width:100%;
+  height:300px;
+  object-fit:cover
+}
 
-      .container{
-        padding:2rem;
-      }
+.info{
+  padding:18px
+}
 
-      p{
-        font-size:.85rem;
-      }
-    }
+.info h3{
+  font-family:'Syne',sans-serif;
+  font-weight:400;
+  margin-bottom:8px
+}
 
-  </style>
+.description{
+  color:rgba(255,255,255,.7);
+  font-size:.82rem;
+  line-height:1.5;
+  margin-bottom:12px
+}
+
+.price{
+  color:#dbeafe;
+  margin-bottom:14px
+}
+
+.buy{
+  display:block;
+  text-align:center;
+  padding:12px;
+  background:#fff;
+  color:var(--ink);
+  text-decoration:none;
+  letter-spacing:.15em;
+  text-transform:uppercase;
+  font-size:.64rem;
+  border-radius:12px;
+  transition:.2s
+}
+
+.buy:hover{
+  transform:translateY(-2px)
+}
+
+.banner{
+  display:grid;
+  grid-template-columns:1.2fr .8fr;
+  gap:24px;
+  align-items:center
+}
+
+.banner .text h3{
+  font-family:'Syne',sans-serif;
+  font-size:2rem;
+  font-weight:300;
+  margin-bottom:14px
+}
+
+.banner .text p{
+  line-height:1.9;
+  color:rgba(255,255,255,.82)
+}
+
+.banner .image{
+  min-height:320px;
+  border-radius:22px;
+  background:url('https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=1200&q=80') center/cover
+}
+
+.features{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:20px
+}
+
+.feature{
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:18px;
+  padding:24px
+}
+
+.feature h4{
+  font-family:'Syne',sans-serif;
+  font-weight:400;
+  margin-bottom:10px
+}
+
+.feature p{
+  color:rgba(255,255,255,.8);
+  line-height:1.8
+}
+
+.loading{
+  grid-column:1/-1;
+  text-align:center;
+  padding:50px 20px;
+  color:rgba(255,255,255,.7)
+}
+
+.empty{
+  grid-column:1/-1;
+  text-align:center;
+  padding:50px 20px;
+  color:rgba(255,255,255,.65)
+}
+
+.error{
+  grid-column:1/-1;
+  text-align:center;
+  padding:30px;
+  color:#ffd0d0;
+  background:rgba(255,0,0,.08);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:15px
+}
+
+footer{
+  text-align:center;
+  padding:40px 22px 60px;
+  color:rgba(255,255,255,.62);
+  font-size:.72rem;
+  letter-spacing:.12em
+}
+
+@media (max-width:768px){
+
+  nav{
+    display:none
+  }
+
+  .overlay h1{
+    font-size:2.8rem
+  }
+
+  .overlay{
+    margin:20px
+  }
+
+  .banner{
+    grid-template-columns:1fr
+  }
+
+  .hero{
+    height:65vh
+  }
+
+}
+
+</style>
+
 </head>
+
 <body>
 
-<div id="dot"></div>
-<div id="ring"></div>
+<header>
 
-<div class="particles" id="particles"></div>
-
-<div class="container">
-
-  <div class="logo syne">
-    xapn<span class="reg">®</span>
+  <div class="logo">
+    xapn<span>®</span>
   </div>
 
-  <div class="badge">
-    manutenção em andamento
+  <nav>
+    <a href="#produtos">Produtos</a>
+    <a href="#sobre">Sobre</a>
+    <a href="#diferenciais">Diferenciais</a>
+    <a href="admin.html">Admin</a>
+  </nav>
+
+</header>
+
+<section class="hero">
+
+  <div class="slider">
+
+```
+<div id="slides-container"></div>
+
+<div class="dots" id="dots-container"></div>
+```
+
   </div>
 
-  <h1>
-    Olá xapns,<br>
-    estamos em <em>manutenção.</em>
-  </h1>
+</section>
 
-  <div class="line"></div>
+<section class="section" id="produtos">
 
-  <p>
-    Nosso site está passando por alguns ajustes para trazer
-    uma experiência ainda melhor pra vocês.
-    Em breve estaremos de volta com novidades,
-    graça e muito propósito. ✦
+  <h2>Nossa coleção</h2>
+
+  <p class="sub">
+    Peças pensadas para vestir propósito, identidade e estilo.
   </p>
 
-  <a
-    href="https://api.whatsapp.com/send/?phone=82993689706"
-    target="_blank"
-    class="btn"
-  >
-    Falar no WhatsApp
-  </a>
+  <div class="grid" id="products-container">
 
-  <div class="footer">
-    xapn® 2026 — vestida de graça
+```
+<div class="loading">
+  Carregando coleção...
+</div>
+```
+
   </div>
+
+</section>
+
+<section class="section" id="sobre">
+
+  <div class="banner">
+
+```
+<div class="text">
+
+  <h3>
+    Mais do que uma camiseta
+  </h3>
+
+  <p>
+    A XAPN nasceu para vestir propósito.
+    Cada coleção é pensada para unir minimalismo,
+    qualidade e identidade, criando peças que permanecem
+    relevantes em qualquer temporada.
+  </p>
 
 </div>
 
-<script>
+<div class="image"></div>
+```
 
-  // cursor
-  const dot = document.getElementById('dot');
-  const ring = document.getElementById('ring');
+  </div>
 
-  let mx = 0;
-  let my = 0;
-  let rx = 0;
-  let ry = 0;
+</section>
 
-  document.addEventListener('mousemove', (e)=>{
-    mx = e.clientX;
-    my = e.clientY;
+<section class="section" id="diferenciais">
 
-    dot.style.left = mx + 'px';
-    dot.style.top = my + 'px';
-  });
+  <h2>
+    Por que ser XAPN?
+  </h2>
 
-  function animate(){
-    rx += (mx - rx) * 0.12;
-    ry += (my - ry) * 0.12;
+  <p class="sub">
+    Alguns diferenciais que valorizam ainda mais a marca.
+  </p>
 
-    ring.style.left = rx + 'px';
-    ring.style.top = ry + 'px';
+  <div class="features">
 
-    requestAnimationFrame(animate);
+```
+<div class="feature">
+
+  <h4>
+    Qualidade premium
+  </h4>
+
+  <p>
+    Modelagem confortável, acabamento refinado
+    e foco em durabilidade para o uso diário.
+  </p>
+
+</div>
+
+
+<div class="feature">
+
+  <h4>
+    Estética minimalista
+  </h4>
+
+  <p>
+    Design limpo, elegante e atemporal,
+    pensado para combinar com qualquer estilo.
+  </p>
+
+</div>
+
+
+<div class="feature">
+
+  <h4>
+    Atendimento próximo
+  </h4>
+
+  <p>
+    Compra direta pelo WhatsApp, atendimento rápido
+    e relacionamento mais humano com os clientes.
+  </p>
+
+</div>
+
+
+<div class="feature">
+
+  <h4>
+    Comunidade XAPN
+  </h4>
+
+  <p>
+    Mais do que clientes, queremos pessoas caminhando
+    com a marca e fazendo parte da identidade XAPN.
+  </p>
+
+</div>
+```
+
+  </div>
+
+</section>
+
+<footer>
+  xapn® 2026 — Todos os direitos reservados.
+</footer>
+
+<script type="module">
+
+import {
+  initializeApp
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  query,
+  orderBy
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+
+/*
+====================================================
+CONFIGURAÇÃO DO SEU FIREBASE
+====================================================
+*/
+
+const firebaseConfig = {
+
+  apiKey: "AIzaSyAIe0UEwyoIccj_1KiE51awo9zI7lU_Ah8",
+
+  authDomain:
+    "xapn-517e9.firebaseapp.com",
+
+  projectId:
+    "xapn-517e9",
+
+  storageBucket:
+    "xapn-517e9.firebasestorage.app",
+
+  messagingSenderId:
+    "254063330561",
+
+  appId:
+    "1:254063330561:web:da0b235870a8921f15c700"
+
+};
+
+
+/*
+====================================================
+INICIALIZA FIREBASE
+====================================================
+*/
+
+const app =
+  initializeApp(firebaseConfig);
+
+const db =
+  getFirestore(app);
+
+
+/*
+====================================================
+WHATSAPP
+====================================================
+*/
+
+const WHATSAPP =
+  "5582993689706";
+
+
+/*
+====================================================
+ELEMENTOS
+====================================================
+*/
+
+const slidesContainer =
+  document.getElementById(
+    "slides-container"
+  );
+
+const dotsContainer =
+  document.getElementById(
+    "dots-container"
+  );
+
+const productsContainer =
+  document.getElementById(
+    "products-container"
+  );
+
+
+/*
+====================================================
+CARROSSEL
+====================================================
+*/
+
+let slides = [];
+
+let currentSlide = 0;
+
+let carouselTimer;
+
+
+/*
+Renderiza o carrossel
+*/
+
+function renderCarousel(data){
+
+  slides = data;
+
+  if(!slides.length){
+
+    slidesContainer.innerHTML = `
+
+      <div
+        class="slide active"
+        style="
+          background-image:
+          url('https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=1600&q=80')
+        "
+      >
+
+        <div class="overlay">
+
+          <div class="badge">
+            XAPN
+          </div>
+
+          <h1>
+            Vestida de Graça
+          </h1>
+
+          <p>
+            Camisetas premium com propósito,
+            minimalismo e identidade.
+          </p>
+
+          <a
+            class="cta"
+            href="#produtos"
+          >
+            Ver coleção
+          </a>
+
+        </div>
+
+      </div>
+    `;
+
+    dotsContainer.innerHTML = "";
+
+    return;
   }
 
-  animate();
 
-  // partículas
-  const particles = document.getElementById('particles');
+  slidesContainer.innerHTML =
+    slides.map((slide,index)=>`
 
-  for(let i=0; i<25; i++){
+      <div
+        class="slide ${index === 0 ? "active" : ""}"
+        style="
+          background-image:
+          url('${escapeAttribute(slide.img)}')
+        "
+      >
 
-    const p = document.createElement('div');
+        <div class="overlay">
 
-    p.classList.add('particle');
+          <div class="badge">
+            ${escapeHTML(slide.badge || "XAPN")}
+          </div>
 
-    p.style.left = Math.random() * 100 + '%';
+          <h1>
+            ${escapeHTML(slide.title || "Nova coleção")}
+          </h1>
 
-    p.style.animationDuration =
-      (6 + Math.random() * 10) + 's';
+          <p>
+            ${escapeHTML(
+              slide.description ||
+              "Camisetas premium com propósito, minimalismo e identidade."
+            )}
+          </p>
 
-    p.style.animationDelay =
-      Math.random() * 8 + 's';
+          <a
+            class="cta"
+            href="#produtos"
+          >
+            ${escapeHTML(slide.buttonText || "Ver coleção")}
+          </a>
 
-    p.style.width =
-      p.style.height =
-      (2 + Math.random() * 4) + 'px';
+        </div>
 
-    particles.appendChild(p);
+      </div>
+
+    `).join("");
+
+
+  dotsContainer.innerHTML =
+    slides.map((_,index)=>`
+
+      <button
+        class="dot ${index === 0 ? "active" : ""}"
+        data-slide="${index}"
+        aria-label="Slide ${index + 1}"
+      ></button>
+
+    `).join("");
+
+
+  document
+    .querySelectorAll(".dot")
+    .forEach(dot => {
+
+      dot.addEventListener(
+        "click",
+        () => {
+
+          currentSlide =
+            Number(
+              dot.dataset.slide
+            );
+
+          showSlide(
+            currentSlide
+          );
+
+          restartCarousel();
+
+        }
+      );
+
+    });
+
+
+  startCarousel();
+
+}
+
+
+/*
+Troca o slide
+*/
+
+function showSlide(index){
+
+  const allSlides =
+    document.querySelectorAll(
+      ".slide"
+    );
+
+  const allDots =
+    document.querySelectorAll(
+      ".dot"
+    );
+
+
+  allSlides.forEach(
+    (slide,i)=>{
+
+      slide.classList.toggle(
+        "active",
+        i === index
+      );
+
+    }
+  );
+
+
+  allDots.forEach(
+    (dot,i)=>{
+
+      dot.classList.toggle(
+        "active",
+        i === index
+      );
+
+    }
+  );
+
+}
+
+
+/*
+Próximo slide
+*/
+
+function nextSlide(){
+
+  if(!slides.length)
+    return;
+
+  currentSlide =
+    (currentSlide + 1)
+    % slides.length;
+
+  showSlide(
+    currentSlide
+  );
+
+}
+
+
+/*
+Inicia automático
+*/
+
+function startCarousel(){
+
+  clearInterval(
+    carouselTimer
+  );
+
+  if(slides.length > 1){
+
+    carouselTimer =
+      setInterval(
+        nextSlide,
+        4500
+      );
+
   }
+
+}
+
+
+/*
+Reinicia automático
+*/
+
+function restartCarousel(){
+
+  startCarousel();
+
+}
+
+
+/*
+====================================================
+PRODUTOS
+====================================================
+*/
+
+async function loadProducts(){
+
+  try{
+
+    const productsRef =
+      collection(
+        db,
+        "products"
+      );
+
+
+    const snapshot =
+      await getDocs(
+        productsRef
+      );
+
+
+    const products =
+      snapshot.docs.map(
+        doc => ({
+
+          id: doc.id,
+
+          ...doc.data()
+
+        })
+      );
+
+
+    /*
+    Ordena pelo campo order,
+    se existir.
+    */
+
+    products.sort(
+      (a,b)=>
+        (a.order ?? 9999)
+        -
+        (b.order ?? 9999)
+    );
+
+
+    renderProducts(
+      products
+    );
+
+
+  }catch(error){
+
+    console.error(
+      "Erro ao carregar produtos:",
+      error
+    );
+
+
+    productsContainer.innerHTML = `
+
+      <div class="error">
+
+        Não foi possível carregar
+        os produtos no momento.
+
+      </div>
+
+    `;
+
+  }
+
+}
+
+
+/*
+Renderiza produtos
+*/
+
+function renderProducts(
+  products
+){
+
+  if(!products.length){
+
+    productsContainer.innerHTML = `
+
+      <div class="empty">
+
+        Nenhum produto cadastrado
+        no momento.
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  productsContainer.innerHTML =
+    products.map(
+      product => {
+
+        const price =
+          Number(
+            product.price || 0
+          );
+
+
+        const image =
+          product.img ||
+          product.image ||
+          "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=900&q=80";
+
+
+        const title =
+          product.title ||
+          "Produto XAPN";
+
+
+        const description =
+          product.description ||
+          "";
+
+
+        const whatsappMessage =
+          `Olá xapn®, tenho interesse na ${title}.`;
+
+
+        const whatsappURL =
+          `https://api.whatsapp.com/send/?phone=${WHATSAPP}&text=${encodeURIComponent(whatsappMessage)}`;
+
+
+        return `
+
+          <div class="card">
+
+            <img
+              src="${escapeAttribute(image)}"
+              alt="${escapeAttribute(title)}"
+              loading="lazy"
+            >
+
+            <div class="info">
+
+              <h3>
+                ${escapeHTML(title)}
+              </h3>
+
+              ${
+                description
+                  ?
+                `
+                  <div class="description">
+                    ${escapeHTML(description)}
+                  </div>
+                `
+                  :
+                ""
+              }
+
+              <div class="price">
+
+                R$
+                ${price
+                  .toFixed(2)
+                  .replace(".", ",")
+                }
+
+              </div>
+
+              <a
+                class="buy"
+                href="${escapeAttribute(whatsappURL)}"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Comprar
+              </a>
+
+            </div>
+
+          </div>
+
+        `;
+
+      }
+    ).join("");
+
+}
+
+
+/*
+====================================================
+CARROSSEL DO FIRESTORE
+====================================================
+*/
+
+async function loadCarousel(){
+
+  try{
+
+    const carouselRef =
+      collection(
+        db,
+        "carousel"
+      );
+
+
+    const snapshot =
+      await getDocs(
+        carouselRef
+      );
+
+
+    const data =
+      snapshot.docs.map(
+        doc => ({
+
+          id: doc.id,
+
+          ...doc.data()
+
+        })
+      );
+
+
+    data.sort(
+      (a,b)=>
+        (a.order ?? 9999)
+        -
+        (b.order ?? 9999)
+    );
+
+
+    renderCarousel(
+      data
+    );
+
+
+  }catch(error){
+
+    console.error(
+      "Erro ao carregar carrossel:",
+      error
+    );
+
+
+    renderCarousel([]);
+
+  }
+
+}
+
+
+/*
+====================================================
+SEGURANÇA CONTRA HTML INJETADO
+====================================================
+*/
+
+function escapeHTML(value){
+
+  return String(value ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+
+}
+
+
+function escapeAttribute(value){
+
+  return escapeHTML(value);
+
+}
+
+
+/*
+====================================================
+INICIALIZA A LOJA
+====================================================
+*/
+
+loadProducts();
+
+loadCarousel();
 
 </script>
 
 </body>
-</html>>
+
+</html>
