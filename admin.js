@@ -1,3 +1,13 @@
+```javascript
+// =====================================================
+// XAPN® — ADMIN.JS
+// Painel administrativo
+// =====================================================
+
+// =====================================================
+// FIREBASE
+// =====================================================
+
 import {
   auth,
   db
@@ -26,12 +36,11 @@ import {
 // CONFIGURAÇÃO
 // =====================================================
 
-const ADMIN_UID =
-  "mpBZ0ta8CJcyuQf10gS70BVBGcC2";
+const ADMIN_UID = "mpBZ0ta8CJcyuQf10gS70BVBGcC2";
 
 
 // =====================================================
-// ELEMENTOS
+// ELEMENTOS — LOGIN
 // =====================================================
 
 const loginScreen =
@@ -96,7 +105,10 @@ loginButton.addEventListener(
 
     } catch (error) {
 
-      console.error(error);
+      console.error(
+        "Erro no login:",
+        error
+      );
 
       showStatus(
         loginStatus,
@@ -108,6 +120,24 @@ loginButton.addEventListener(
 
       loginButton.innerText =
         "Entrar";
+    }
+
+  }
+);
+
+
+// =====================================================
+// ENTER NO LOGIN
+// =====================================================
+
+loginPassword.addEventListener(
+  "keydown",
+  event => {
+
+    if (event.key === "Enter") {
+
+      loginButton.click();
+
     }
 
   }
@@ -136,7 +166,10 @@ onAuthStateChanged(
     }
 
 
-    // Segurança adicional no frontend
+    // =================================================
+    // SEGURANÇA DO ADMIN
+    // =================================================
+
     if (user.uid !== ADMIN_UID) {
 
       await signOut(auth);
@@ -151,6 +184,10 @@ onAuthStateChanged(
     }
 
 
+    // =================================================
+    // ACESSO AUTORIZADO
+    // =================================================
+
     loginScreen.classList.add(
       "hidden"
     );
@@ -158,6 +195,7 @@ onAuthStateChanged(
     dashboard.classList.remove(
       "hidden"
     );
+
 
     await loadProducts();
 
@@ -175,27 +213,48 @@ logoutButton.addEventListener(
   "click",
   async () => {
 
-    await signOut(auth);
+    try {
+
+      await signOut(auth);
+
+    } catch (error) {
+
+      console.error(
+        "Erro ao sair:",
+        error
+      );
+
+    }
 
   }
 );
 
 
 // =====================================================
+// =====================================================
 // PRODUTOS
+// =====================================================
 // =====================================================
 
 const productForm =
-  document.getElementById("product-form");
+  document.getElementById(
+    "product-form"
+  );
 
 const productId =
-  document.getElementById("product-id");
+  document.getElementById(
+    "product-id"
+  );
 
 const productTitle =
-  document.getElementById("product-title");
+  document.getElementById(
+    "product-title"
+  );
 
 const productPrice =
-  document.getElementById("product-price");
+  document.getElementById(
+    "product-price"
+  );
 
 const productDescription =
   document.getElementById(
@@ -203,7 +262,9 @@ const productDescription =
   );
 
 const productImg =
-  document.getElementById("product-img");
+  document.getElementById(
+    "product-img"
+  );
 
 const productPreview =
   document.getElementById(
@@ -230,6 +291,7 @@ const productList =
     "product-list"
   );
 
+
 let products = [];
 
 
@@ -241,45 +303,109 @@ async function loadProducts() {
 
   try {
 
-    const q = query(
-      collection(db, "produtos"),
-      orderBy("createdAt", "desc")
-    );
+    /*
+     * IMPORTANTE:
+     *
+     * O site público usa:
+     *
+     * collection(db, "products")
+     *
+     * Portanto o admin também precisa
+     * usar exatamente "products".
+     */
 
-    const snapshot =
-      await getDocs(q);
+    const productsRef =
+      collection(
+        db,
+        "products"
+      );
+
+
+    let snapshot;
+
+
+    // =================================================
+    // PRIMEIRO TENTA ORDENAR POR createdAt
+    // =================================================
+
+    try {
+
+      const q =
+        query(
+          productsRef,
+          orderBy(
+            "createdAt",
+            "desc"
+          )
+        );
+
+      snapshot =
+        await getDocs(q);
+
+    } catch (orderError) {
+
+      /*
+       * Caso documentos antigos não tenham
+       * createdAt, carrega normalmente.
+       */
+
+      console.warn(
+        "Não foi possível ordenar por createdAt. Carregando normalmente.",
+        orderError
+      );
+
+      snapshot =
+        await getDocs(
+          productsRef
+        );
+
+    }
+
 
     products =
-      snapshot.docs.map(item => ({
-        id: item.id,
-        ...item.data()
-      }));
+      snapshot.docs.map(
+        item => ({
+
+          id: item.id,
+
+          ...item.data()
+
+        })
+      );
+
+
+    renderProducts();
+
 
   } catch (error) {
 
-    console.warn(
-      "Fallback produtos:",
+    console.error(
+      "Erro ao carregar produtos:",
       error
     );
 
-    const snapshot =
-      await getDocs(
-        collection(db, "produtos")
-      );
 
-    products =
-      snapshot.docs.map(item => ({
-        id: item.id,
-        ...item.data()
-      }));
+    productList.innerHTML = `
+
+      <div
+        style="
+          color:#ffd0d0;
+          font-size:.8rem;
+          padding:15px 0;
+        "
+      >
+        Erro ao carregar produtos.
+      </div>
+
+    `;
+
   }
 
-  renderProducts();
 }
 
 
 // =====================================================
-// RENDER PRODUTOS
+// RENDERIZAR PRODUTOS
 // =====================================================
 
 function renderProducts() {
@@ -287,63 +413,120 @@ function renderProducts() {
   if (!products.length) {
 
     productList.innerHTML = `
+
       <div
         style="
           color:rgba(255,255,255,.5);
           font-size:.8rem;
+          padding:15px 0;
         "
       >
         Nenhum produto cadastrado.
       </div>
+
     `;
 
     return;
+
   }
 
 
   productList.innerHTML =
-    products.map(product => `
+    products
+      .map(
+        product => {
 
-      <div class="item">
+          const image =
+            product.img ||
+            product.image ||
+            "";
 
-        <img
-          src="${escapeAttribute(product.img || "")}"
-          alt=""
-        >
 
-        <div class="item-info">
+          return `
 
-          <div class="item-title">
-            ${escapeHTML(product.title || "")}
-          </div>
+            <div class="item">
 
-          <div class="item-price">
-            ${formatPrice(product.price)}
-          </div>
+              ${
+                image
+                  ?
+                `
+                  <img
+                    src="${escapeAttribute(image)}"
+                    alt="${escapeAttribute(product.title || "Produto")}"
+                  >
+                `
+                  :
+                `
+                  <div
+                    style="
+                      width:60px;
+                      height:60px;
+                      border-radius:8px;
+                      background:rgba(255,255,255,.08);
+                      display:flex;
+                      align-items:center;
+                      justify-content:center;
+                      font-size:20px;
+                    "
+                  >
+                    👕
+                  </div>
+                `
+              }
 
-        </div>
 
-        <div class="item-actions">
+              <div class="item-info">
 
-          <button
-            class="edit"
-            data-edit-product="${product.id}"
-          >
-            Editar
-          </button>
+                <div class="item-title">
 
-          <button
-            class="delete"
-            data-delete-product="${product.id}"
-          >
-            Excluir
-          </button>
+                  ${escapeHTML(
+                    product.title ||
+                    "Produto sem nome"
+                  )}
 
-        </div>
+                </div>
 
-      </div>
 
-    `).join("");
+                <div class="item-price">
+
+                  ${formatPrice(
+                    product.price
+                  )}
+
+                </div>
+
+              </div>
+
+
+              <div class="item-actions">
+
+                <button
+                  type="button"
+                  class="edit"
+                  data-edit-product="${escapeAttribute(product.id)}"
+                >
+                  Editar
+                </button>
+
+
+                <button
+                  type="button"
+                  class="delete"
+                  data-delete-product="${escapeAttribute(product.id)}"
+                >
+                  Excluir
+                </button>
+
+              </div>
+
+            </div>
+
+          `;
+
+        }
+      )
+      .join("");
+
 }
 
 
@@ -357,99 +540,186 @@ productForm.addEventListener(
 
     event.preventDefault();
 
+
     const title =
       productTitle.value.trim();
 
+
     const price =
-      Number(productPrice.value);
+      Number(
+        productPrice.value
+      );
+
 
     const description =
       productDescription.value.trim();
 
+
     const img =
       productImg.value.trim();
 
-    if (!title || !img || Number.isNaN(price)) {
+
+    // =================================================
+    // VALIDAÇÃO
+    // =================================================
+
+    if (!title) {
 
       showStatus(
         productStatus,
-        "Preencha os campos obrigatórios.",
+        "Digite o nome do produto.",
         true
       );
 
       return;
+
     }
 
-    productSubmit.disabled = true;
+
+    if (
+      productPrice.value === "" ||
+      Number.isNaN(price) ||
+      price < 0
+    ) {
+
+      showStatus(
+        productStatus,
+        "Digite um preço válido.",
+        true
+      );
+
+      return;
+
+    }
+
+
+    if (!img) {
+
+      showStatus(
+        productStatus,
+        "Adicione uma imagem do produto.",
+        true
+      );
+
+      return;
+
+    }
+
+
+    productSubmit.disabled =
+      true;
+
+
+    productSubmit.innerText =
+      productId.value
+        ? "Salvando..."
+        : "Adicionando...";
+
 
     try {
 
       const data = {
+
         title,
+
         price,
+
         description,
+
         img,
+
         updatedAt:
           serverTimestamp()
+
       };
 
+
+      // =================================================
+      // EDITAR
+      // =================================================
 
       if (productId.value) {
 
         await updateDoc(
           doc(
             db,
-            "produtos",
+            "products",
             productId.value
           ),
           data
         );
 
+
         showStatus(
           productStatus,
-          "Produto atualizado!",
+          "Produto atualizado com sucesso!",
           false
         );
 
-      } else {
+      }
+
+
+      // =================================================
+      // ADICIONAR
+      // =================================================
+
+      else {
 
         await addDoc(
           collection(
             db,
-            "produtos"
+            "products"
           ),
           {
+
             ...data,
+
             createdAt:
               serverTimestamp()
+
           }
         );
 
+
         showStatus(
           productStatus,
-          "Produto adicionado!",
+          "Produto adicionado com sucesso!",
           false
         );
+
       }
 
 
       resetProductForm();
 
+
       await loadProducts();
+
 
     } catch (error) {
 
-      console.error(error);
+      console.error(
+        "Erro ao salvar produto:",
+        error
+      );
+
 
       showStatus(
         productStatus,
-        "Erro ao salvar produto.",
+        getFirestoreError(error),
         true
       );
 
+
     } finally {
 
-      productSubmit.disabled = false;
+      productSubmit.disabled =
+        false;
+
+      productSubmit.innerText =
+        productId.value
+          ? "Salvar alterações"
+          : "Adicionar produto";
 
     }
 
@@ -458,7 +728,7 @@ productForm.addEventListener(
 
 
 // =====================================================
-// EDITAR PRODUTO
+// EDITAR / EXCLUIR PRODUTO
 // =====================================================
 
 productList.addEventListener(
@@ -470,58 +740,86 @@ productList.addEventListener(
         "[data-edit-product]"
       );
 
+
     const deleteButton =
       event.target.closest(
         "[data-delete-product]"
       );
 
 
+    // =================================================
+    // EDITAR
+    // =================================================
+
     if (editButton) {
 
       const id =
         editButton.dataset.editProduct;
 
+
       const product =
         products.find(
-          item => item.id === id
+          item =>
+            item.id === id
         );
 
-      if (!product) return;
+
+      if (!product)
+        return;
+
 
       productId.value =
         product.id;
 
+
       productTitle.value =
         product.title || "";
 
+
       productPrice.value =
-        product.price || "";
+        product.price ?? "";
+
 
       productDescription.value =
         product.description || "";
 
+
       productImg.value =
-        product.img || "";
+        product.img ||
+        product.image ||
+        "";
+
 
       showPreview(
         productPreview,
-        product.img
+        product.img ||
+        product.image ||
+        ""
       );
+
 
       productSubmit.innerText =
         "Salvar alterações";
+
 
       productCancel.classList.remove(
         "hidden"
       );
 
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      });
+
+      document
+        .getElementById("product-form")
+        .scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
 
     }
 
+
+    // =================================================
+    // EXCLUIR
+    // =================================================
 
     if (deleteButton) {
 
@@ -543,47 +841,62 @@ async function deleteProduct(id) {
 
   const product =
     products.find(
-      item => item.id === id
+      item =>
+        item.id === id
     );
 
-  if (!product) return;
+
+  if (!product)
+    return;
+
 
   const confirmed =
     confirm(
-      `Excluir "${product.title}"?`
+      `Excluir "${product.title || "este produto"}"?`
     );
 
-  if (!confirmed) return;
+
+  if (!confirmed)
+    return;
+
 
   try {
 
     await deleteDoc(
       doc(
         db,
-        "produtos",
+        "products",
         id
       )
     );
 
+
     await loadProducts();
+
 
     showStatus(
       productStatus,
-      "Produto excluído.",
+      "Produto excluído com sucesso.",
       false
     );
 
+
   } catch (error) {
 
-    console.error(error);
+    console.error(
+      "Erro ao excluir produto:",
+      error
+    );
+
 
     showStatus(
       productStatus,
-      "Erro ao excluir produto.",
+      getFirestoreError(error),
       true
     );
 
   }
+
 }
 
 
@@ -601,17 +914,27 @@ function resetProductForm() {
 
   productForm.reset();
 
-  productId.value = "";
+
+  productId.value =
+    "";
+
 
   productSubmit.innerText =
     "Adicionar produto";
+
 
   productCancel.classList.add(
     "hidden"
   );
 
+
+  productPreview.src =
+    "";
+
+
   productPreview.style.display =
     "none";
+
 }
 
 
@@ -633,7 +956,9 @@ productImg.addEventListener(
 
 
 // =====================================================
+// =====================================================
 // CARROSSEL
+// =====================================================
 // =====================================================
 
 const carouselForm =
@@ -681,6 +1006,7 @@ const carouselList =
     "carousel-list"
   );
 
+
 let slides = [];
 
 
@@ -692,48 +1018,106 @@ async function loadCarousel() {
 
   try {
 
-    const q = query(
-      collection(db, "carrossel"),
-      orderBy("createdAt", "asc")
-    );
+    /*
+     * IMPORTANTE:
+     *
+     * O site público usa:
+     *
+     * collection(db, "carousel")
+     *
+     * Portanto o admin também usa "carousel".
+     */
 
-    const snapshot =
-      await getDocs(q);
+    const carouselRef =
+      collection(
+        db,
+        "carousel"
+      );
+
+
+    let snapshot;
+
+
+    // =================================================
+    // TENTA ORDENAR POR createdAt
+    // =================================================
+
+    try {
+
+      const q =
+        query(
+          carouselRef,
+          orderBy(
+            "createdAt",
+            "asc"
+          )
+        );
+
+
+      snapshot =
+        await getDocs(q);
+
+
+    } catch (orderError) {
+
+      console.warn(
+        "Não foi possível ordenar o carrossel por createdAt.",
+        orderError
+      );
+
+
+      snapshot =
+        await getDocs(
+          carouselRef
+        );
+
+    }
+
 
     slides =
-      snapshot.docs.map(item => ({
-        id: item.id,
-        ...item.data()
-      }));
+      snapshot.docs.map(
+        item => ({
+
+          id: item.id,
+
+          ...item.data()
+
+        })
+      );
+
+
+    renderCarouselAdmin();
+
 
   } catch (error) {
 
-    console.warn(
-      "Fallback carrossel:",
+    console.error(
+      "Erro ao carregar carrossel:",
       error
     );
 
-    const snapshot =
-      await getDocs(
-        collection(
-          db,
-          "carrossel"
-        )
-      );
 
-    slides =
-      snapshot.docs.map(item => ({
-        id: item.id,
-        ...item.data()
-      }));
+    carouselList.innerHTML = `
+
+      <div
+        style="
+          color:#ffd0d0;
+          font-size:.8rem;
+          padding:15px 0;
+        "
+      >
+        Erro ao carregar slides.
+      </div>
+
+    `;
+
   }
 
-  renderCarouselAdmin();
 }
 
 
 // =====================================================
-// RENDER CARROSSEL
+// RENDERIZAR CARROSSEL
 // =====================================================
 
 function renderCarouselAdmin() {
@@ -741,59 +1125,111 @@ function renderCarouselAdmin() {
   if (!slides.length) {
 
     carouselList.innerHTML = `
+
       <div
         style="
           color:rgba(255,255,255,.5);
           font-size:.8rem;
+          padding:15px 0;
         "
       >
         Nenhum slide cadastrado.
       </div>
+
     `;
 
     return;
+
   }
 
 
   carouselList.innerHTML =
-    slides.map(slide => `
+    slides
+      .map(
+        slide => {
 
-      <div class="item">
+          const image =
+            slide.img ||
+            slide.image ||
+            "";
 
-        <img
-          src="${escapeAttribute(slide.img || "")}"
-          alt=""
-        >
 
-        <div class="item-info">
+          return `
 
-          <div class="item-title">
-            ${escapeHTML(slide.title || "")}
-          </div>
+            <div class="item">
 
-        </div>
+              ${
+                image
+                  ?
+                `
+                  <img
+                    src="${escapeAttribute(image)}"
+                    alt="${escapeAttribute(slide.title || "Slide")}"
+                  >
+                `
+                  :
+                `
+                  <div
+                    style="
+                      width:60px;
+                      height:60px;
+                      border-radius:8px;
+                      background:rgba(255,255,255,.08);
+                      display:flex;
+                      align-items:center;
+                      justify-content:center;
+                      font-size:20px;
+                    "
+                  >
+                    🖼️
+                  </div>
+                `
+              }
 
-        <div class="item-actions">
 
-          <button
-            class="edit"
-            data-edit-slide="${slide.id}"
-          >
-            Editar
-          </button>
+              <div class="item-info">
 
-          <button
-            class="delete"
-            data-delete-slide="${slide.id}"
-          >
-            Excluir
-          </button>
+                <div class="item-title">
 
-        </div>
+                  ${escapeHTML(
+                    slide.title ||
+                    "Slide sem título"
+                  )}
 
-      </div>
+                </div>
 
-    `).join("");
+              </div>
+
+
+              <div class="item-actions">
+
+                <button
+                  type="button"
+                  class="edit"
+                  data-edit-slide="${escapeAttribute(slide.id)}"
+                >
+                  Editar
+                </button>
+
+
+                <button
+                  type="button"
+                  class="delete"
+                  data-delete-slide="${escapeAttribute(slide.id)}"
+                >
+                  Excluir
+                </button>
+
+              </div>
+
+            </div>
+
+          `;
+
+        }
+      )
+      .join("");
+
 }
 
 
@@ -807,69 +1243,115 @@ carouselForm.addEventListener(
 
     event.preventDefault();
 
+
     const title =
       carouselTitle.value.trim();
+
 
     const img =
       carouselImg.value.trim();
 
-    if (!title || !img) {
+
+    if (!title) {
 
       showStatus(
         carouselStatus,
-        "Preencha os campos.",
+        "Digite o título do slide.",
         true
       );
 
       return;
+
     }
 
-    carouselSubmit.disabled = true;
+
+    if (!img) {
+
+      showStatus(
+        carouselStatus,
+        "Adicione uma imagem para o slide.",
+        true
+      );
+
+      return;
+
+    }
+
+
+    carouselSubmit.disabled =
+      true;
+
+
+    carouselSubmit.innerText =
+      carouselId.value
+        ? "Salvando..."
+        : "Adicionando...";
+
 
     try {
 
       const data = {
+
         title,
+
         img,
+
         updatedAt:
           serverTimestamp()
+
       };
 
+
+      // =================================================
+      // EDITAR
+      // =================================================
 
       if (carouselId.value) {
 
         await updateDoc(
           doc(
             db,
-            "carrossel",
+            "carousel",
             carouselId.value
           ),
           data
         );
 
+
         showStatus(
           carouselStatus,
-          "Slide atualizado!",
+          "Slide atualizado com sucesso!",
           false
         );
 
-      } else {
+      }
+
+
+      // =================================================
+      // ADICIONAR
+      // =================================================
+
+      else {
 
         await addDoc(
           collection(
             db,
-            "carrossel"
+            "carousel"
           ),
           {
+
             ...data,
+
             createdAt:
               serverTimestamp()
+
           }
         );
 
+
         showStatus(
           carouselStatus,
-          "Slide adicionado!",
+          "Slide adicionado com sucesso!",
           false
         );
 
@@ -878,21 +1360,34 @@ carouselForm.addEventListener(
 
       resetCarouselForm();
 
+
       await loadCarousel();
+
 
     } catch (error) {
 
-      console.error(error);
+      console.error(
+        "Erro ao salvar slide:",
+        error
+      );
+
 
       showStatus(
         carouselStatus,
-        "Erro ao salvar slide.",
+        getFirestoreError(error),
         true
       );
 
+
     } finally {
 
-      carouselSubmit.disabled = false;
+      carouselSubmit.disabled =
+        false;
+
+      carouselSubmit.innerText =
+        carouselId.value
+          ? "Salvar alterações"
+          : "Adicionar slide";
 
     }
 
@@ -908,62 +1403,88 @@ carouselList.addEventListener(
   "click",
   event => {
 
-    const edit =
+    const editButton =
       event.target.closest(
         "[data-edit-slide]"
       );
 
-    const del =
+
+    const deleteButton =
       event.target.closest(
         "[data-delete-slide]"
       );
 
 
-    if (edit) {
+    // =================================================
+    // EDITAR
+    // =================================================
+
+    if (editButton) {
 
       const id =
-        edit.dataset.editSlide;
+        editButton.dataset.editSlide;
+
 
       const slide =
         slides.find(
-          item => item.id === id
+          item =>
+            item.id === id
         );
 
-      if (!slide) return;
+
+      if (!slide)
+        return;
+
 
       carouselId.value =
         slide.id;
 
+
       carouselTitle.value =
         slide.title || "";
 
+
       carouselImg.value =
-        slide.img || "";
+        slide.img ||
+        slide.image ||
+        "";
+
 
       showPreview(
         carouselPreview,
-        slide.img
+        slide.img ||
+        slide.image ||
+        ""
       );
+
 
       carouselSubmit.innerText =
         "Salvar alterações";
+
 
       carouselCancel.classList.remove(
         "hidden"
       );
 
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      });
+
+      document
+        .getElementById("carousel-form")
+        .scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
 
     }
 
 
-    if (del) {
+    // =================================================
+    // EXCLUIR
+    // =================================================
+
+    if (deleteButton) {
 
       deleteSlide(
-        del.dataset.deleteSlide
+        deleteButton.dataset.deleteSlide
       );
 
     }
@@ -980,52 +1501,67 @@ async function deleteSlide(id) {
 
   const slide =
     slides.find(
-      item => item.id === id
+      item =>
+        item.id === id
     );
 
-  if (!slide) return;
+
+  if (!slide)
+    return;
+
 
   const confirmed =
     confirm(
-      `Excluir "${slide.title}"?`
+      `Excluir "${slide.title || "este slide"}"?`
     );
 
-  if (!confirmed) return;
+
+  if (!confirmed)
+    return;
+
 
   try {
 
     await deleteDoc(
       doc(
         db,
-        "carrossel",
+        "carousel",
         id
       )
     );
 
+
     await loadCarousel();
+
 
     showStatus(
       carouselStatus,
-      "Slide excluído.",
+      "Slide excluído com sucesso.",
       false
     );
 
+
   } catch (error) {
 
-    console.error(error);
+    console.error(
+      "Erro ao excluir slide:",
+      error
+    );
+
 
     showStatus(
       carouselStatus,
-      "Erro ao excluir slide.",
+      getFirestoreError(error),
       true
     );
 
   }
+
 }
 
 
 // =====================================================
-// CANCELAR CARROSSEL
+// CANCELAR EDIÇÃO DO CARROSSEL
 // =====================================================
 
 carouselCancel.addEventListener(
@@ -1038,19 +1574,33 @@ function resetCarouselForm() {
 
   carouselForm.reset();
 
-  carouselId.value = "";
+
+  carouselId.value =
+    "";
+
 
   carouselSubmit.innerText =
     "Adicionar slide";
+
 
   carouselCancel.classList.add(
     "hidden"
   );
 
+
+  carouselPreview.src =
+    "";
+
+
   carouselPreview.style.display =
     "none";
+
 }
 
+
+// =====================================================
+// PREVIEW CARROSSEL
+// =====================================================
 
 carouselImg.addEventListener(
   "input",
@@ -1076,25 +1626,38 @@ function showPreview(
 
   if (!url) {
 
+    element.src = "";
+
     element.style.display =
       "none";
 
     return;
+
   }
 
-  element.src = url;
 
   element.style.display =
     "block";
 
-  element.onerror = () => {
 
-    element.style.display =
-      "none";
+  element.src =
+    url;
 
-  };
+
+  element.onerror =
+    () => {
+
+      element.style.display =
+        "none";
+
+    };
+
 }
 
+
+// =====================================================
+// STATUS
+// =====================================================
 
 function showStatus(
   element,
@@ -1105,33 +1668,66 @@ function showStatus(
   element.innerText =
     message;
 
+
   element.className =
-    `status ${error ? "error" : "success"}`;
+    `status ${
+      error
+        ? "error"
+        : "success"
+    }`;
 
 }
 
+
+// =====================================================
+// PREÇO
+// =====================================================
 
 function formatPrice(value) {
 
-  return Number(value || 0)
-    .toLocaleString(
-      "pt-BR",
-      {
-        style: "currency",
-        currency: "BRL"
-      }
-    );
+  return Number(
+    value || 0
+  ).toLocaleString(
+    "pt-BR",
+    {
+      style: "currency",
+      currency: "BRL"
+    }
+  );
+
 }
 
 
+// =====================================================
+// PROTEÇÃO CONTRA HTML
+// =====================================================
+
 function escapeHTML(value) {
 
-  return String(value ?? "")
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
+  return String(
+    value ?? ""
+  )
+    .replaceAll(
+      "&",
+      "&amp;"
+    )
+    .replaceAll(
+      "<",
+      "&lt;"
+    )
+    .replaceAll(
+      ">",
+      "&gt;"
+    )
+    .replaceAll(
+      '"',
+      "&quot;"
+    )
+    .replaceAll(
+      "'",
+      "&#039;"
+    );
+
 }
 
 
@@ -1142,25 +1738,110 @@ function escapeAttribute(value) {
 }
 
 
+// =====================================================
+// ERROS DO FIREBASE AUTH
+// =====================================================
+
 function getAuthError(error) {
 
   switch (error.code) {
 
     case "auth/invalid-credential":
+
       return "E-mail ou senha incorretos.";
 
+
     case "auth/invalid-email":
+
       return "E-mail inválido.";
 
+
     case "auth/user-disabled":
+
       return "Este usuário foi desativado.";
 
+
     case "auth/too-many-requests":
+
       return "Muitas tentativas. Aguarde um pouco.";
 
+
+    case "auth/network-request-failed":
+
+      return "Erro de conexão. Verifique sua internet.";
+
+
     default:
-      return "Não foi possível entrar. Verifique seus dados.";
+
+      return (
+        "Não foi possível entrar. " +
+        "Verifique seus dados."
+      );
 
   }
 
 }
+
+
+// =====================================================
+// ERROS DO FIRESTORE
+// =====================================================
+
+function getFirestoreError(error) {
+
+  console.error(
+    "Firestore:",
+    error
+  );
+
+
+  switch (error.code) {
+
+    case "permission-denied":
+
+      return (
+        "Permissão negada pelo Firebase. " +
+        "Verifique as regras do Firestore."
+      );
+
+
+    case "unavailable":
+
+      return (
+        "Firebase temporariamente indisponível."
+      );
+
+
+    case "failed-precondition":
+
+      return (
+        "O Firebase informou que uma configuração " +
+        "ou índice precisa ser ajustado."
+      );
+
+
+    case "not-found":
+
+      return (
+        "O documento não foi encontrado."
+      );
+
+
+    case "network-request-failed":
+
+      return (
+        "Erro de conexão com o Firebase."
+      );
+
+
+    default:
+
+      return (
+        "Erro ao salvar. " +
+        "Abra o console do navegador para mais detalhes."
+      );
+
+  }
+
+}
+```

@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="pt-BR">
 
 <head>
@@ -7,681 +6,741 @@
 <meta charset="UTF-8">
 
 <meta
-name="viewport"
-content="width=device-width, initial-scale=1.0"
-
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
 >
 
 <title>xapn® | Administração</title>
 
 <link
-  href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&family=Syne:wght@300;400;500;700&display=swap"
-  rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&family=Syne:wght@300;400;500;700&display=swap"
+    rel="stylesheet"
 >
 
 <style>
 
 :root {
-  --blue: #678ec2;
-  --dark: #406494;
-  --ink: #1e293b;
-  --danger: #ff6b6b;
-  --success: #25d366;
+    --blue: #678ec2;
+    --dark: #406494;
+    --ink: #1e293b;
+    --danger: #ff6b6b;
+    --success: #25d366;
 }
 
 * {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
 }
 
 body {
-  font-family: Jost, sans-serif;
-  min-height: 100vh;
-  color: white;
-  background:
-    linear-gradient(
-      135deg,
-      var(--blue),
-      var(--dark)
-    );
-  padding: 30px;
+    font-family: "Jost", sans-serif;
+    min-height: 100vh;
+    color: white;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--blue),
+            var(--dark)
+        );
+
+    padding: 30px;
 }
 
 body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background-image:
-    radial-gradient(
-      rgba(255,255,255,.08) 1px,
-      transparent 1px
-    );
-  background-size: 40px 40px;
-  pointer-events: none;
-  opacity: .6;
-}
 
-.syne {
-  font-family: Syne, sans-serif;
+    content: "";
+
+    position: fixed;
+
+    inset: 0;
+
+    background-image:
+        radial-gradient(
+            rgba(255,255,255,.08) 1px,
+            transparent 1px
+        );
+
+    background-size: 40px 40px;
+
+    pointer-events: none;
+
+    opacity: .6;
 }
 
 .hidden {
-  display: none !important;
+    display: none !important;
 }
 
-/* =========================
+.syne {
+    font-family: "Syne", sans-serif;
+}
+
+
+/* =========================================
    LOGIN
-========================= */
+========================================= */
 
 .login {
-  position: relative;
-  z-index: 2;
 
-  width: min(430px, 100%);
-  margin: 10vh auto;
+    position: relative;
 
-  padding: 35px;
+    z-index: 2;
 
-  border:
-    1px solid
-    rgba(255,255,255,.2);
+    width: min(430px, 100%);
 
-  background:
-    rgba(255,255,255,.08);
+    margin: 10vh auto;
 
-  backdrop-filter:
-    blur(18px);
+    padding: 35px;
 
-  border-radius: 22px;
+    border:
+        1px solid
+        rgba(255,255,255,.2);
 
-  box-shadow:
-    0 20px 60px rgba(0,0,0,.12);
+    background:
+        rgba(255,255,255,.08);
+
+    backdrop-filter:
+        blur(18px);
+
+    border-radius: 22px;
+
+    box-shadow:
+        0 20px 60px
+        rgba(0,0,0,.12);
 }
 
 .logo {
-  text-align: center;
-  font-family: Syne, sans-serif;
-  font-size: 2.5rem;
-  margin-bottom: 8px;
-  font-weight: 300;
+
+    text-align: center;
+
+    font-family:
+        "Syne",
+        sans-serif;
+
+    font-size: 2.5rem;
+
+    margin-bottom: 8px;
+
+    font-weight: 300;
 }
 
-.logo span,
 .logo sup {
-  font-size: .4em;
-  vertical-align: super;
-  opacity: .6;
+
+    font-size: .4em;
+
+    vertical-align:
+        super;
+
+    opacity: .6;
 }
 
 .subtitle {
-  text-align: center;
-  color: rgba(255,255,255,.65);
-  margin-bottom: 30px;
+
+    text-align: center;
+
+    color:
+        rgba(255,255,255,.65);
+
+    margin-bottom: 30px;
 }
 
-/* =========================
+
+/* =========================================
    INPUTS
-========================= */
+========================================= */
 
 input,
 textarea,
 select {
 
-  width: 100%;
+    width: 100%;
 
-  padding: 13px 14px;
+    padding: 13px 14px;
 
-  border:
-    1px solid
-    rgba(255,255,255,.15);
+    border:
+        1px solid
+        rgba(255,255,255,.15);
 
-  background:
-    rgba(255,255,255,.08);
+    background:
+        rgba(255,255,255,.08);
 
-  color: white;
+    color: white;
 
-  border-radius: 10px;
+    border-radius: 10px;
 
-  margin-bottom: 13px;
+    margin-bottom: 13px;
 
-  outline: none;
+    outline: none;
 
-  font-family: inherit;
+    font-family: inherit;
 
-  transition: .2s;
-
+    transition: .2s;
 }
 
 input:focus,
 textarea:focus,
 select:focus {
 
-  border-color:
-    rgba(255,255,255,.45);
+    border-color:
+        rgba(255,255,255,.45);
 
-  background:
-    rgba(255,255,255,.12);
-
+    background:
+        rgba(255,255,255,.12);
 }
 
 input::placeholder,
 textarea::placeholder {
 
-  color:
-    rgba(255,255,255,.5);
-
+    color:
+        rgba(255,255,255,.5);
 }
 
 textarea {
 
-  min-height: 100px;
+    min-height: 100px;
 
-  resize: vertical;
-
+    resize: vertical;
 }
 
-/* =========================
+
+/* =========================================
    BUTTON
-========================= */
+========================================= */
 
 button {
 
-  width: 100%;
+    width: 100%;
 
-  padding: 13px;
+    padding: 13px;
 
-  border: none;
+    border: none;
 
-  border-radius: 10px;
+    border-radius: 10px;
 
-  background: white;
+    background: white;
 
-  color: var(--ink);
+    color: var(--ink);
 
-  font-weight: 600;
+    font-weight: 600;
 
-  cursor: pointer;
+    cursor: pointer;
 
-  transition: .2s;
+    transition: .2s;
 
+    font-family: inherit;
 }
 
 button:hover {
 
-  transform:
-    translateY(-1px);
-
+    transform:
+        translateY(-1px);
 }
 
-/* =========================
+button:disabled {
+
+    opacity: .55;
+
+    cursor: not-allowed;
+
+    transform: none;
+}
+
+
+/* =========================================
    DASHBOARD
-========================= */
+========================================= */
 
 .dashboard {
 
-  position: relative;
+    position: relative;
 
-  z-index: 2;
+    z-index: 2;
 
-  width:
-    min(1100px, 100%);
+    width:
+        min(1100px, 100%);
 
-  margin: auto;
-
+    margin: auto;
 }
 
 .topbar {
 
-  display: flex;
+    display: flex;
 
-  justify-content:
-    space-between;
+    justify-content:
+        space-between;
 
-  align-items: center;
+    align-items: center;
 
-  margin-bottom: 30px;
+    margin-bottom: 30px;
 
-  padding: 20px;
+    padding: 20px;
 
-  background:
-    rgba(255,255,255,.08);
+    background:
+        rgba(255,255,255,.08);
 
-  border:
-    1px solid
-    rgba(255,255,255,.15);
+    border:
+        1px solid
+        rgba(255,255,255,.15);
 
-  border-radius: 18px;
+    border-radius: 18px;
 
-  backdrop-filter:
-    blur(15px);
+    backdrop-filter:
+        blur(15px);
 
-  box-shadow:
-    0 15px 40px rgba(0,0,0,.08);
-
+    box-shadow:
+        0 15px 40px
+        rgba(0,0,0,.08);
 }
 
 .topbar h1 {
 
-  font-weight: 300;
-
+    font-weight: 300;
 }
 
 .logout {
 
-  width: auto;
+    width: auto;
 
-  background:
-    rgba(255,255,255,.12);
+    background:
+        rgba(255,255,255,.12);
 
-  color: white;
+    color: white;
 
-  border:
-    1px solid
-    rgba(255,255,255,.2);
+    border:
+        1px solid
+        rgba(255,255,255,.2);
 
-  padding:
-    9px 18px;
-
+    padding:
+        9px 18px;
 }
 
-/* =========================
+
+/* =========================================
    GRID
-========================= */
+========================================= */
 
 .grid {
 
-  display: grid;
+    display: grid;
 
-  grid-template-columns:
-    repeat(
-      auto-fit,
-      minmax(300px, 1fr)
-    );
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(320px, 1fr)
+        );
 
-  gap: 20px;
-
+    gap: 20px;
 }
 
 .panel {
 
-  background:
-    rgba(255,255,255,.08);
+    background:
+        rgba(255,255,255,.08);
 
-  border:
-    1px solid
-    rgba(255,255,255,.15);
+    border:
+        1px solid
+        rgba(255,255,255,.15);
 
-  backdrop-filter:
-    blur(15px);
+    backdrop-filter:
+        blur(15px);
 
-  border-radius: 18px;
+    border-radius: 18px;
 
-  padding: 22px;
+    padding: 22px;
 
-  box-shadow:
-    0 15px 40px rgba(0,0,0,.08);
-
+    box-shadow:
+        0 15px 40px
+        rgba(0,0,0,.08);
 }
 
 .panel h2 {
 
-  font-family:
-    Syne, sans-serif;
+    font-family:
+        "Syne",
+        sans-serif;
 
-  font-weight: 400;
+    font-weight: 400;
 
-  margin-bottom: 18px;
-
+    margin-bottom: 18px;
 }
 
-/* =========================
+
+/* =========================================
    SELETOR DE IMAGEM
-========================= */
+========================================= */
 
 .image-source {
 
-  display: grid;
+    display: grid;
 
-  grid-template-columns:
-    1fr 1fr;
+    grid-template-columns:
+        1fr 1fr;
 
-  gap: 8px;
+    gap: 8px;
 
-  margin-bottom: 12px;
-
+    margin-bottom: 12px;
 }
 
 .image-source button {
 
-  padding: 11px;
+    padding: 11px;
 
-  background:
-    rgba(255,255,255,.08);
+    background:
+        rgba(255,255,255,.08);
 
-  color: white;
+    color: white;
 
-  border:
-    1px solid
-    rgba(255,255,255,.18);
+    border:
+        1px solid
+        rgba(255,255,255,.18);
 
-  font-size: .78rem;
+    font-size: .78rem;
 
-  font-weight: 500;
-
+    font-weight: 500;
 }
 
 .image-source button.active {
 
-  background: white;
+    background: white;
 
-  color: var(--ink);
+    color: var(--ink);
 
-  border-color: white;
-
+    border-color: white;
 }
 
-/* =========================
+
+/* =========================================
    ARQUIVO
-========================= */
+========================================= */
 
 .file-box {
 
-  position: relative;
+    position: relative;
 
-  border:
-    1px dashed
-    rgba(255,255,255,.3);
+    border:
+        1px dashed
+        rgba(255,255,255,.3);
 
-  border-radius: 12px;
+    border-radius: 12px;
 
-  padding: 18px;
+    padding: 18px;
 
-  text-align: center;
+    text-align: center;
 
-  margin-bottom: 12px;
+    margin-bottom: 12px;
 
-  background:
-    rgba(255,255,255,.04);
+    background:
+        rgba(255,255,255,.04);
 
-  transition: .2s;
-
+    transition: .2s;
 }
 
 .file-box:hover {
 
-  background:
-    rgba(255,255,255,.09);
+    background:
+        rgba(255,255,255,.09);
 
-  border-color:
-    rgba(255,255,255,.55);
-
+    border-color:
+        rgba(255,255,255,.55);
 }
 
 .file-box label {
 
-  display: block;
+    display: block;
 
-  cursor: pointer;
+    cursor: pointer;
 
-  font-size: .82rem;
+    font-size: .82rem;
 
-  color:
-    rgba(255,255,255,.85);
-
+    color:
+        rgba(255,255,255,.85);
 }
 
 .file-box strong {
 
-  display: block;
+    display: block;
 
-  font-size: 1rem;
+    font-size: 1rem;
 
-  margin-bottom: 4px;
-
+    margin-bottom: 4px;
 }
 
 .file-box small {
 
-  color:
-    rgba(255,255,255,.55);
-
+    color:
+        rgba(255,255,255,.55);
 }
 
 .file-input {
 
-  display: none;
-
+    display: none;
 }
 
-/* =========================
+
+/* =========================================
    PREVIEW
-========================= */
+========================================= */
 
 .preview {
 
-  width: 100%;
+    width: 100%;
 
-  max-height: 220px;
+    max-height: 240px;
 
-  object-fit: cover;
+    object-fit: cover;
 
-  border-radius: 12px;
+    border-radius: 12px;
 
-  margin:
-    5px 0 15px;
+    margin:
+        5px 0 15px;
 
-  display: none;
+    display: none;
 
-  border:
-    1px solid
-    rgba(255,255,255,.15);
+    border:
+        1px solid
+        rgba(255,255,255,.15);
 
-  background:
-    rgba(0,0,0,.15);
-
+    background:
+        rgba(0,0,0,.15);
 }
 
-/* =========================
+
+/* =========================================
    LISTA
-========================= */
+========================================= */
 
 .product-list {
 
-  margin-top: 25px;
-
+    margin-top: 25px;
 }
 
 .item {
 
-  display: flex;
+    display: flex;
 
-  gap: 12px;
+    gap: 12px;
 
-  align-items: center;
+    align-items: center;
 
-  padding: 12px 0;
+    padding: 12px 0;
 
-  border-bottom:
-    1px solid
-    rgba(255,255,255,.08);
+    border-bottom:
+        1px solid
+        rgba(255,255,255,.08);
+}
 
+.item:last-child {
+
+    border-bottom: none;
 }
 
 .item img {
 
-  width: 60px;
+    width: 60px;
 
-  height: 60px;
+    height: 60px;
 
-  object-fit: cover;
+    object-fit: cover;
 
-  border-radius: 8px;
+    border-radius: 8px;
 
-  background:
-    rgba(255,255,255,.08);
+    background:
+        rgba(255,255,255,.08);
 
+    flex-shrink: 0;
 }
 
 .item-info {
 
-  flex: 1;
+    flex: 1;
 
+    min-width: 0;
 }
 
 .item-title {
 
-  font-size: .9rem;
+    font-size: .9rem;
 
+    word-break: break-word;
 }
 
 .item-price {
 
-  font-size: .78rem;
+    font-size: .78rem;
 
-  color:
-    #dbeafe;
+    color:
+        #dbeafe;
 
+    margin-top: 3px;
 }
 
 .item-actions {
 
-  display: flex;
+    display: flex;
 
-  gap: 6px;
+    gap: 6px;
 
+    flex-shrink: 0;
 }
 
 .item-actions button {
 
-  width: auto;
+    width: auto;
 
-  padding:
-    7px 10px;
+    padding:
+        7px 10px;
 
-  font-size:
-    .7rem;
-
+    font-size:
+        .7rem;
 }
 
 .edit {
 
-  background:
-    rgba(255,255,255,.15);
+    background:
+        rgba(255,255,255,.15);
 
-  color: white;
-
+    color: white;
 }
 
 .delete {
 
-  background:
-    var(--danger);
+    background:
+        var(--danger);
 
-  color: white;
-
+    color: white;
 }
 
-/* =========================
+
+/* =========================================
    STATUS
-========================= */
+========================================= */
 
 .status {
 
-  margin-top: 12px;
+    margin-top: 12px;
 
-  font-size: .8rem;
+    font-size: .8rem;
 
-  min-height: 20px;
+    min-height: 20px;
 
+    line-height: 1.5;
 }
 
 .success {
 
-  color:
-    #b7f7c5;
-
+    color:
+        #b7f7c5;
 }
 
 .error {
 
-  color:
-    #ffd0d0;
-
+    color:
+        #ffd0d0;
 }
 
-/* =========================
-   DIVISOR
-========================= */
+.info {
+
+    color:
+        rgba(255,255,255,.75);
+}
+
+
+/* =========================================
+   LABEL
+========================================= */
 
 .source-label {
 
-  font-size: .72rem;
+    font-size: .72rem;
 
-  text-transform:
-    uppercase;
+    text-transform:
+        uppercase;
 
-  letter-spacing:
-    .12em;
+    letter-spacing:
+        .12em;
 
-  color:
-    rgba(255,255,255,.55);
+    color:
+        rgba(255,255,255,.55);
 
-  margin:
-    4px 0 8px;
-
+    margin:
+        4px 0 8px;
 }
 
-/* =========================
+
+/* =========================================
+   SEPARADOR
+========================================= */
+
+.form-divider {
+
+    height: 1px;
+
+    background:
+        rgba(255,255,255,.08);
+
+    margin:
+        20px 0;
+}
+
+
+/* =========================================
    MOBILE
-========================= */
+========================================= */
 
 @media(max-width:600px) {
 
-  body {
+    body {
 
-    padding: 15px;
+        padding: 15px;
+    }
 
-  }
+    .topbar {
 
-  .topbar {
+        flex-direction:
+            column;
 
-    flex-direction:
-      column;
+        gap: 15px;
 
-    gap: 15px;
+        align-items:
+            flex-start;
+    }
 
-    align-items:
-      flex-start;
+    .logout {
 
-  }
+        width: 100%;
+    }
 
-  .logout {
+    .item {
 
-    width: 100%;
+        align-items:
+            flex-start;
 
-  }
+        flex-wrap: wrap;
+    }
 
-  .image-source {
+    .item-info {
 
-    grid-template-columns:
-      1fr 1fr;
+        width:
+            calc(100% - 75px);
+    }
 
-  }
+    .item-actions {
 
-  .item {
+        width: 100%;
 
-    align-items:
-      flex-start;
+        margin-left: 72px;
+    }
 
-  }
+    .item-actions button {
 
-  .item-actions {
-
-    flex-direction:
-      column;
-
-  }
+        flex: 1;
+    }
 
 }
 
@@ -689,928 +748,505 @@ button:hover {
 
 </head>
 
+
 <body>
 
-<!-- =========================
+
+<!-- =========================================
      LOGIN
-========================= -->
+========================================= -->
 
 <section
-  class="login"
-  id="login-screen"
+    class="login"
+    id="login-screen"
 >
 
-  <div class="logo">
+    <div class="logo">
 
-```
-xapn<sup>®</sup>
-```
+        xapn<sup>®</sup>
 
-  </div>
+    </div>
 
-  <div class="subtitle">
+    <div class="subtitle">
 
-```
-Painel administrativo
-```
+        Painel administrativo
 
-  </div>
+    </div>
 
-<input
-type="email"
-id="login-email"
-placeholder="E-mail"
-autocomplete="username"
 
->
+    <input
+        type="email"
+        id="login-email"
+        placeholder="E-mail"
+        autocomplete="username"
+    >
 
-<input
-type="password"
-id="login-password"
-placeholder="Senha"
-autocomplete="current-password"
 
->
+    <input
+        type="password"
+        id="login-password"
+        placeholder="Senha"
+        autocomplete="current-password"
+    >
 
-  <button id="login-button">
 
-```
-Entrar
-```
+    <button
+        id="login-button"
+    >
 
-  </button>
+        Entrar
 
-  <div
-    class="status"
-    id="login-status"
-  ></div>
+    </button>
+
+
+    <div
+        class="status"
+        id="login-status"
+    ></div>
 
 </section>
 
-<!-- =========================
+
+
+<!-- =========================================
      DASHBOARD
-========================= -->
+========================================= -->
 
 <main
-  class="dashboard hidden"
-  id="dashboard"
+    class="dashboard hidden"
+    id="dashboard"
 >
 
-  <div class="topbar">
 
-```
-<div>
+    <div class="topbar">
 
-  <div
-    class="syne"
-    style="font-size:1.6rem"
-  >
+        <div>
 
-    xapn<sup>®</sup>
+            <div
+                class="syne"
+                style="font-size:1.6rem"
+            >
 
-  </div>
+                xapn<sup>®</sup>
 
-  <div
-    style="
-      color:rgba(255,255,255,.6);
-      font-size:.8rem;
-    "
-  >
+            </div>
 
-    Painel administrativo
+            <div
+                style="
+                    color:rgba(255,255,255,.6);
+                    font-size:.8rem;
+                "
+            >
 
-  </div>
+                Painel administrativo
 
-</div>
+            </div>
 
-<button
-  class="logout"
-  id="logout-button"
->
-
-  Sair
-
-</button>
-```
-
-  </div>
-
-  <div class="grid">
-
-```
-<!-- =========================
-     PRODUTOS
-========================== -->
-
-<section class="panel">
-
-  <h2>
-
-    Produtos
-
-  </h2>
-
-  <form id="product-form">
-
-    <input
-      type="hidden"
-      id="product-id"
-    >
-
-    <input
-      type="text"
-      id="product-title"
-      placeholder="Nome da camiseta"
-      required
-    >
-
-    <input
-      type="number"
-      id="product-price"
-      placeholder="Preço"
-      step="0.01"
-      min="0"
-      required
-    >
-
-    <textarea
-      id="product-description"
-      placeholder="Descrição"
-    ></textarea>
+        </div>
 
 
-    <!-- SELETOR DE ORIGEM -->
-
-    <div class="source-label">
-
-      Imagem do produto
-
-    </div>
-
-    <div class="image-source">
-
-      <button
-        type="button"
-        id="product-url-mode"
-        class="active"
-      >
-
-        🔗 URL
-
-      </button>
-
-      <button
-        type="button"
-        id="product-file-mode"
-      >
-
-        🖼️ Galeria
-
-      </button>
-
-    </div>
-
-
-    <!-- URL -->
-
-    <div id="product-url-area">
-
-      <input
-        type="text"
-        id="product-img"
-        placeholder="Cole a URL da imagem"
-      >
-
-    </div>
-
-
-    <!-- GALERIA -->
-
-    <div
-      id="product-file-area"
-      class="hidden"
-    >
-
-      <div class="file-box">
-
-        <label
-          for="product-file"
+        <button
+            class="logout"
+            id="logout-button"
         >
 
-          <strong>
+            Sair
 
-            🖼️ Escolher imagem
-
-          </strong>
-
-          <small>
-
-            Galeria, fotos ou arquivos do dispositivo
-
-          </small>
-
-        </label>
-
-        <input
-          class="file-input"
-          type="file"
-          id="product-file"
-          accept="image/*"
-        >
-
-      </div>
+        </button>
 
     </div>
 
 
-    <img
-      class="preview"
-      id="product-preview"
-      alt="Prévia da imagem do produto"
-    >
+
+    <div class="grid">
 
 
-    <button
-      type="submit"
-      id="product-submit"
-    >
+        <!-- =================================
+             PRODUTOS
+        ================================== -->
 
-      Adicionar produto
+        <section class="panel">
 
-    </button>
+            <h2>
 
+                Produtos
 
-    <button
-      type="button"
-      id="product-cancel"
-      class="hidden"
-      style="
-        margin-top:8px;
-        background:rgba(255,255,255,.12);
-        color:white;
-      "
-    >
-
-      Cancelar edição
-
-    </button>
+            </h2>
 
 
-    <div
-      class="status"
-      id="product-status"
-    ></div>
+            <form
+                id="product-form"
+            >
 
-  </form>
-
-
-  <div
-    class="product-list"
-    id="product-list"
-  ></div>
-
-</section>
+                <input
+                    type="hidden"
+                    id="product-id"
+                >
 
 
-
-<!-- =========================
-     CARROSSEL
-========================== -->
-
-<section class="panel">
-
-  <h2>
-
-    Carrossel
-
-  </h2>
+                <input
+                    type="text"
+                    id="product-title"
+                    placeholder="Nome da camiseta"
+                    required
+                >
 
 
-  <form id="carousel-form">
-
-    <input
-      type="hidden"
-      id="carousel-id"
-    >
-
-
-    <input
-      type="text"
-      id="carousel-title"
-      placeholder="Título do slide"
-      required
-    >
+                <input
+                    type="number"
+                    id="product-price"
+                    placeholder="Preço"
+                    step="0.01"
+                    min="0"
+                    required
+                >
 
 
-    <!-- SELETOR DE ORIGEM -->
+                <textarea
+                    id="product-description"
+                    placeholder="Descrição"
+                ></textarea>
 
-    <div class="source-label">
 
-      Imagem do carrossel
+                <input
+                    type="number"
+                    id="product-order"
+                    placeholder="Ordem do produto (ex.: 1)"
+                    min="0"
+                >
+
+
+                <div class="source-label">
+
+                    Imagem do produto
+
+                </div>
+
+
+                <div class="image-source">
+
+                    <button
+                        type="button"
+                        id="product-url-mode"
+                        class="active"
+                    >
+
+                        🔗 URL
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        id="product-file-mode"
+                    >
+
+                        🖼️ Galeria
+
+                    </button>
+
+                </div>
+
+
+                <div id="product-url-area">
+
+                    <input
+                        type="text"
+                        id="product-img"
+                        placeholder="Cole a URL da imagem"
+                    >
+
+                </div>
+
+
+                <div
+                    id="product-file-area"
+                    class="hidden"
+                >
+
+                    <div class="file-box">
+
+                        <label
+                            for="product-file"
+                        >
+
+                            <strong>
+
+                                🖼️ Escolher imagem
+
+                            </strong>
+
+                            <small>
+
+                                Galeria, fotos ou arquivos do dispositivo
+
+                            </small>
+
+                        </label>
+
+
+                        <input
+                            class="file-input"
+                            type="file"
+                            id="product-file"
+                            accept="image/*"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <img
+                    class="preview"
+                    id="product-preview"
+                    alt="Prévia da imagem do produto"
+                >
+
+
+                <button
+                    type="submit"
+                    id="product-submit"
+                >
+
+                    Adicionar produto
+
+                </button>
+
+
+                <button
+                    type="button"
+                    id="product-cancel"
+                    class="hidden"
+                    style="
+                        margin-top:8px;
+                        background:rgba(255,255,255,.12);
+                        color:white;
+                    "
+                >
+
+                    Cancelar edição
+
+                </button>
+
+
+                <div
+                    class="status"
+                    id="product-status"
+                ></div>
+
+            </form>
+
+
+            <div
+                class="product-list"
+                id="product-list"
+            ></div>
+
+        </section>
+
+
+
+        <!-- =================================
+             CARROSSEL
+        ================================== -->
+
+        <section class="panel">
+
+            <h2>
+
+                Carrossel
+
+            </h2>
+
+
+            <form
+                id="carousel-form"
+            >
+
+                <input
+                    type="hidden"
+                    id="carousel-id"
+                >
+
+
+                <input
+                    type="text"
+                    id="carousel-badge"
+                    placeholder="Badge (ex.: XAPN)"
+                >
+
+
+                <input
+                    type="text"
+                    id="carousel-title"
+                    placeholder="Título do slide"
+                    required
+                >
+
+
+                <textarea
+                    id="carousel-description"
+                    placeholder="Descrição do slide"
+                ></textarea>
+
+
+                <input
+                    type="text"
+                    id="carousel-button"
+                    placeholder="Texto do botão"
+                    value="Ver coleção"
+                >
+
+
+                <input
+                    type="number"
+                    id="carousel-order"
+                    placeholder="Ordem do slide (ex.: 1)"
+                    min="0"
+                >
+
+
+                <div class="source-label">
+
+                    Imagem do carrossel
+
+                </div>
+
+
+                <div class="image-source">
+
+                    <button
+                        type="button"
+                        id="carousel-url-mode"
+                        class="active"
+                    >
+
+                        🔗 URL
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        id="carousel-file-mode"
+                    >
+
+                        🖼️ Galeria
+
+                    </button>
+
+                </div>
+
+
+                <div id="carousel-url-area">
+
+                    <input
+                        type="text"
+                        id="carousel-img"
+                        placeholder="Cole a URL da imagem"
+                    >
+
+                </div>
+
+
+                <div
+                    id="carousel-file-area"
+                    class="hidden"
+                >
+
+                    <div class="file-box">
+
+                        <label
+                            for="carousel-file"
+                        >
+
+                            <strong>
+
+                                🖼️ Escolher imagem
+
+                            </strong>
+
+                            <small>
+
+                                Galeria, fotos ou arquivos do dispositivo
+
+                            </small>
+
+                        </label>
+
+
+                        <input
+                            class="file-input"
+                            type="file"
+                            id="carousel-file"
+                            accept="image/*"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <img
+                    class="preview"
+                    id="carousel-preview"
+                    alt="Prévia da imagem do carrossel"
+                >
+
+
+                <button
+                    type="submit"
+                    id="carousel-submit"
+                >
+
+                    Adicionar slide
+
+                </button>
+
+
+                <button
+                    type="button"
+                    id="carousel-cancel"
+                    class="hidden"
+                    style="
+                        margin-top:8px;
+                        background:rgba(255,255,255,.12);
+                        color:white;
+                    "
+                >
+
+                    Cancelar edição
+
+                </button>
+
+
+                <div
+                    class="status"
+                    id="carousel-status"
+                ></div>
+
+            </form>
+
+
+            <div
+                class="product-list"
+                id="carousel-list"
+            ></div>
+
+        </section>
 
     </div>
-
-    <div class="image-source">
-
-      <button
-        type="button"
-        id="carousel-url-mode"
-        class="active"
-      >
-
-        🔗 URL
-
-      </button>
-
-      <button
-        type="button"
-        id="carousel-file-mode"
-      >
-
-        🖼️ Galeria
-
-      </button>
-
-    </div>
-
-
-    <!-- URL -->
-
-    <div id="carousel-url-area">
-
-      <input
-        type="text"
-        id="carousel-img"
-        placeholder="Cole a URL da imagem"
-      >
-
-    </div>
-
-
-    <!-- GALERIA -->
-
-    <div
-      id="carousel-file-area"
-      class="hidden"
-    >
-
-      <div class="file-box">
-
-        <label
-          for="carousel-file"
-        >
-
-          <strong>
-
-            🖼️ Escolher imagem
-
-          </strong>
-
-          <small>
-
-            Galeria, fotos ou arquivos do dispositivo
-
-          </small>
-
-        </label>
-
-        <input
-          class="file-input"
-          type="file"
-          id="carousel-file"
-          accept="image/*"
-        >
-
-      </div>
-
-    </div>
-
-
-    <img
-      class="preview"
-      id="carousel-preview"
-      alt="Prévia da imagem do carrossel"
-    >
-
-
-    <button
-      type="submit"
-      id="carousel-submit"
-    >
-
-      Adicionar slide
-
-    </button>
-
-
-    <button
-      type="button"
-      id="carousel-cancel"
-      class="hidden"
-      style="
-        margin-top:8px;
-        background:rgba(255,255,255,.12);
-        color:white;
-      "
-    >
-
-      Cancelar edição
-
-    </button>
-
-
-    <div
-      class="status"
-      id="carousel-status"
-    ></div>
-
-  </form>
-
-
-  <div
-    class="product-list"
-    id="carousel-list"
-  ></div>
-
-</section>
-```
-
-  </div>
 
 </main>
 
-<!--
-==================================================
-SCRIPT ORIGINAL DO PAINEL
-==================================================
--->
+
 
 <script
-  type="module"
-  src="./admin.js"
+    type="module"
+    src="./admin.js"
 ></script>
 
-<!--
-==================================================
-SISTEMA DE IMAGENS
-NÃO SUBSTITUI O admin.js
-
-Este sistema apenas prepara a imagem.
-O admin.js continua responsável pelo Firebase.
-==================================================
--->
-
-<script>
-
-(function () {
-
-  /* ==========================================
-     COMPRESSOR DE IMAGEM
-  ========================================== */
-
-  function compressImage(file, maxWidth = 900, quality = 0.72) {
-
-    return new Promise((resolve, reject) => {
-
-      if (!file || !file.type.startsWith("image/")) {
-
-        reject(
-          new Error("Selecione uma imagem válida.")
-        );
-
-        return;
-
-      }
-
-      const reader = new FileReader();
-
-      reader.onload = function (event) {
-
-        const img = new Image();
-
-        img.onload = function () {
-
-          let width = img.width;
-          let height = img.height;
-
-          if (width > maxWidth) {
-
-            const ratio =
-              maxWidth / width;
-
-            width = maxWidth;
-            height =
-              Math.round(
-                height * ratio
-              );
-
-          }
-
-          const canvas =
-            document.createElement("canvas");
-
-          canvas.width = width;
-          canvas.height = height;
-
-          const ctx =
-            canvas.getContext("2d");
-
-          ctx.drawImage(
-            img,
-            0,
-            0,
-            width,
-            height
-          );
-
-          const compressed =
-            canvas.toDataURL(
-              "image/jpeg",
-              quality
-            );
-
-          resolve(compressed);
-
-        };
-
-        img.onerror = function () {
-
-          reject(
-            new Error(
-              "Não foi possível processar a imagem."
-            )
-          );
-
-        };
-
-        img.src =
-          event.target.result;
-
-      };
-
-      reader.onerror = function () {
-
-        reject(
-          new Error(
-            "Não foi possível ler o arquivo."
-          )
-        );
-
-      };
-
-      reader.readAsDataURL(file);
-
-    });
-
-  }
-
-
-  /* ==========================================
-     PRODUTO
-  ========================================== */
-
-  const productUrlMode =
-    document.getElementById(
-      "product-url-mode"
-    );
-
-  const productFileMode =
-    document.getElementById(
-      "product-file-mode"
-    );
-
-  const productUrlArea =
-    document.getElementById(
-      "product-url-area"
-    );
-
-  const productFileArea =
-    document.getElementById(
-      "product-file-area"
-    );
-
-  const productFile =
-    document.getElementById(
-      "product-file"
-    );
-
-  const productImg =
-    document.getElementById(
-      "product-img"
-    );
-
-  const productPreview =
-    document.getElementById(
-      "product-preview"
-    );
-
-
-  productUrlMode.addEventListener(
-    "click",
-    function () {
-
-      productUrlMode.classList.add(
-        "active"
-      );
-
-      productFileMode.classList.remove(
-        "active"
-      );
-
-      productUrlArea.classList.remove(
-        "hidden"
-      );
-
-      productFileArea.classList.add(
-        "hidden"
-      );
-
-    }
-  );
-
-
-  productFileMode.addEventListener(
-    "click",
-    function () {
-
-      productFileMode.classList.add(
-        "active"
-      );
-
-      productUrlMode.classList.remove(
-        "active"
-      );
-
-      productUrlArea.classList.add(
-        "hidden"
-      );
-
-      productFileArea.classList.remove(
-        "hidden"
-      );
-
-    }
-  );
-
-
-  productImg.addEventListener(
-    "input",
-    function () {
-
-      const url =
-        productImg.value.trim();
-
-      if (!url) {
-
-        productPreview.style.display =
-          "none";
-
-        return;
-
-      }
-
-      productPreview.src = url;
-
-      productPreview.style.display =
-        "block";
-
-    }
-  );
-
-
-  productFile.addEventListener(
-    "change",
-    async function () {
-
-      const file =
-        productFile.files[0];
-
-      if (!file) return;
-
-      try {
-
-        productPreview.style.display =
-          "block";
-
-        productPreview.style.opacity =
-          ".5";
-
-        const compressed =
-          await compressImage(file);
-
-        productImg.value =
-          compressed;
-
-        productPreview.src =
-          compressed;
-
-        productPreview.style.opacity =
-          "1";
-
-      } catch (error) {
-
-        alert(
-          error.message
-        );
-
-        productFile.value = "";
-
-      }
-
-    }
-  );
-
-
-  /* ==========================================
-     CARROSSEL
-  ========================================== */
-
-  const carouselUrlMode =
-    document.getElementById(
-      "carousel-url-mode"
-    );
-
-  const carouselFileMode =
-    document.getElementById(
-      "carousel-file-mode"
-    );
-
-  const carouselUrlArea =
-    document.getElementById(
-      "carousel-url-area"
-    );
-
-  const carouselFileArea =
-    document.getElementById(
-      "carousel-file-area"
-    );
-
-  const carouselFile =
-    document.getElementById(
-      "carousel-file"
-    );
-
-  const carouselImg =
-    document.getElementById(
-      "carousel-img"
-    );
-
-  const carouselPreview =
-    document.getElementById(
-      "carousel-preview"
-    );
-
-
-  carouselUrlMode.addEventListener(
-    "click",
-    function () {
-
-      carouselUrlMode.classList.add(
-        "active"
-      );
-
-      carouselFileMode.classList.remove(
-        "active"
-      );
-
-      carouselUrlArea.classList.remove(
-        "hidden"
-      );
-
-      carouselFileArea.classList.add(
-        "hidden"
-      );
-
-    }
-  );
-
-
-  carouselFileMode.addEventListener(
-    "click",
-    function () {
-
-      carouselFileMode.classList.add(
-        "active"
-      );
-
-      carouselUrlMode.classList.remove(
-        "active"
-      );
-
-      carouselUrlArea.classList.add(
-        "hidden"
-      );
-
-      carouselFileArea.classList.remove(
-        "hidden"
-      );
-
-    }
-  );
-
-
-  carouselImg.addEventListener(
-    "input",
-    function () {
-
-      const url =
-        carouselImg.value.trim();
-
-      if (!url) {
-
-        carouselPreview.style.display =
-          "none";
-
-        return;
-
-      }
-
-      carouselPreview.src =
-        url;
-
-      carouselPreview.style.display =
-        "block";
-
-    }
-  );
-
-
-  carouselFile.addEventListener(
-    "change",
-    async function () {
-
-      const file =
-        carouselFile.files[0];
-
-      if (!file) return;
-
-      try {
-
-        carouselPreview.style.display =
-          "block";
-
-        carouselPreview.style.opacity =
-          ".5";
-
-        const compressed =
-          await compressImage(
-            file,
-            1200,
-            0.72
-          );
-
-        carouselImg.value =
-          compressed;
-
-        carouselPreview.src =
-          compressed;
-
-        carouselPreview.style.opacity =
-          "1";
-
-      } catch (error) {
-
-        alert(
-          error.message
-        );
-
-        carouselFile.value = "";
-
-      }
-
-    }
-  );
-
-
-  /* ==========================================
-     TRATAMENTO DO PREVIEW
-  ========================================== */
-
-  productPreview.addEventListener(
-    "error",
-    function () {
-
-      this.style.display =
-        "none";
-
-    }
-  );
-
-
-  carouselPreview.addEventListener(
-    "error",
-    function () {
-
-      this.style.display =
-        "none";
-
-    }
-  );
-
-
-})();
-
-</script>
 
 </body>
 
