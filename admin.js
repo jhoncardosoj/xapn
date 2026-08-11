@@ -1,33 +1,39 @@
-import { auth, db } from "./firebase-config.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+import { 
+  getAuth, 
+  signInWithEmailAndPassword, 
+  onAuthStateChanged, 
+  signOut 
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+import { 
+  getFirestore, 
+  collection, 
+  addDoc, 
+  updateDoc, 
+  deleteDoc, 
+  doc, 
+  onSnapshot, 
+  query, 
+  orderBy 
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
-import {
-  signInWithEmailAndPassword,
-  onAuthStateChanged,
-  signOut
-} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+// =========================================================================
+// CONFIGURAÇÃO DO FIREBASE (Substitua pelos dados do seu Firebase Console)
+// =========================================================================
+const firebaseConfig = {
+  apiKey: "AIzaSyAIe0UEwyoIccj_1KiE51awo9zI7lU_Ah8",
+  authDomain: "xapn-517e9.firebaseapp.com",
+  projectId: "xapn-517e9",
+  storageBucket: "xapn-517e9.firebasestorage.app",
+  messagingSenderId: "254063330561",
+  appId: "1:254063330561:web:da0b235870a8921f15c700"
+};
 
-import {
-  collection,
-  getDocs,
-  addDoc,
-  updateDoc,
-  deleteDoc,
-  doc,
-  serverTimestamp,
-  query,
-  orderBy
-} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
 
-// =====================================================
-// CONFIGURAÇÃO
-// =====================================================
-const ADMIN_UID = "mpBZ0ta8CJcyuQf10gS70BVBGcC2";
-const PRODUCTS_COLLECTION = "products";
-const CAROUSEL_COLLECTION = "carousel";
-
-// =====================================================
-// ELEMENTOS DO DOM (Safely Selected)
-// =====================================================
+// Seletores de Autenticação / Interface
 const loginScreen = document.getElementById("login-screen");
 const dashboard = document.getElementById("dashboard");
 const loginEmail = document.getElementById("login-email");
@@ -36,558 +42,312 @@ const loginButton = document.getElementById("login-button");
 const loginStatus = document.getElementById("login-status");
 const logoutButton = document.getElementById("logout-button");
 
-// Elementos - Produtos
+// Seletores de Produtos
 const productForm = document.getElementById("product-form");
 const productId = document.getElementById("product-id");
 const productTitle = document.getElementById("product-title");
 const productPrice = document.getElementById("product-price");
 const productDescription = document.getElementById("product-description");
+const productOrder = document.getElementById("product-order");
 const productImg = document.getElementById("product-img");
+const productFile = document.getElementById("product-file");
 const productPreview = document.getElementById("product-preview");
 const productSubmit = document.getElementById("product-submit");
 const productCancel = document.getElementById("product-cancel");
 const productStatus = document.getElementById("product-status");
 const productList = document.getElementById("product-list");
 
-// Elementos - Carrossel
+// Seletores do Carrossel
 const carouselForm = document.getElementById("carousel-form");
 const carouselId = document.getElementById("carousel-id");
+const carouselBadge = document.getElementById("carousel-badge");
 const carouselTitle = document.getElementById("carousel-title");
+const carouselDescription = document.getElementById("carousel-description");
+const carouselButton = document.getElementById("carousel-button");
+const carouselOrder = document.getElementById("carousel-order");
 const carouselImg = document.getElementById("carousel-img");
+const carouselFile = document.getElementById("carousel-file");
 const carouselPreview = document.getElementById("carousel-preview");
 const carouselSubmit = document.getElementById("carousel-submit");
 const carouselCancel = document.getElementById("carousel-cancel");
 const carouselStatus = document.getElementById("carousel-status");
 const carouselList = document.getElementById("carousel-list");
 
-// Estado
-let products = [];
-let slides = [];
+// Variáveis para imagens Base64
+let currentProductImgBase64 = "";
+let currentCarouselImgBase64 = "";
 
-// =====================================================
-// MELHORIAS AUTOMÁTICAS DO PAINEL
-// =====================================================
-
-function createBackButton() {
-  if (document.getElementById("back-store-button")) return;
-
-  const button = document.createElement("button");
-  button.id = "back-store-button";
-  button.type = "button";
-  button.innerHTML = "← Voltar para a loja";
-  button.style.cssText = `
-    width: auto;
-    margin-top: 10px;
-    padding: 10px 16px;
-    background: rgba(255,255,255,.10);
-    color: white;
-    border: 1px solid rgba(255,255,255,.20);
-    border-radius: 10px;
-    cursor: pointer;
-    font-family: inherit;
-    font-size: .78rem;
-  `;
-
-  button.addEventListener("click", () => {
-    window.location.href = "./index.html";
-  });
-
-  const topbar = document.querySelector(".topbar");
-  if (topbar) topbar.appendChild(button);
-}
-
-function createPasswordToggle() {
-  if (!loginPassword || document.getElementById("password-toggle")) return;
-
-  const wrapper = document.createElement("div");
-  wrapper.style.cssText = "position: relative; width: 100%;";
-
-  if (loginPassword.parentNode) {
-    loginPassword.parentNode.insertBefore(wrapper, loginPassword);
-    wrapper.appendChild(loginPassword);
-  }
-
-  loginPassword.style.paddingRight = "50px";
-
-  const button = document.createElement("button");
-  button.id = "password-toggle";
-  button.type = "button";
-  button.innerHTML = "👁";
-  button.style.cssText = `
-    position: absolute;
-    right: 8px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 38px;
-    height: 38px;
-    padding: 0;
-    background: transparent;
-    color: white;
-    border: none;
-    cursor: pointer;
-    font-size: 18px;
-  `;
-
-  button.addEventListener("click", () => {
-    const showing = loginPassword.type === "text";
-    loginPassword.type = showing ? "password" : "text";
-    button.innerHTML = showing ? "👁" : "🙈";
-  });
-
-  wrapper.appendChild(button);
-}
-
-// Inicializa utilitários
-createPasswordToggle();
-createBackButton();
-
-// =====================================================
-// LOGIN & AUTENTICAÇÃO
-// =====================================================
-
-if (loginButton) {
-  loginButton.addEventListener("click", async () => {
-    const email = loginEmail?.value.trim();
-    const password = loginPassword?.value;
-
-    if (!email || !password) {
-      showStatus(loginStatus, "Digite seu e-mail e sua senha.", true);
-      return;
-    }
-
-    loginButton.disabled = true;
-    loginButton.innerText = "Entrando...";
-
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-    } catch (error) {
-      console.error("Erro no login:", error);
-      showStatus(loginStatus, getAuthError(error), true);
-      loginButton.disabled = false;
-      loginButton.innerText = "Entrar";
-    }
-  });
-}
-
-if (loginPassword) {
-  loginPassword.addEventListener("keydown", (event) => {
-    if (event.key === "Enter" && loginButton) {
-      loginButton.click();
-    }
-  });
-}
-
-onAuthStateChanged(auth, async (user) => {
-  if (!user) {
-    loginScreen?.classList.remove("hidden");
-    dashboard?.classList.add("hidden");
-    if (loginButton) {
-      loginButton.disabled = false;
-      loginButton.innerText = "Entrar";
-    }
-    return;
-  }
-
-  if (user.uid !== ADMIN_UID) {
-    console.warn("Usuário autenticado sem permissão:", user.uid);
-    await signOut(auth);
-    loginScreen?.classList.remove("hidden");
-    dashboard?.classList.add("hidden");
-    showStatus(loginStatus, "Este usuário não possui acesso ao painel.", true);
-    return;
-  }
-
-  loginScreen?.classList.add("hidden");
-  dashboard?.classList.remove("hidden");
-
-  createBackButton();
-  await loadProducts();
-  await loadCarousel();
+// =========================================================================
+// MODO DE SELEÇÃO DE IMAGEM (PRODUTO)
+// =========================================================================
+document.getElementById("product-url-mode")?.addEventListener("click", () => {
+  document.getElementById("product-url-area").classList.remove("hidden");
+  document.getElementById("product-file-area").classList.add("hidden");
+  document.getElementById("product-url-mode").classList.add("active");
+  document.getElementById("product-file-mode").classList.remove("active");
 });
 
-if (logoutButton) {
-  logoutButton.addEventListener("click", async () => {
-    try {
-      await signOut(auth);
-    } catch (error) {
-      console.error("Erro ao sair:", error);
-    }
-  });
-}
+document.getElementById("product-file-mode")?.addEventListener("click", () => {
+  document.getElementById("product-file-area").classList.remove("hidden");
+  document.getElementById("product-url-area").classList.add("hidden");
+  document.getElementById("product-file-mode").classList.add("active");
+  document.getElementById("product-url-mode").classList.remove("active");
+});
 
-// =====================================================
-// PRODUTOS
-// =====================================================
-
-async function loadProducts() {
-  try {
-    const q = query(collection(db, PRODUCTS_COLLECTION), orderBy("createdAt", "desc"));
-    const snapshot = await getDocs(q);
-    products = snapshot.docs.map((item) => ({ id: item.id, ...item.data() }));
-  } catch (error) {
-    console.warn("Não foi possível ordenar produtos. Carregando sem ordenação.", error);
-    try {
-      const snapshot = await getDocs(collection(db, PRODUCTS_COLLECTION));
-      products = snapshot.docs.map((item) => ({ id: item.id, ...item.data() }));
-      products.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
-    } catch (secondError) {
-      console.error("Erro ao carregar produtos:", secondError);
-      products = [];
-      showStatus(productStatus, "Não foi possível carregar os produtos.", true);
-    }
+productFile?.addEventListener("change", (e) => {
+  const file = e.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      currentProductImgBase64 = event.target.result;
+      productPreview.src = currentProductImgBase64;
+      productPreview.style.display = "block";
+    };
+    reader.readAsDataURL(file);
   }
-  renderProducts();
-}
+});
 
-function renderProducts() {
-  if (!productList) return;
+// =========================================================================
+// MODO DE SELEÇÃO DE IMAGEM (CARROSSEL)
+// =========================================================================
+document.getElementById("carousel-url-mode")?.addEventListener("click", () => {
+  document.getElementById("carousel-url-area").classList.remove("hidden");
+  document.getElementById("carousel-file-area").classList.add("hidden");
+  document.getElementById("carousel-url-mode").classList.add("active");
+  document.getElementById("carousel-file-mode").classList.remove("active");
+});
 
-  if (!products.length) {
-    productList.innerHTML = `<div style="color:rgba(255,255,255,.5);font-size:.8rem;padding:10px 0;">Nenhum produto cadastrado.</div>`;
+document.getElementById("carousel-file-mode")?.addEventListener("click", () => {
+  document.getElementById("carousel-file-area").classList.remove("hidden");
+  document.getElementById("carousel-url-area").classList.add("hidden");
+  document.getElementById("carousel-file-mode").classList.add("active");
+  document.getElementById("carousel-url-mode").classList.remove("active");
+});
+
+carouselFile?.addEventListener("change", (e) => {
+  const file = e.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      currentCarouselImgBase64 = event.target.result;
+      carouselPreview.src = currentCarouselImgBase64;
+      carouselPreview.style.display = "block";
+    };
+    reader.readAsDataURL(file);
+  }
+});
+
+// =========================================================================
+// AUTENTICAÇÃO
+// =========================================================================
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    loginScreen.classList.add("hidden");
+    dashboard.classList.remove("hidden");
+    loadProducts();
+    loadCarousel();
+  } else {
+    loginScreen.classList.remove("hidden");
+    dashboard.classList.add("hidden");
+  }
+});
+
+loginButton?.addEventListener("click", async () => {
+  if (firebaseConfig.apiKey === "SUA_API_KEY_AQUI") {
+    loginStatus.textContent = "Erro: Cole suas chaves do Firebase em admin.js";
+    loginStatus.className = "status error";
     return;
   }
 
-  productList.innerHTML = products
-    .map(
-      (product) => `
-        <div class="item">
-          <img src="${escapeAttribute(product.img || "")}" alt="${escapeAttribute(product.title || "")}" onerror="this.style.opacity='.25'">
-          <div class="item-info">
-            <div class="item-title">${escapeHTML(product.title || "Produto")}</div>
-            <div class="item-price">${formatPrice(product.price)}</div>
-          </div>
-          <div class="item-actions">
-            <button class="edit" type="button" data-edit-product="${escapeAttribute(product.id)}">Editar</button>
-            <button class="delete" type="button" data-delete-product="${escapeAttribute(product.id)}">Excluir</button>
-          </div>
-        </div>
-      `
-    )
-    .join("");
-}
+  loginStatus.textContent = "Autenticando...";
+  loginStatus.className = "status info";
+  try {
+    await signInWithEmailAndPassword(auth, loginEmail.value, loginPassword.value);
+    loginStatus.textContent = "";
+  } catch (err) {
+    loginStatus.textContent = "Erro de autenticação: " + err.message;
+    loginStatus.className = "status error";
+  }
+});
 
-if (productForm) {
-  productForm.addEventListener("submit", async (event) => {
-    event.preventDefault();
+logoutButton?.addEventListener("click", () => signOut(auth));
 
-    const title = productTitle?.value.trim();
-    const price = Number(productPrice?.value);
-    const description = productDescription?.value.trim() || "";
-    const img = productImg?.value.trim();
+// =========================================================================
+// GERENCIAMENTO DE PRODUTOS
+// =========================================================================
+productForm?.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  productStatus.textContent = "Salvando...";
+  productStatus.className = "status info";
 
-    if (!title || !img || Number.isNaN(price)) {
-      showStatus(productStatus, "Preencha nome, preço e imagem.", true);
-      return;
-    }
+  const imageVal = currentProductImgBase64 || productImg.value;
 
-    if (productSubmit) {
-      productSubmit.disabled = true;
-      productSubmit.innerText = productId?.value ? "Salvando..." : "Adicionando...";
-    }
-
-    try {
-      const data = { title, price, description, img, updatedAt: serverTimestamp() };
-
-      if (productId?.value) {
-        await updateDoc(doc(db, PRODUCTS_COLLECTION, productId.value), data);
-        showStatus(productStatus, "Produto atualizado com sucesso!", false);
-      } else {
-        await addDoc(collection(db, PRODUCTS_COLLECTION), {
-          ...data,
-          createdAt: serverTimestamp(),
-          order: products.length
-        });
-        showStatus(productStatus, "Produto adicionado com sucesso!", false);
-      }
-
-      resetProductForm();
-      await loadProducts();
-    } catch (error) {
-      console.error("Erro ao salvar produto:", error);
-      showStatus(productStatus, getFirestoreError(error), true);
-    } finally {
-      if (productSubmit) {
-        productSubmit.disabled = false;
-        productSubmit.innerText = productId?.value ? "Salvar alterações" : "Adicionar produto";
-      }
-    }
-  });
-}
-
-if (productList) {
-  productList.addEventListener("click", (event) => {
-    const target = event.target;
-    const editButton = target.closest("[data-edit-product]");
-    const deleteButton = target.closest("[data-delete-product]");
-
-    if (editButton) {
-      const id = editButton.dataset.editProduct;
-      const product = products.find((item) => item.id === id);
-      if (!product) return;
-
-      if (productId) productId.value = product.id;
-      if (productTitle) productTitle.value = product.title || "";
-      if (productPrice) productPrice.value = product.price ?? "";
-      if (productDescription) productDescription.value = product.description || "";
-      if (productImg) productImg.value = product.img || "";
-
-      showPreview(productPreview, product.img);
-
-      if (productSubmit) productSubmit.innerText = "Salvar alterações";
-      productCancel?.classList.remove("hidden");
-
-      productForm?.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-
-    if (deleteButton) {
-      deleteProduct(deleteButton.dataset.deleteProduct);
-    }
-  });
-}
-
-async function deleteProduct(id) {
-  const product = products.find((item) => item.id === id);
-  if (!product || !confirm(`Excluir "${product.title || "este produto"}"?`)) return;
+  const data = {
+    title: productTitle.value,
+    price: parseFloat(productPrice.value),
+    description: productDescription.value || "",
+    order: parseInt(productOrder.value) || 0,
+    image: imageVal || ""
+  };
 
   try {
-    await deleteDoc(doc(db, PRODUCTS_COLLECTION, id));
-    showStatus(productStatus, "Produto excluído com sucesso!", false);
-    await loadProducts();
-  } catch (error) {
-    console.error("Erro ao excluir produto:", error);
-    showStatus(productStatus, getFirestoreError(error), true);
+    if (productId.value) {
+      await updateDoc(doc(db, "products", productId.value), data);
+      productStatus.textContent = "Produto atualizado!";
+    } else {
+      await addDoc(collection(db, "products"), data);
+      productStatus.textContent = "Produto adicionado!";
+    }
+    productStatus.className = "status success";
+    resetProductForm();
+  } catch (err) {
+    productStatus.textContent = "Erro ao salvar: " + err.message;
+    productStatus.className = "status error";
   }
+});
+
+function resetProductForm() {
+  productForm.reset();
+  productId.value = "";
+  currentProductImgBase64 = "";
+  productPreview.style.display = "none";
+  productSubmit.textContent = "Adicionar produto";
+  productCancel.classList.add("hidden");
 }
 
 productCancel?.addEventListener("click", resetProductForm);
 
-function resetProductForm() {
-  productForm?.reset();
-  if (productId) productId.value = "";
-  if (productSubmit) productSubmit.innerText = "Adicionar produto";
-  productCancel?.classList.add("hidden");
-  if (productPreview) {
-    productPreview.style.display = "none";
-    productPreview.removeAttribute("src");
-  }
+function loadProducts() {
+  const q = query(collection(db, "products"), orderBy("order", "asc"));
+  onSnapshot(q, (snapshot) => {
+    productList.innerHTML = "";
+    snapshot.forEach((docSnap) => {
+      const item = docSnap.data();
+      const id = docSnap.id;
+
+      const div = document.createElement("div");
+      div.className = "item";
+      div.innerHTML = `
+        <img src="${item.image || 'https://via.placeholder.com/60'}" alt="${item.title}">
+        <div class="item-info">
+          <div class="item-title">${item.title}</div>
+          <div class="item-price">R$ ${item.price.toFixed(2)}</div>
+        </div>
+        <div class="item-actions">
+          <button class="edit" data-id="${id}">Editar</button>
+          <button class="delete" data-id="${id}">Excluir</button>
+        </div>
+      `;
+
+      div.querySelector(".edit").addEventListener("click", () => {
+        productId.value = id;
+        productTitle.value = item.title;
+        productPrice.value = item.price;
+        productDescription.value = item.description || "";
+        productOrder.value = item.order || 0;
+        productImg.value = item.image || "";
+        productSubmit.textContent = "Atualizar produto";
+        productCancel.classList.remove("hidden");
+      });
+
+      div.querySelector(".delete").addEventListener("click", async () => {
+        if (confirm("Excluir este produto?")) {
+          await deleteDoc(doc(db, "products", id));
+        }
+      });
+
+      productList.appendChild(div);
+    });
+  });
 }
 
-productImg?.addEventListener("input", () => {
-  showPreview(productPreview, productImg.value.trim());
+// =========================================================================
+// GERENCIAMENTO DO CARROSSEL
+// =========================================================================
+carouselForm?.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  carouselStatus.textContent = "Salvando...";
+  carouselStatus.className = "status info";
+
+  const imageVal = currentCarouselImgBase64 || carouselImg.value;
+
+  const data = {
+    badge: carouselBadge.value || "",
+    title: carouselTitle.value,
+    description: carouselDescription.value || "",
+    buttonText: carouselButton.value || "Ver coleção",
+    order: parseInt(carouselOrder.value) || 0,
+    image: imageVal || ""
+  };
+
+  try {
+    if (carouselId.value) {
+      await updateDoc(doc(db, "carousel", carouselId.value), data);
+      carouselStatus.textContent = "Slide atualizado!";
+    } else {
+      await addDoc(collection(db, "carousel"), data);
+      carouselStatus.textContent = "Slide adicionado!";
+    }
+    carouselStatus.className = "status success";
+    resetCarouselForm();
+  } catch (err) {
+    carouselStatus.textContent = "Erro ao salvar: " + err.message;
+    carouselStatus.className = "status error";
+  }
 });
 
-// =====================================================
-// CARROSSEL
-// =====================================================
-
-async function loadCarousel() {
-  try {
-    const q = query(collection(db, CAROUSEL_COLLECTION), orderBy("order", "asc"));
-    const snapshot = await getDocs(q);
-    slides = snapshot.docs.map((item) => ({ id: item.id, ...item.data() }));
-  } catch (error) {
-    console.warn("Não foi possível ordenar o carrossel. Carregando sem ordenação.", error);
-    try {
-      const snapshot = await getDocs(collection(db, CAROUSEL_COLLECTION));
-      slides = snapshot.docs.map((item) => ({ id: item.id, ...item.data() }));
-      slides.sort((a, b) => (a.order ?? 9999) - (b.order ?? 9999));
-    } catch (secondError) {
-      console.error("Erro ao carregar carrossel:", secondError);
-      slides = [];
-      showStatus(carouselStatus, "Não foi possível carregar o carrossel.", true);
-    }
-  }
-  renderCarouselAdmin();
-}
-
-function renderCarouselAdmin() {
-  if (!carouselList) return;
-
-  if (!slides.length) {
-    carouselList.innerHTML = `<div style="color:rgba(255,255,255,.5);font-size:.8rem;padding:10px 0;">Nenhum slide cadastrado.</div>`;
-    return;
-  }
-
-  carouselList.innerHTML = slides
-    .map(
-      (slide) => `
-        <div class="item">
-          <img src="${escapeAttribute(slide.img || "")}" alt="${escapeAttribute(slide.title || "")}" onerror="this.style.opacity='.25'">
-          <div class="item-info">
-            <div class="item-title">${escapeHTML(slide.title || "Slide")}</div>
-            <div style="color:rgba(255,255,255,.5);font-size:.7rem;margin-top:3px;">Ordem: ${slide.order ?? 9999}</div>
-          </div>
-          <div class="item-actions">
-            <button class="edit" type="button" data-edit-slide="${escapeAttribute(slide.id)}">Editar</button>
-            <button class="delete" type="button" data-delete-slide="${escapeAttribute(slide.id)}">Excluir</button>
-          </div>
-        </div>
-      `
-    )
-    .join("");
-}
-
-if (carouselForm) {
-  carouselForm.addEventListener("submit", async (event) => {
-    event.preventDefault();
-
-    const title = carouselTitle?.value.trim();
-    const img = carouselImg?.value.trim();
-
-    if (!title || !img) {
-      showStatus(carouselStatus, "Preencha o título e a imagem.", true);
-      return;
-    }
-
-    if (carouselSubmit) {
-      carouselSubmit.disabled = true;
-      carouselSubmit.innerText = carouselId?.value ? "Salvando..." : "Adicionando...";
-    }
-
-    try {
-      const data = { title, img, updatedAt: serverTimestamp() };
-
-      if (carouselId?.value) {
-        await updateDoc(doc(db, CAROUSEL_COLLECTION, carouselId.value), data);
-        showStatus(carouselStatus, "Slide atualizado com sucesso!", false);
-      } else {
-        await addDoc(collection(db, CAROUSEL_COLLECTION), {
-          ...data,
-          createdAt: serverTimestamp(),
-          order: slides.length
-        });
-        showStatus(carouselStatus, "Slide adicionado com sucesso!", false);
-      }
-
-      resetCarouselForm();
-      await loadCarousel();
-    } catch (error) {
-      console.error("Erro ao salvar slide:", error);
-      showStatus(carouselStatus, getFirestoreError(error), true);
-    } finally {
-      if (carouselSubmit) {
-        carouselSubmit.disabled = false;
-        carouselSubmit.innerText = carouselId?.value ? "Salvar alterações" : "Adicionar slide";
-      }
-    }
-  });
-}
-
-if (carouselList) {
-  carouselList.addEventListener("click", (event) => {
-    const target = event.target;
-    const edit = target.closest("[data-edit-slide]");
-    const del = target.closest("[data-delete-slide]");
-
-    if (edit) {
-      const id = edit.dataset.editSlide;
-      const slide = slides.find((item) => item.id === id);
-      if (!slide) return;
-
-      if (carouselId) carouselId.value = slide.id;
-      if (carouselTitle) carouselTitle.value = slide.title || "";
-      if (carouselImg) carouselImg.value = slide.img || "";
-
-      showPreview(carouselPreview, slide.img);
-
-      if (carouselSubmit) carouselSubmit.innerText = "Salvar alterações";
-      carouselCancel?.classList.remove("hidden");
-
-      carouselForm?.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-
-    if (del) {
-      deleteSlide(del.dataset.deleteSlide);
-    }
-  });
-}
-
-async function deleteSlide(id) {
-  const slide = slides.find((item) => item.id === id);
-  if (!slide || !confirm(`Excluir "${slide.title || "este slide"}"?`)) return;
-
-  try {
-    await deleteDoc(doc(db, CAROUSEL_COLLECTION, id));
-    showStatus(carouselStatus, "Slide excluído com sucesso!", false);
-    await loadCarousel();
-  } catch (error) {
-    console.error("Erro ao excluir slide:", error);
-    showStatus(carouselStatus, getFirestoreError(error), true);
-  }
+function resetCarouselForm() {
+  carouselForm.reset();
+  carouselId.value = "";
+  currentCarouselImgBase64 = "";
+  carouselPreview.style.display = "none";
+  carouselSubmit.textContent = "Adicionar slide";
+  carouselCancel.classList.add("hidden");
 }
 
 carouselCancel?.addEventListener("click", resetCarouselForm);
 
-function resetCarouselForm() {
-  carouselForm?.reset();
-  if (carouselId) carouselId.value = "";
-  if (carouselSubmit) carouselSubmit.innerText = "Adicionar slide";
-  carouselCancel?.classList.add("hidden");
-  if (carouselPreview) {
-    carouselPreview.style.display = "none";
-    carouselPreview.removeAttribute("src");
-  }
-}
+function loadCarousel() {
+  const q = query(collection(db, "carousel"), orderBy("order", "asc"));
+  onSnapshot(q, (snapshot) => {
+    carouselList.innerHTML = "";
+    snapshot.forEach((docSnap) => {
+      const item = docSnap.data();
+      const id = docSnap.id;
 
-carouselImg?.addEventListener("input", () => {
-  showPreview(carouselPreview, carouselImg.value.trim());
-});
+      const div = document.createElement("div");
+      div.className = "item";
+      div.innerHTML = `
+        <img src="${item.image || 'https://via.placeholder.com/60'}" alt="${item.title}">
+        <div class="item-info">
+          <div class="item-title">${item.title}</div>
+          <div class="item-price">${item.badge || 'Slide'}</div>
+        </div>
+        <div class="item-actions">
+          <button class="edit" data-id="${id}">Editar</button>
+          <button class="delete" data-id="${id}">Excluir</button>
+        </div>
+      `;
 
-// =====================================================
-// UTILS
-// =====================================================
+      div.querySelector(".edit").addEventListener("click", () => {
+        carouselId.value = id;
+        carouselBadge.value = item.badge || "";
+        carouselTitle.value = item.title;
+        carouselDescription.value = item.description || "";
+        carouselButton.value = item.buttonText || "";
+        carouselOrder.value = item.order || 0;
+        carouselImg.value = item.image || "";
+        carouselSubmit.textContent = "Atualizar slide";
+        carouselCancel.classList.remove("hidden");
+      });
 
-function showPreview(element, url) {
-  if (!element) return;
-  if (!url) {
-    element.style.display = "none";
-    element.removeAttribute("src");
-    return;
-  }
-  element.onerror = () => { element.style.display = "none"; };
-  element.onload = () => { element.style.display = "block"; };
-  element.src = url;
-}
+      div.querySelector(".delete").addEventListener("click", async () => {
+        if (confirm("Excluir este slide?")) {
+          await deleteDoc(doc(db, "carousel", id));
+        }
+      });
 
-function showStatus(element, message, error = false) {
-  if (!element) return;
-  element.innerText = message;
-  element.className = `status ${error ? "error" : "success"}`;
-}
-
-function formatPrice(value) {
-  return Number(value || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-}
-
-function escapeHTML(value) {
-  return String(value ?? "")
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
-}
-
-function escapeAttribute(value) {
-  return escapeHTML(value);
-}
-
-function getAuthError(error) {
-  switch (error.code) {
-    case "auth/invalid-credential": return "E-mail ou senha incorretos.";
-    case "auth/invalid-email": return "E-mail inválido.";
-    case "auth/user-disabled": return "Este usuário foi desativado.";
-    case "auth/too-many-requests": return "Muitas tentativas. Aguarde alguns minutos.";
-    case "auth/network-request-failed": return "Erro de conexão. Verifique sua internet.";
-    case "auth/user-not-found": return "Usuário não encontrado.";
-    case "auth/wrong-password": return "Senha incorreta.";
-    default: return "Não foi possível entrar. Verifique seus dados.";
-  }
-}
-
-function getFirestoreError(error) {
-  console.error("Firestore:", error);
-  if (error?.code === "permission-denied") return "O Firebase bloqueou esta operação. Verifique as regras do Firestore.";
-  if (error?.code === "unauthenticated") return "Sua sessão expirou. Entre novamente.";
-  return "Não foi possível concluir a operação.";
+      carouselList.appendChild(div);
+    });
+  });
 }
