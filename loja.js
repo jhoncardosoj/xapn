@@ -1,582 +1,158 @@
-import { db } from "./firebase-config.js";
+import { db } from './firebase-config.js';
+import { collection, getDocs, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-import {
-  collection,
-  getDocs,
-  query,
-  orderBy
-} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
+const PHONE_NUMBER = '82993689706';
 
-let productsData = [];
-let carouselData = [];
-
-let cart = [];
-
-let currentSlide = 0;
-
-const productsGrid =
-  document.getElementById("products-grid");
-
-const slidesContainer =
-  document.getElementById("slides-container");
-
-
-// =====================================================
-// CARREGAR PRODUTOS
-// =====================================================
-
-async function loadProducts() {
-
-  try {
-
-    const q = query(
-      collection(db, "produtos"),
-      orderBy("createdAt", "desc")
-    );
-
-    const snapshot = await getDocs(q);
-
-    productsData = snapshot.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data()
-    }));
-
-    renderProducts();
-
-  } catch (error) {
-
-    console.error("Erro ao carregar produtos:", error);
-
-    // Fallback caso ainda não existam documentos
-    const snapshot =
-      await getDocs(collection(db, "produtos"));
-
-    productsData = snapshot.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data()
-    }));
-
-    renderProducts();
-  }
-}
-
-
-// =====================================================
-// CARREGAR CARROSSEL
-// =====================================================
-
+// 1. Carregar Banners
 async function loadCarousel() {
+  const sliderContainer = document.getElementById('slider-container');
+  const dotsContainer = document.getElementById('dots-container');
 
   try {
-
-    const q = query(
-      collection(db, "carrossel"),
-      orderBy("createdAt", "asc")
-    );
-
-    const snapshot = await getDocs(q);
-
-    carouselData = snapshot.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data()
-    }));
-
-    renderCarousel();
-
-  } catch (error) {
-
-    console.error("Erro ao carregar carrossel:", error);
-
-    const snapshot =
-      await getDocs(collection(db, "carrossel"));
-
-    carouselData = snapshot.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data()
-    }));
-
-    renderCarousel();
-  }
-}
-
-
-// =====================================================
-// CARROSSEL
-// =====================================================
-
-function renderCarousel() {
-
-  if (!carouselData.length) {
-
-    slidesContainer.innerHTML = `
-      <div
-        class="slide active"
-        style="
-          background:
-          linear-gradient(
-            135deg,
-            #678ec2,
-            #406494
-          );
-        "
-      >
-        <div class="slide-caption">
-
-          <div class="slide-title syne">
-            xapn®
-          </div>
-
-        </div>
-      </div>
-    `;
-
-    return;
-  }
-
-  slidesContainer.innerHTML =
-    carouselData.map((slide, index) => `
-
-      <div
-        class="slide ${index === 0 ? "active" : ""}"
-        style="
-          background-image:
-          linear-gradient(
-            rgba(30,41,59,.15),
-            rgba(30,41,59,.25)
-          ),
-          url("${escapeAttribute(slide.img)}");
-        "
-      >
-
-        <div class="slide-caption">
-
-          <div class="slide-title syne">
-            ${escapeHTML(slide.title || "xapn®")}
-          </div>
-
-        </div>
-
-      </div>
-
-    `).join("");
-
-  currentSlide = 0;
-}
-
-
-function showSlide(index) {
-
-  const slides =
-    document.querySelectorAll(".slide");
-
-  if (!slides.length) return;
-
-  slides.forEach((slide, i) => {
-
-    slide.classList.toggle(
-      "active",
-      i === index
-    );
-
-  });
-}
-
-
-window.nextSlide = function () {
-
-  if (!carouselData.length) return;
-
-  currentSlide =
-    (currentSlide + 1) %
-    carouselData.length;
-
-  showSlide(currentSlide);
-};
-
-
-window.prevSlide = function () {
-
-  if (!carouselData.length) return;
-
-  currentSlide =
-    (currentSlide - 1 + carouselData.length) %
-    carouselData.length;
-
-  showSlide(currentSlide);
-};
-
-
-setInterval(() => {
-
-  if (carouselData.length > 1) {
-    window.nextSlide();
-  }
-
-}, 5000);
-
-
-// =====================================================
-// PRODUTOS
-// =====================================================
-
-function renderProducts() {
-
-  if (!productsData.length) {
-
-    productsGrid.innerHTML = `
-      <div class="loading">
-        Nenhum produto cadastrado ainda.
-      </div>
-    `;
-
-    return;
-  }
-
-  productsGrid.innerHTML =
-    productsData.map(product => `
-
-      <div class="product-card">
-
-        <div>
-
-          <img
-            src="${escapeAttribute(product.img || "")}"
-            alt="${escapeAttribute(product.title || "Produto")}"
-            class="product-img"
-            loading="lazy"
-          >
-
-          <div class="product-name">
-            ${escapeHTML(product.title || "")}
-          </div>
-
-          <div class="product-price">
-            ${formatPrice(product.price)}
-          </div>
-
-          <div class="product-description">
-            ${escapeHTML(product.description || "")}
-          </div>
-
-        </div>
-
-        <button
-          class="btn"
-          onclick="addToCart('${product.id}')"
-        >
-          Adicionar
-        </button>
-
-      </div>
-
-    `).join("");
-}
-
-
-// =====================================================
-// CARRINHO
-// =====================================================
-
-window.addToCart = function (id) {
-
-  const product =
-    productsData.find(item => item.id === id);
-
-  if (!product) return;
-
-  cart.push(product);
-
-  updateCart();
-
-  toggleCart(true);
-};
-
-
-function updateCart() {
-
-  document.getElementById("cart-count")
-    .innerText = cart.length;
-
-  const container =
-    document.getElementById("cart-items");
-
-  if (!cart.length) {
-
-    container.innerHTML = `
-      <p
-        style="
-          font-size:.8rem;
-          color:rgba(255,255,255,.5);
-          text-align:center;
-        "
-      >
-        Carrinho vazio.
-      </p>
-    `;
-
-  } else {
-
-    container.innerHTML =
-      cart.map((item, index) => `
-
-        <div class="cart-item">
-
-          <div>
-
-            <div style="font-size:.85rem">
-              ${escapeHTML(item.title)}
-            </div>
-
-            <div
-              style="
-                font-size:.75rem;
-                color:#dbeafe;
-              "
-            >
-              ${formatPrice(item.price)}
-            </div>
-
-          </div>
-
-          <button
-            style="
-              background:none;
-              border:none;
-              color:#ff6b6b;
-              cursor:pointer;
-            "
-            onclick="removeFromCart(${index})"
-          >
-            ✕
-          </button>
-
-        </div>
-
-      `).join("");
-  }
-
-  const total =
-    cart.reduce(
-      (total, item) =>
-        total + Number(item.price || 0),
-      0
-    );
-
-  document.getElementById("cart-total")
-    .innerText = formatPrice(total);
-}
-
-
-window.removeFromCart = function (index) {
-
-  cart.splice(index, 1);
-
-  updateCart();
-};
-
-
-window.toggleCart = function (forceOpen) {
-
-  const drawer =
-    document.getElementById("cart-drawer");
-
-  if (forceOpen !== undefined) {
-
-    drawer.classList.toggle(
-      "open",
-      forceOpen
-    );
-
-  } else {
-
-    drawer.classList.toggle("open");
-
-  }
-};
-
-
-// =====================================================
-// WHATSAPP
-// =====================================================
-
-window.sendWhatsApp = function () {
-
-  if (!cart.length) {
-
-    alert("Carrinho vazio!");
-
-    return;
-  }
-
-  let message =
-    "Olá xapn®, gostaria de comprar os seguintes itens:\n\n";
-
-  cart.forEach(item => {
-
-    message +=
-      `• ${item.title} - ${formatPrice(item.price)}\n`;
-
-  });
-
-  const total =
-    cart.reduce(
-      (total, item) =>
-        total + Number(item.price || 0),
-      0
-    );
-
-  message +=
-    `\n*Total:* ${formatPrice(total)}`;
-
-  const phone =
-    "5582993689706";
-
-  const url =
-    `https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(message)}`;
-
-  window.open(url, "_blank");
-};
-
-
-// =====================================================
-// CURSOR
-// =====================================================
-
-const dot =
-  document.getElementById("dot");
-
-const ring =
-  document.getElementById("ring");
-
-let mx = 0;
-let my = 0;
-
-let rx = 0;
-let ry = 0;
-
-
-document.addEventListener("mousemove", event => {
-
-  mx = event.clientX;
-  my = event.clientY;
-
-  if (dot) {
-
-    dot.style.left =
-      mx + "px";
-
-    dot.style.top =
-      my + "px";
-  }
-
-});
-
-
-function animateCursor() {
-
-  rx += (mx - rx) * .12;
-  ry += (my - ry) * .12;
-
-  if (ring) {
-
-    ring.style.left =
-      rx + "px";
-
-    ring.style.top =
-      ry + "px";
-
-  }
-
-  requestAnimationFrame(
-    animateCursor
-  );
-}
-
-
-animateCursor();
-
-
-// =====================================================
-// PARTÍCULAS
-// =====================================================
-
-const particles =
-  document.getElementById("particles");
-
-if (particles) {
-
-  for (let i = 0; i < 25; i++) {
-
-    const particle =
-      document.createElement("div");
-
-    particle.classList.add(
-      "particle"
-    );
-
-    particle.style.left =
-      Math.random() * 100 + "%";
-
-    particle.style.animationDuration =
-      (6 + Math.random() * 10) + "s";
-
-    particle.style.animationDelay =
-      Math.random() * 8 + "s";
-
-    const size =
-      2 + Math.random() * 4;
-
-    particle.style.width =
-      size + "px";
-
-    particle.style.height =
-      size + "px";
-
-    particles.appendChild(
-      particle
-    );
-  }
-}
-
-
-// =====================================================
-// UTILITÁRIOS
-// =====================================================
-
-function formatPrice(value) {
-
-  return Number(value || 0)
-    .toLocaleString("pt-BR", {
-      style: "currency",
-      currency: "BRL"
+    const querySnapshot = await getDocs(collection(db, "carousel"));
+    let slidesData = [];
+    
+    querySnapshot.forEach((doc) => {
+      slidesData.push(doc.data());
     });
+
+    if (slidesData.length === 0) {
+      slidesData = [
+        {
+          badge: "Nova coleção",
+          title: "Vestida de Graça",
+          desc: "Camisetas premium com propósito, minimalismo e identidade. Depois você só substitui as imagens pelas fotos oficiais da XAPN.",
+          imgUrl: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=1600&q=80",
+          btnText: "Ver coleção"
+        },
+        {
+          badge: "Essentials",
+          title: "Minimalismo que permanece",
+          desc: "Design limpo, acabamento premium e uma estética pensada para quem veste propósito.",
+          imgUrl: "https://images.unsplash.com/photo-1503341455253-b2e723bb3dbb?auto=format&fit=crop&w=1600&q=80",
+          btnText: "Comprar agora"
+        },
+        {
+          badge: "XAPN 2026",
+          title: "Nova temporada",
+          desc: "Troque estes banners pelo painel administrativo e atualize tudo sem editar o código.",
+          imgUrl: "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1600&q=80",
+          btnText: "Explorar"
+        }
+      ];
+    }
+
+    const existingSlides = sliderContainer.querySelectorAll('.slide');
+    existingSlides.forEach(s => s.remove());
+    dotsContainer.innerHTML = '';
+
+    slidesData.forEach((slide, index) => {
+      const slideDiv = document.createElement('div');
+      slideDiv.className = `slide ${index === 0 ? 'active' : ''}`;
+      slideDiv.style.backgroundImage = `url('${slide.imgUrl}')`;
+      slideDiv.innerHTML = `
+        <div class='overlay'>
+          <div class='badge'>${slide.badge || ''}</div>
+          <h1>${slide.title || ''}</h1>
+          <p>${slide.desc || ''}</p>
+          <a class='cta' href='#produtos'>${slide.btnText || 'Ver coleção'}</a>
+        </div>
+      `;
+      sliderContainer.insertBefore(slideDiv, dotsContainer);
+
+      const dotBtn = document.createElement('button');
+      dotBtn.className = `dot ${index === 0 ? 'active' : ''}`;
+      dotsContainer.appendChild(dotBtn);
+    });
+
+    initSliderLogic();
+
+  } catch (err) {
+    console.error("Erro ao carregar o carrossel:", err);
+  }
 }
 
+// 2. Lógica do Carrossel
+function initSliderLogic() {
+  const slides = [...document.querySelectorAll('.slide')];
+  const dots = [...document.querySelectorAll('.dot')];
+  if (slides.length === 0) return;
 
-function escapeHTML(value) {
+  let current = 0;
 
-  return String(value ?? "")
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
+  function show(i) {
+    slides.forEach((s, idx) => s.classList.toggle('active', idx === i));
+    dots.forEach((d, idx) => d.classList.toggle('active', idx === i));
+  }
+
+  dots.forEach((d, i) => d.addEventListener('click', () => {
+    current = i;
+    show(current);
+  }));
+
+  setInterval(() => {
+    current = (current + 1) % slides.length;
+    show(current);
+  }, 4500);
 }
 
+// 3. Carregar Produtos
+async function loadProducts() {
+  const grid = document.getElementById('products-grid');
 
-function escapeAttribute(value) {
+  try {
+    const querySnapshot = await getDocs(collection(db, "products"));
+    let html = '';
 
-  return escapeHTML(value);
+    querySnapshot.forEach((doc) => {
+      const p = doc.data();
+      const msg = encodeURIComponent(`Tenho interesse na ${p.name}`);
+      
+      html += `
+        <div class='card'>
+          <img src='${p.imgUrl}' alt='${p.name}'>
+          <div class='info'>
+            <h3>${p.name}</h3>
+            <div class='price'>R$ ${Number(p.price).toFixed(2).replace('.', ',')}</div>
+            <a class='buy' href='https://api.whatsapp.com/send/?phone=${PHONE_NUMBER}&text=${msg}' target='_blank'>Comprar</a>
+          </div>
+        </div>
+      `;
+    });
+
+    if (html !== '') {
+      grid.innerHTML = html;
+    } else {
+      grid.innerHTML = `
+        <div class='card'><img src='https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&w=900&q=80'><div class='info'><h3>Oversized Grace</h3><div class='price'>R$ 89,90</div><a class='buy' href='https://api.whatsapp.com/send/?phone=${PHONE_NUMBER}&text=Tenho%20interesse%20na%20Oversized%20Grace' target='_blank'>Comprar</a></div></div>
+        <div class='card'><img src='https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=900&q=80'><div class='info'><h3>Essential Blue</h3><div class='price'>R$ 94,90</div><a class='buy' href='https://api.whatsapp.com/send/?phone=${PHONE_NUMBER}&text=Tenho%20interesse%20na%20Essential%20Blue' target='_blank'>Comprar</a></div></div>
+        <div class='card'><img src='https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=900&q=80'><div class='info'><h3>Faith Collection</h3><div class='price'>R$ 99,90</div><a class='buy' href='https://api.whatsapp.com/send/?phone=${PHONE_NUMBER}&text=Tenho%20interesse%20na%20Faith%20Collection' target='_blank'>Comprar</a></div></div>
+        <div class='card'><img src='https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=900&q=80'><div class='info'><h3>Purpose Tee</h3><div class='price'>R$ 92,90</div><a class='buy' href='https://api.whatsapp.com/send/?phone=${PHONE_NUMBER}&text=Tenho%20interesse%20na%20Purpose%20Tee' target='_blank'>Comprar</a></div></div>
+      `;
+    }
+  } catch (err) {
+    console.error("Erro ao carregar os produtos:", err);
+  }
 }
 
+// 4. Carregar Imagem da Seção Sobre
+async function loadAboutImage() {
+  const aboutImgDiv = document.getElementById('about-image');
+  if (!aboutImgDiv) return;
 
-// =====================================================
-// INICIALIZAÇÃO
-// =====================================================
+  try {
+    const docRef = doc(db, "settings", "about");
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists() && docSnap.data().imgUrl) {
+      aboutImgDiv.style.backgroundImage = `url('${docSnap.data().imgUrl}')`;
+    }
+  } catch (err) {
+    console.error("Erro ao carregar imagem da seção Sobre:", err);
+  }
+}
 
-await Promise.all([
-  loadProducts(),
-  loadCarousel()
-]);
-
-updateCart();
+document.addEventListener('DOMContentLoaded', () => {
+  loadCarousel();
+  loadProducts();
+  loadAboutImage();
+});

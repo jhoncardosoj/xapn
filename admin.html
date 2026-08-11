@@ -1,795 +1,130 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>xapn® | Administração</title>
-
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&family=Syne:wght@300;400;500;700&display=swap" rel="stylesheet">
-
-    <style>
-        :root {
-            --blue: #678ec2;
-            --dark: #406494;
-            --ink: #1e293b;
-            --danger: #ff6b6b;
-            --danger-hover: #fa5252;
-            --success: #25d366;
-            --glass-bg: rgba(255, 255, 255, 0.08);
-            --glass-border: rgba(255, 255, 255, 0.18);
-            --glass-focus: rgba(255, 255, 255, 0.45);
-            --radius-lg: 22px;
-            --radius-md: 12px;
-            --radius-sm: 8px;
-            --transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: "Jost", sans-serif;
-            min-height: 100vh;
-            color: white;
-            background: linear-gradient(135deg, var(--blue), var(--dark));
-            padding: 30px;
-            position: relative;
-        }
-
-        body::before {
-            content: "";
-            position: fixed;
-            inset: 0;
-            background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
-            background-size: 40px 40px;
-            pointer-events: none;
-            opacity: 0.6;
-            z-index: 1;
-        }
-
-        .hidden {
-            display: none !important;
-        }
-
-        .syne {
-            font-family: "Syne", sans-serif;
-        }
-
-        /* =========================================
-           COMPONENTES DE FORMULÁRIO E INPUTS
-        ========================================= */
-        .input-group {
-            position: relative;
-            margin-bottom: 14px;
-        }
-
-        input,
-        textarea,
-        select {
-            width: 100%;
-            padding: 13px 14px;
-            border: 1px solid var(--glass-border);
-            background: var(--glass-bg);
-            color: white;
-            border-radius: var(--radius-sm);
-            outline: none;
-            font-family: inherit;
-            font-size: 0.95rem;
-            transition: var(--transition);
-        }
-
-        input:focus,
-        textarea:focus,
-        select:focus {
-            border-color: var(--glass-focus);
-            background: rgba(255, 255, 255, 0.14);
-            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
-        }
-
-        input::placeholder,
-        textarea::placeholder {
-            color: rgba(255, 255, 255, 0.55);
-        }
-
-        textarea {
-            min-height: 100px;
-            resize: vertical;
-        }
-
-        .password-wrapper {
-            position: relative;
-        }
-
-        .password-toggle {
-            position: absolute;
-            right: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            color: rgba(255, 255, 255, 0.6);
-            cursor: pointer;
-            padding: 4px;
-            width: auto;
-            font-size: 0.8rem;
-        }
-
-        .password-toggle:hover {
-            color: white;
-            transform: translateY(-50%);
-        }
-
-        /* =========================================
-           BOTÕES
-        ========================================= */
-        button {
-            width: 100%;
-            padding: 13px;
-            border: none;
-            border-radius: var(--radius-sm);
-            background: white;
-            color: var(--ink);
-            font-weight: 600;
-            font-size: 0.95rem;
-            cursor: pointer;
-            transition: var(--transition);
-            font-family: inherit;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        button:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        }
-
-        button:active {
-            transform: translateY(0);
-        }
-
-        button:disabled {
-            opacity: 0.55;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.12);
-            color: white;
-            border: 1px solid var(--glass-border);
-        }
-
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        /* =========================================
-           LOGIN
-        ========================================= */
-        .login {
-            position: relative;
-            z-index: 2;
-            width: min(430px, 100%);
-            margin: 10vh auto;
-            padding: 35px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            background: var(--glass-bg);
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
-            border-radius: var(--radius-lg);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
-        }
-
-        .logo {
-            text-align: center;
-            font-family: "Syne", sans-serif;
-            font-size: 2.5rem;
-            margin-bottom: 8px;
-            font-weight: 300;
-        }
-
-        .logo sup {
-            font-size: 0.4em;
-            vertical-align: super;
-            opacity: 0.6;
-        }
-
-        .subtitle {
-            text-align: center;
-            color: rgba(255, 255, 255, 0.65);
-            margin-bottom: 30px;
-            font-size: 0.9rem;
-        }
-
-        /* =========================================
-           DASHBOARD & PAINÉIS
-        ========================================= */
-        .dashboard {
-            position: relative;
-            z-index: 2;
-            width: min(1100px, 100%);
-            margin: auto;
-        }
-
-        .topbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-            padding: 20px 24px;
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 18px;
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
-        }
-
-        .topbar h1 {
-            font-weight: 300;
-            font-size: 1.6rem;
-        }
-
-        .logout {
-            width: auto;
-            padding: 9px 20px;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 20px;
-        }
-
-        .panel {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border-radius: 18px;
-            padding: 24px;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
-        }
-
-        .panel h2 {
-            font-family: "Syne", sans-serif;
-            font-weight: 400;
-            margin-bottom: 20px;
-            font-size: 1.3rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        /* =========================================
-           SELETOR DE IMAGEM & UPLOAD DRAG & DROP
-        ========================================= */
-        .source-label {
-            font-size: 0.72rem;
-            text-transform: uppercase;
-            letter-spacing: 0.12em;
-            color: rgba(255, 255, 255, 0.6);
-            margin: 16px 0 8px;
-            font-weight: 500;
-        }
-
-        .image-source {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-            margin-bottom: 12px;
-        }
-
-        .image-source button {
-            padding: 10px;
-            background: var(--glass-bg);
-            color: white;
-            border: 1px solid var(--glass-border);
-            font-size: 0.8rem;
-            font-weight: 500;
-        }
-
-        .image-source button.active {
-            background: white;
-            color: var(--ink);
-            border-color: white;
-        }
-
-        .file-box {
-            position: relative;
-            border: 2px dashed var(--glass-border);
-            border-radius: var(--radius-md);
-            padding: 24px 16px;
-            text-align: center;
-            margin-bottom: 12px;
-            background: rgba(255, 255, 255, 0.03);
-            transition: var(--transition);
-            cursor: pointer;
-        }
-
-        .file-box:hover,
-        .file-box.dragover {
-            background: rgba(255, 255, 255, 0.09);
-            border-color: rgba(255, 255, 255, 0.6);
-        }
-
-        .file-box label {
-            display: block;
-            cursor: pointer;
-            font-size: 0.82rem;
-            color: rgba(255, 255, 255, 0.85);
-        }
-
-        .file-box strong {
-            display: block;
-            font-size: 0.95rem;
-            margin-bottom: 4px;
-        }
-
-        .file-box small {
-            color: rgba(255, 255, 255, 0.55);
-        }
-
-        .file-input {
-            display: none;
-        }
-
-        /* =========================================
-           PREVIEW & LISTA DE ITENS
-        ========================================= */
-        .preview {
-            width: 100%;
-            max-height: 200px;
-            object-fit: cover;
-            border-radius: var(--radius-md);
-            margin: 8px 0 16px;
-            display: none;
-            border: 1px solid var(--glass-border);
-            background: rgba(0, 0, 0, 0.2);
-        }
-
-        .product-list {
-            margin-top: 25px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .item {
-            display: flex;
-            gap: 12px;
-            align-items: center;
-            padding: 12px;
-            background: rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: var(--radius-md);
-            transition: var(--transition);
-        }
-
-        .item:hover {
-            background: rgba(0, 0, 0, 0.18);
-            border-color: rgba(255, 255, 255, 0.12);
-        }
-
-        .item img {
-            width: 52px;
-            height: 52px;
-            object-fit: cover;
-            border-radius: var(--radius-sm);
-            background: var(--glass-bg);
-            flex-shrink: 0;
-        }
-
-        .item-info {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .item-title {
-            font-size: 0.9rem;
-            font-weight: 500;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .item-price {
-            font-size: 0.8rem;
-            color: #dbeafe;
-            margin-top: 2px;
-        }
-
-        .item-actions {
-            display: flex;
-            gap: 6px;
-            flex-shrink: 0;
-        }
-
-        .item-actions button {
-            width: auto;
-            padding: 6px 12px;
-            font-size: 0.75rem;
-            border-radius: 6px;
-        }
-
-        .edit {
-            background: rgba(255, 255, 255, 0.15);
-            color: white;
-        }
-
-        .edit:hover {
-            background: rgba(255, 255, 255, 0.25);
-        }
-
-        .delete {
-            background: var(--danger);
-            color: white;
-        }
-
-        .delete:hover {
-            background: var(--danger-hover);
-        }
-
-        /* =========================================
-           STATUS DE FEEDBACK
-        ========================================= */
-        .status {
-            margin-top: 12px;
-            font-size: 0.82rem;
-            min-height: 20px;
-            line-height: 1.5;
-            border-radius: 6px;
-            transition: var(--transition);
-        }
-
-        .status.success {
-            color: #b7f7c5;
-        }
-
-        .status.error {
-            color: #ffd0d0;
-        }
-
-        .status.info {
-            color: rgba(255, 255, 255, 0.8);
-        }
-
-        /* =========================================
-           RESPONSIVIDADE MOBILE
-        ========================================= */
-        @media (max-width: 600px) {
-            body {
-                padding: 16px;
-            }
-
-            .topbar {
-                flex-direction: column;
-                gap: 15px;
-                align-items: flex-start;
-            }
-
-            .logout {
-                width: 100%;
-            }
-
-            .item {
-                flex-wrap: wrap;
-            }
-
-            .item-info {
-                width: calc(100% - 68px);
-            }
-
-            .item-actions {
-                width: 100%;
-                margin-top: 6px;
-            }
-
-            .item-actions button {
-                flex: 1;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>xapn® | Painel Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&family=Syne:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root { --p: #678ec2; --pd: #406494; --ink: #1e293b; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Jost', sans-serif; background: linear-gradient(135deg, #678ec2, #406494); color: #fff; min-height: 100vh; padding: 30px 20px; }
+    .container { max-width: 900px; margin: 0 auto; }
+    h1, h2 { font-family: 'Syne', sans-serif; font-weight: 300; margin-bottom: 20px; }
+    
+    .card-box { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 18px; padding: 25px; backdrop-filter: blur(10px); margin-bottom: 30px; }
+    .form-group { margin-bottom: 15px; display: flex; flex-direction: column; gap: 6px; }
+    label { font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; }
+    input, textarea { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.3); background: rgba(0, 0, 0, 0.2); color: #fff; font-family: inherit; }
+    input:focus, textarea:focus { outline: none; border-color: #fff; }
+    
+    button { padding: 12px 24px; background: #fff; color: var(--ink); border: none; border-radius: 8px; font-weight: 500; cursor: pointer; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.15em; transition: 0.2s; }
+    button:hover { background: #dbeafe; }
+    .btn-danger { background: #ef4444; color: #fff; }
+    .btn-danger:hover { background: #dc2626; }
+    
+    .admin-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; margin-top: 15px; }
+    .item-card { background: rgba(0,0,0,0.2); padding: 15px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); }
+    .item-card img { width: 100%; height: 120px; object-fit: cover; border-radius: 8px; margin-bottom: 10px; }
+    .hidden { display: none !important; }
+    .header-actions { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+  </style>
 </head>
-
 <body>
 
-    <!-- =========================================
-         TELA DE LOGIN
-    ========================================= -->
-    <section class="login" id="login-screen" aria-labelledby="login-heading">
-        <h1 class="logo" id="login-heading">
-            xapn<sup>®</sup>
-        </h1>
-        <div class="subtitle">Painel administrativo</div>
+  <div class="container">
+    
+    <div id="login-section" class="card-box">
+      <h1>Acesso Restrito xapn®</h1>
+      <form id="login-form">
+        <div class="form-group">
+          <label>E-mail</label>
+          <input type="email" id="email" required>
+        </div>
+        <div class="form-group">
+          <label>Senha</label>
+          <input type="password" id="password" required>
+        </div>
+        <button type="submit">Entrar</button>
+      </form>
+    </div>
 
-        <form id="login-form" onsubmit="return false;">
-            <div class="input-group">
-                <input 
-                    type="email" 
-                    id="login-email" 
-                    placeholder="E-mail" 
-                    autocomplete="username" 
-                    required 
-                    aria-label="E-mail de acesso"
-                >
-            </div>
+    <div id="admin-panel" class="hidden">
+      <div class="header-actions">
+        <h1>Painel de Controle</h1>
+        <button id="btn-logout" class="btn-danger">Sair</button>
+      </div>
 
-            <div class="input-group password-wrapper">
-                <input 
-                    type="password" 
-                    id="login-password" 
-                    placeholder="Senha" 
-                    autocomplete="current-password" 
-                    required 
-                    aria-label="Senha de acesso"
-                >
-                <button type="button" class="password-toggle" id="toggle-password" aria-label="Mostrar ou ocultar senha">
-                    Exibir
-                </button>
-            </div>
+      <!-- Alterar Imagem da Seção Sobre -->
+      <div class="card-box">
+        <h2>Imagem da Seção "Mais do que uma camiseta"</h2>
+        <form id="about-form">
+          <div class="form-group">
+            <label>URL da Imagem</label>
+            <input type="url" id="about-img-input" placeholder="https://..." required>
+          </div>
+          <button type="submit">Atualizar Foto Sobre</button>
+        </form>
+      </div>
 
-            <button type="submit" id="login-button">
-                Entrar
-            </button>
+      <!-- Gerenciar Banners -->
+      <div class="card-box">
+        <h2>Adicionar Banner ao Carrossel</h2>
+        <form id="banner-form">
+          <div class="form-group">
+            <label>Badge (ex: Nova coleção)</label>
+            <input type="text" id="b-badge" required>
+          </div>
+          <div class="form-group">
+            <label>Título</label>
+            <input type="text" id="b-title" required>
+          </div>
+          <div class="form-group">
+            <label>Descrição</label>
+            <textarea id="b-desc" rows="2" required></textarea>
+          </div>
+          <div class="form-group">
+            <label>Texto do Botão (ex: Ver coleção)</label>
+            <input type="text" id="b-btnText" value="Ver coleção" required>
+          </div>
+          <div class="form-group">
+            <label>URL da Imagem</label>
+            <input type="url" id="b-img" placeholder="https://..." required>
+          </div>
+          <button type="submit">Cadastrar Banner</button>
         </form>
 
-        <div class="status" id="login-status" role="status" aria-live="polite"></div>
-    </section>
+        <h3 style="margin-top: 20px;">Banners Cadastrados</h3>
+        <div id="banners-list" class="admin-grid"></div>
+      </div>
 
+      <!-- Gerenciar Produtos -->
+      <div class="card-box">
+        <h2>Adicionar Produto</h2>
+        <form id="product-form">
+          <div class="form-group">
+            <label>Nome do Produto</label>
+            <input type="text" id="p-name" required>
+          </div>
+          <div class="form-group">
+            <label>Preço (R$)</label>
+            <input type="number" step="0.01" id="p-price" required>
+          </div>
+          <div class="form-group">
+            <label>URL da Imagem</label>
+            <input type="url" id="p-img" placeholder="https://..." required>
+          </div>
+          <button type="submit">Cadastrar Produto</button>
+        </form>
 
-    <!-- =========================================
-         DASHBOARD PRINCIPAL
-    ========================================= -->
-    <main class="dashboard hidden" id="dashboard">
+        <h3 style="margin-top: 20px;">Produtos Cadastrados</h3>
+        <div id="products-list" class="admin-grid"></div>
+      </div>
 
-        <!-- Barra Superior -->
-        <header class="topbar">
-            <div>
-                <h1 class="syne">xapn<sup>®</sup></h1>
-                <div style="color: rgba(255,255,255,.6); font-size: .8rem;">
-                    Painel administrativo
-                </div>
-            </div>
+    </div>
 
-            <button class="logout btn-secondary" id="logout-button" type="button">
-                Sair
-            </button>
-        </header>
+  </div>
 
-        <div class="grid">
-
-            <!-- =================================
-                 PAINEL: PRODUTOS
-            ================================== -->
-            <section class="panel" aria-labelledby="products-heading">
-                <h2 id="products-heading">Produtos</h2>
-
-                <form id="product-form">
-                    <input type="hidden" id="product-id">
-
-                    <input 
-                        type="text" 
-                        id="product-title" 
-                        placeholder="Nome da camiseta" 
-                        required 
-                        aria-label="Nome do produto"
-                    >
-
-                    <input 
-                        type="number" 
-                        id="product-price" 
-                        placeholder="Preço (R$)" 
-                        step="0.01" 
-                        min="0" 
-                        required 
-                        aria-label="Preço do produto"
-                    >
-
-                    <textarea 
-                        id="product-description" 
-                        placeholder="Descrição detalhada do produto" 
-                        aria-label="Descrição do produto"
-                    ></textarea>
-
-                    <input 
-                        type="number" 
-                        id="product-order" 
-                        placeholder="Ordem de exibição (ex.: 1)" 
-                        min="0" 
-                        aria-label="Ordem de exibição"
-                    >
-
-                    <div class="source-label">Imagem do produto</div>
-
-                    <div class="image-source" role="tablist">
-                        <button type="button" id="product-url-mode" class="active" role="tab" aria-selected="true">
-                            🔗 URL
-                        </button>
-                        <button type="button" id="product-file-mode" role="tab" aria-selected="false">
-                            🖼️ Galeria / Upload
-                        </button>
-                    </div>
-
-                    <div id="product-url-area">
-                        <input type="url" id="product-img" placeholder="https://exemplo.com/imagem.jpg" aria-label="URL da imagem">
-                    </div>
-
-                    <div id="product-file-area" class="hidden">
-                        <div class="file-box" id="product-drag-area">
-                            <label for="product-file">
-                                <strong>🖼️ Escolher imagem</strong>
-                                <small>Arraste uma foto ou clique para buscar do dispositivo</small>
-                            </label>
-                            <input class="file-input" type="file" id="product-file" accept="image/*">
-                        </div>
-                    </div>
-
-                    <img class="preview" id="product-preview" alt="Prévia da imagem do produto">
-
-                    <button type="submit" id="product-submit">
-                        Adicionar produto
-                    </button>
-
-                    <button type="button" id="product-cancel" class="btn-secondary hidden" style="margin-top: 8px;">
-                        Cancelar edição
-                    </button>
-
-                    <div class="status" id="product-status" role="status" aria-live="polite"></div>
-                </form>
-
-                <div class="product-list" id="product-list" aria-label="Lista de produtos cadastrados"></div>
-            </section>
-
-
-            <!-- =================================
-                 PAINEL: CARROSSEL
-            ================================== -->
-            <section class="panel" aria-labelledby="carousel-heading">
-                <h2 id="carousel-heading">Carrossel</h2>
-
-                <form id="carousel-form">
-                    <input type="hidden" id="carousel-id">
-
-                    <input 
-                        type="text" 
-                        id="carousel-badge" 
-                        placeholder="Badge / Categoria (ex.: XAPN SPECIAL)" 
-                        aria-label="Badge do slide"
-                    >
-
-                    <input 
-                        type="text" 
-                        id="carousel-title" 
-                        placeholder="Título do slide" 
-                        required 
-                        aria-label="Título do slide"
-                    >
-
-                    <textarea 
-                        id="carousel-description" 
-                        placeholder="Descrição técnica ou comercial do slide" 
-                        aria-label="Descrição do slide"
-                    ></textarea>
-
-                    <input 
-                        type="text" 
-                        id="carousel-button" 
-                        placeholder="Texto do botão" 
-                        value="Ver coleção" 
-                        aria-label="Texto do botão da chamada de ação"
-                    >
-
-                    <input 
-                        type="number" 
-                        id="carousel-order" 
-                        placeholder="Ordem do slide (ex.: 1)" 
-                        min="0" 
-                        aria-label="Ordem do slide"
-                    >
-
-                    <div class="source-label">Imagem do carrossel</div>
-
-                    <div class="image-source" role="tablist">
-                        <button type="button" id="carousel-url-mode" class="active" role="tab" aria-selected="true">
-                            🔗 URL
-                        </button>
-                        <button type="button" id="carousel-file-mode" role="tab" aria-selected="false">
-                            🖼️ Galeria / Upload
-                        </button>
-                    </div>
-
-                    <div id="carousel-url-area">
-                        <input type="url" id="carousel-img" placeholder="https://exemplo.com/banner.jpg" aria-label="URL da imagem do carrossel">
-                    </div>
-
-                    <div id="carousel-file-area" class="hidden">
-                        <div class="file-box" id="carousel-drag-area">
-                            <label for="carousel-file">
-                                <strong>🖼️ Escolher imagem</strong>
-                                <small>Arraste uma foto ou clique para buscar do dispositivo</small>
-                            </label>
-                            <input class="file-input" type="file" id="carousel-file" accept="image/*">
-                        </div>
-                    </div>
-
-                    <img class="preview" id="carousel-preview" alt="Prévia da imagem do carrossel">
-
-                    <button type="submit" id="carousel-submit">
-                        Adicionar slide
-                    </button>
-
-                    <button type="button" id="carousel-cancel" class="btn-secondary hidden" style="margin-top: 8px;">
-                        Cancelar edição
-                    </button>
-
-                    <div class="status" id="carousel-status" role="status" aria-live="polite"></div>
-                </form>
-
-                <div class="product-list" id="carousel-list" aria-label="Lista de slides do carrossel"></div>
-            </section>
-
-        </div>
-    </main>
-
-    <!-- Script da lógica da aplicação -->
-    <script type="module" src="./admin.js"></script>
-
-    <!-- Script inline para interações puras de interface (UI) -->
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Alternar Visibilidade da Senha
-            const togglePasswordBtn = document.getElementById('toggle-password');
-            const passwordInput = document.getElementById('login-password');
-
-            if (togglePasswordBtn && passwordInput) {
-                togglePasswordBtn.addEventListener('click', () => {
-                    const isPassword = passwordInput.type === 'password';
-                    passwordInput.type = isPassword ? 'text' : 'password';
-                    togglePasswordBtn.textContent = isPassword ? 'Ocultar' : 'Exibir';
-                });
-            }
-
-            // Suporte para Drag & Drop visual nos file-boxes
-            const setupDragAndDrop = (boxId) => {
-                const box = document.getElementById(boxId);
-                if (!box) return;
-
-                ['dragenter', 'dragover'].forEach(eventName => {
-                    box.addEventListener(eventName, (e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        box.classList.add('dragover');
-                    }, false);
-                });
-
-                ['dragleave', 'drop'].forEach(eventName => {
-                    box.addEventListener(eventName, (e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        box.classList.remove('dragover');
-                    }, false);
-                });
-            };
-
-            setupDragAndDrop('product-drag-area');
-            setupDragAndDrop('carousel-drag-area');
-        });
-    </script>
+  <script type="module" src="admin.js"></script>
 </body>
-
 </html>

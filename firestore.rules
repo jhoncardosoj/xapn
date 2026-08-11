@@ -1,27 +1,14 @@
 rules_version = '2';
-
 service cloud.firestore {
   match /databases/{database}/documents {
-
-    function isAdmin() {
-      return request.auth != null
-        && request.auth.uid == "mpBZ0ta8CJcyuQf10gS70BVBGcC2";
-    }
-
-    // Corrigido de /produtos/ para /products/
-    match /products/{productId} {
+    // Leitura livre para o público carregar a loja (index.html)
+    match /carousel/{docId} {
       allow read: if true;
-      allow create, update, delete: if isAdmin();
+      allow write: if request.auth != null;
     }
-
-    // Corrigido de /carrossel/ para /carousel/
-    match /carousel/{slideId} {
+    match /products/{docId} {
       allow read: if true;
-      allow create, update, delete: if isAdmin();
-    }
-
-    match /{document=**} {
-      allow read, write: if false;
+      allow write: if request.auth != null;
     }
   }
 }
